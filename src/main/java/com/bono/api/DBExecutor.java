@@ -1,8 +1,5 @@
 package com.bono.api;
 
-import com.bono.Utils;
-import com.bono.config.Config;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,8 +46,7 @@ public class DBExecutor {
         public String call() throws Exception {
 
             if (command == null) {
-                Utils.Log.print("command null!");
-                //
+                new NullPointerException("Command can not be null!");
             } else if (commandList == null) {
                 return endpoint.command(command);
             }

@@ -1,7 +1,5 @@
 package com.bono.api;
 
-import com.bono.Utils;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.util.ArrayList;
@@ -84,7 +82,7 @@ public class Playlist {
                     songs.add(song);
                     break;
                 default:
-                    Utils.Log.print("Not a property: " + line[0]);
+                    System.out.println("Not a property: " + line[0]);
                     break;
             }
 
