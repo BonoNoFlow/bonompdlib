@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="bonompdlib:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/bonompdlib_jar</output-path>
+    <root id="archive" name="bonompdlib.jar">
+      <element id="module-output" name="bonompdlib" />
+    </root>
+  </artifact>
+</component>
