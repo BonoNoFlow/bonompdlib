@@ -44,7 +44,7 @@ public class MPDCommand implements Command {
             return null;
         }
         outCommand += "\n";
-        System.out.println(outCommand);
+        //System.out.println(outCommand);
         return outCommand.getBytes();
     }
 

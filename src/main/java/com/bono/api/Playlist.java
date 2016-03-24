@@ -15,8 +15,13 @@ import java.util.List;
  */
 public class Playlist {
 
+    // listens when playlist is written.
     protected List<ChangeListener> listeners = new ArrayList<>();
 
+    // listens when new song is added.
+    protected List<ChangeListener> songListeners = new ArrayList<>();
+
+    // the songs in this playlist.
     protected List<Song> songs = new ArrayList<>();
 
 
@@ -32,7 +37,7 @@ public class Playlist {
 
     public void populate(String entry) {
         songs.clear();
-
+        boolean cleared = true;
         Song song = null;
         Reply reply = new Reply(entry);
         Iterator i = reply.iterator();
@@ -76,10 +81,14 @@ public class Playlist {
                     break;
                 case Song.POS:
                     song.setPos(line[1]);
+                    //System.out.println(getClass().getName() +" pos: " + song.getPos());
                     break;
                 case Song.ID:
                     song.setId(line[1]);
                     songs.add(song);
+                    fireSongListeners(song);  // add boolean.
+                    cleared = false;
+                    song = null;
                     break;
                 default:
                     System.out.println("Not a property: " + line[0]);
@@ -106,8 +115,18 @@ public class Playlist {
         }
     }
 
+    protected void fireSongListeners(Song song) {
+        for (ChangeListener listener : songListeners) {
+            listener.stateChanged(new ChangeEvent(song));
+        }
+    }
+
     public void addListener(ChangeListener listener) {
         listeners.add(listener);
+    }
+
+    public void addSongListener(ChangeListener listener) {
+        songListeners.add(listener);
     }
 
     public void printPlaylist() {
