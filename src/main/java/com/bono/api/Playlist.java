@@ -37,7 +37,7 @@ public class Playlist {
 
     public void populate(String entry) {
         songs.clear();
-        boolean cleared = true;
+
         Song song = null;
         Reply reply = new Reply(entry);
         Iterator i = reply.iterator();
@@ -81,13 +81,11 @@ public class Playlist {
                     break;
                 case Song.POS:
                     song.setPos(line[1]);
-                    //System.out.println(getClass().getName() +" pos: " + song.getPos());
                     break;
                 case Song.ID:
                     song.setId(line[1]);
                     songs.add(song);
                     fireSongListeners(song);  // add boolean.
-                    cleared = false;
                     song = null;
                     break;
                 default:
@@ -121,10 +119,18 @@ public class Playlist {
         }
     }
 
+    /*
+    * Listener is triggered every time the playlist is populated.
+    * */
     public void addListener(ChangeListener listener) {
         listeners.add(listener);
     }
 
+    /*
+    * Song listener is triggered every time a song is added to the playlist.
+    *
+    *
+    * */
     public void addSongListener(ChangeListener listener) {
         songListeners.add(listener);
     }
