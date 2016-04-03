@@ -22,38 +22,38 @@ public abstract class Player {
     }
 
     public String next() throws Exception {
-        return dbExecutor.execute(new MPDCommand(NEXT));
+        return dbExecutor.execute(new DefaultCommand(NEXT));
      }
 
     public String pause(String value) throws Exception {
-        return dbExecutor.execute(new MPDCommand(PAUSE, value));
+        return dbExecutor.execute(new DefaultCommand(PAUSE, value));
     }
 
     public String play() throws Exception {
-        return dbExecutor.execute(new MPDCommand(PLAY));
+        return dbExecutor.execute(new DefaultCommand(PLAY));
     }
 
     public String playid(String value) throws Exception {
-        return dbExecutor.execute(new MPDCommand(PLAYID, value));
+        return dbExecutor.execute(new DefaultCommand(PLAYID, value));
     }
 
     public String previous() throws Exception {
-        return dbExecutor.execute(new MPDCommand(PREVIOUS));
+        return dbExecutor.execute(new DefaultCommand(PREVIOUS));
     }
 
     public String seek(String value) throws Exception {
-        return dbExecutor.execute(new MPDCommand(SEEK, value));
+        return dbExecutor.execute(new DefaultCommand(SEEK, value));
     }
 
     public String seekid(String value) throws Exception {
-        return dbExecutor.execute((new MPDCommand(SEEKID, value)));
+        return dbExecutor.execute((new DefaultCommand(SEEKID, value)));
     }
 
     public String seekcur(String value) throws Exception {
-        return dbExecutor.execute(new MPDCommand(SEEKCUR, value));
+        return dbExecutor.execute(new DefaultCommand(SEEKCUR, value));
     }
 
     public String stop() throws Exception {
-        return dbExecutor.execute(new MPDCommand(STOP));
+        return dbExecutor.execute(new DefaultCommand(STOP));
     }
 }

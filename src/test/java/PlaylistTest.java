@@ -27,7 +27,7 @@ public class PlaylistTest {
 
         String reply = "";
         try {
-            reply = endpoint.command(new MPDCommand(PlaylistProperties.PLAYLISTINFO));
+            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class PlaylistTest {
 
         reply = "";
         try {
-            reply = endpoint.command(new MPDCommand(PlaylistProperties.PLAYLISTINFO));
+            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class PlaylistTest {
 
         reply = "";
         try {
-            reply = endpoint.command(new MPDCommand(PlaylistProperties.PLAYLISTINFO));
+            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class PlaylistTest {
 
         reply = "";
         try {
-            reply = endpoint.command(new MPDCommand(PlaylistProperties.PLAYLISTINFO));
+            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
         } catch (Exception e){
             e.printStackTrace();
         }

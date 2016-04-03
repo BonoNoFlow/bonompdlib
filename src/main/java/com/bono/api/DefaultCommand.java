@@ -5,21 +5,21 @@ import java.util.Arrays;
 /**
  * Created by hendriknieuwenhuis on 15/08/15.
  */
-public class MPDCommand implements Command {
+public class DefaultCommand implements Command {
 
     protected String command;
     protected String[] args;
 
-    public MPDCommand(String command) {
+    public DefaultCommand(String command) {
         this.command = command;
     }
 
-    public MPDCommand(String command, String arg) {
+    public DefaultCommand(String command, String arg) {
         this.command = command;
         this.args = new String[]{arg};
     }
 
-    public MPDCommand(String command, String[] args) {
+    public DefaultCommand(String command, String[] args) {
         this.command = command;
         this.args = args;
     }
@@ -51,6 +51,29 @@ public class MPDCommand implements Command {
     @Override
     public String getCommandString() {
         return command;
+    }
+
+    public void addArgs(String arg) {
+        if (args == null) {
+            args = new String[]{arg};
+        } else {
+            String[] source = new String[]{arg};
+            String[] array = new String[(args.length + 1)];
+            System.arraycopy(args, 0, array, 0, args.length);
+            System.arraycopy(source, 0, array, args.length, source.length);
+            args = array;
+        }
+    }
+
+    public void addArgs(String[] args) {
+        if (args == null) {
+            this.args = args;
+        } else {
+            String[] array = new String[(this.args.length + args.length)];
+            System.arraycopy(this.args, 0, array, 0, this.args.length);
+            System.arraycopy(args, 0, array, this.args.length, args.length);
+            this.args = array;
+        }
     }
 
     public String[] getArgs() {
