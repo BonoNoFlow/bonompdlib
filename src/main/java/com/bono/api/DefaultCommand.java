@@ -17,11 +17,13 @@ public class DefaultCommand implements Command {
     public DefaultCommand(String command, String arg) {
         this.command = command;
         this.args = new String[]{arg};
+
     }
 
     public DefaultCommand(String command, String[] args) {
         this.command = command;
         this.args = args;
+
     }
 
     /**
@@ -53,7 +55,7 @@ public class DefaultCommand implements Command {
         return command;
     }
 
-    public void addArgs(String arg) {
+    public void addArg(String arg) {
         if (args == null) {
             args = new String[]{arg};
         } else {

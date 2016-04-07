@@ -21,6 +21,15 @@ public class Playlist {
     */
     public static final String ADD                     = "add";
 
+    public String add(String uri) throws Exception {
+        DefaultCommand command = new DefaultCommand(ADD);
+        if (uri !=null) {
+            command.addArg(uri);
+        }
+        return dbExecutor.execute(command);
+    }
+
+
     /*
     Adds a song to the playlist (non-recursive) and returns the song id.
     URI is always a single file or URL. For example:
@@ -30,8 +39,25 @@ public class Playlist {
     */
     public static final String ADDID                     = "addid";
 
+    public String addid(String uri, String pos) throws Exception {
+        DefaultCommand command = new DefaultCommand(ADDID);
+        if (uri != null) {
+            command.addArg(uri);
+            if (pos != null) {
+                command.addArg(pos);
+            }
+        }
+
+        return dbExecutor.execute(command);
+    }
+
     // Clears the current playlist.
     public static final String CLEAR                   = "clear";
+
+    public String clear() throws Exception {
+        DefaultCommand command = new DefaultCommand(CLEAR);
+        return dbExecutor.execute(command);
+    }
 
     /*
     Deletes a song from the playlist.
@@ -39,11 +65,27 @@ public class Playlist {
     */
     public static final String DELETE                  = "delete";
 
+    public String delete(String uri) throws Exception {
+        DefaultCommand command = new DefaultCommand(DELETE);
+        if (uri != null) {
+            command.addArg(uri);
+        }
+        return dbExecutor.execute(command);
+    }
+
     /*
     Deletes the song SONGID from the playlist
             deleteid {SONGID}
     */
     public static final String DELETE_ID               = "deleteid";
+
+    public String deleteId(String songid) throws Exception {
+        DefaultCommand command = new DefaultCommand(DELETE_ID);
+        if (songid != null) {
+            command.addArg(songid);
+        }
+        return dbExecutor.execute(command);
+    }
 
     /*
     Moves the song at FROM or range of songs at START:END to TO in the playlist.
@@ -52,13 +94,35 @@ public class Playlist {
     */
     public static final String MOVE                    = "move";
 
+    public String move(String from, String to) throws Exception {
+        DefaultCommand command = new DefaultCommand(MOVE);
+        if (from != null) {
+            command.addArg(from);
+            if (to != null) {
+                command.addArg(to);
+            }
+        }
+        return dbExecutor.execute(command);
+    }
+
     /*
     Moves the song with FROM (songid) to TO (playlist index) in the playlist.
     If TO is negative, it is relative to the current song in the playlist
     (if there is one).
-            moveid {FROM} {TO}
+            moveid {SONGID} {TO}
     */
     public static final String MOVE_ID                 = "moveid";
+
+    public String moveId(String songid, String to) throws Exception {
+        DefaultCommand command = new DefaultCommand(MOVE_ID);
+        if (songid != null) {
+            command.addArg(songid);
+            if (to != null) {
+                command.addArg(to);
+            }
+        }
+        return dbExecutor.execute(command);
+    }
 
     /*
     Finds songs in the current playlist with strict matching.
@@ -66,12 +130,31 @@ public class Playlist {
     */
     public static final String PLAYLISTFIND            = "playlistfind";
 
+    public String playlistinfo(String tag, String needle) throws Exception {
+        DefaultCommand command = new DefaultCommand(PLAYLISTFIND);
+        if (tag != null) {
+            command.addArg(tag);
+            if (needle != null) {
+                command.addArg(needle);
+            }
+        }
+        return dbExecutor.execute(command);
+    }
+
     /*
     Displays a list of songs in the playlist. SONGID is optional
     and specifies a single song to display info for.
             playlistid {SONGID}
     */
     public static final String PLAYLISTID              = "playlistid";
+
+    public String playlistid(String songid) throws Exception {
+        DefaultCommand command = new DefaultCommand(PLAYLISTID);
+        if (songid != null) {
+            command.addArg(songid);
+        }
+        return dbExecutor.execute(command);
+    }
 
     /*
     Displays a list of all songs in the playlist, or if the optional
@@ -255,26 +338,14 @@ public class Playlist {
         fireListeners();
     }
 
-    public String add(String uri) throws Exception {
-        return dbExecutor.execute(new DefaultCommand(ADD, uri));
-    }
 
-    public String addid(String uri, String pos) throws Exception {
-        DefaultCommand command = new DefaultCommand(uri);
-        if (!pos.equals(null) || pos != null) {
-            command.addArgs(pos);
-        }
-        return dbExecutor.execute(command);
-    }
 
 
     public Iterator iterator() {
         return songs.iterator();
     }
 
-    public void clear() {
-        songs.clear();
-    }
+
 
     protected void fireListeners() {
         for (ChangeListener listener : listeners) {
