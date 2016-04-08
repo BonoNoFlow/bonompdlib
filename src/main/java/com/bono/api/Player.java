@@ -3,7 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 03/04/16.
  */
-public abstract class Player {
+public abstract class Player extends Exec {
 
     public static final String NEXT = "next";
     public static final String PAUSE = "pause";
@@ -15,10 +15,8 @@ public abstract class Player {
     public static final String SEEKCUR = "seekcur";
     public static final String STOP = "stop";
 
-    private DBExecutor dbExecutor;
-
     public Player(DBExecutor dbExecutor) {
-        this.dbExecutor = dbExecutor;
+        super(dbExecutor);
     }
 
     public String next() throws Exception {

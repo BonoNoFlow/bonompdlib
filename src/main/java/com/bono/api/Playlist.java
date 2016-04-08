@@ -13,7 +13,7 @@ import java.util.List;
  *
  * changelistener implementere!
  */
-public class Playlist {
+public class Playlist extends Exec {
 
     /*
     Adds the file URI to the playlist (directories add recursively).
@@ -273,17 +273,13 @@ public class Playlist {
     // the songs in this playlist.
     protected List<Song> songs = new ArrayList<>();
 
-    protected DBExecutor dbExecutor;
-
-
-    public Playlist() {}
-
-    public Playlist(DBExecutor dbExecutor) {
-        this.dbExecutor = dbExecutor;
+    public Playlist() {
+        super(new DBExecutor(new Config("127.0.0.1", 6600)));
     }
 
-    public Playlist(String entry) {
-        populate(entry);
+    public Playlist(DBExecutor dbExecutor) {
+        super(dbExecutor);
+        this.dbExecutor = dbExecutor;
     }
 
     public Song getSong(int index) {
@@ -347,20 +343,13 @@ public class Playlist {
                     System.out.println("Not a property: " + line[0]);
                     break;
             }
-
         }
-
         fireListeners();
     }
-
-
-
 
     public Iterator iterator() {
         return songs.iterator();
     }
-
-
 
     protected void fireListeners() {
         for (ChangeListener listener : listeners) {
