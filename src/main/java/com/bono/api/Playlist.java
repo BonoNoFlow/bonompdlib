@@ -22,11 +22,8 @@ public class Playlist {
     public static final String ADD                     = "add";
 
     public String add(String uri) throws Exception {
-        DefaultCommand command = new DefaultCommand(ADD);
-        if (uri !=null) {
-            command.addArg(uri);
-        }
-        return dbExecutor.execute(command);
+        return execSingleArgCommand(ADD, uri);
+
     }
 
 
@@ -40,15 +37,8 @@ public class Playlist {
     public static final String ADDID                     = "addid";
 
     public String addid(String uri, String pos) throws Exception {
-        DefaultCommand command = new DefaultCommand(ADDID);
-        if (uri != null) {
-            command.addArg(uri);
-            if (pos != null) {
-                command.addArg(pos);
-            }
-        }
+        return execDoubleArgCommand(ADDID, uri, pos);
 
-        return dbExecutor.execute(command);
     }
 
     // Clears the current playlist.
@@ -66,11 +56,8 @@ public class Playlist {
     public static final String DELETE                  = "delete";
 
     public String delete(String uri) throws Exception {
-        DefaultCommand command = new DefaultCommand(DELETE);
-        if (uri != null) {
-            command.addArg(uri);
-        }
-        return dbExecutor.execute(command);
+        return execSingleArgCommand(DELETE, uri);
+
     }
 
     /*
@@ -80,11 +67,8 @@ public class Playlist {
     public static final String DELETE_ID               = "deleteid";
 
     public String deleteId(String songid) throws Exception {
-        DefaultCommand command = new DefaultCommand(DELETE_ID);
-        if (songid != null) {
-            command.addArg(songid);
-        }
-        return dbExecutor.execute(command);
+        return execSingleArgCommand(DELETE_ID, songid);
+
     }
 
     /*
@@ -95,14 +79,8 @@ public class Playlist {
     public static final String MOVE                    = "move";
 
     public String move(String from, String to) throws Exception {
-        DefaultCommand command = new DefaultCommand(MOVE);
-        if (from != null) {
-            command.addArg(from);
-            if (to != null) {
-                command.addArg(to);
-            }
-        }
-        return dbExecutor.execute(command);
+        return execDoubleArgCommand(MOVE, from, to);
+
     }
 
     /*
@@ -114,14 +92,8 @@ public class Playlist {
     public static final String MOVE_ID                 = "moveid";
 
     public String moveId(String songid, String to) throws Exception {
-        DefaultCommand command = new DefaultCommand(MOVE_ID);
-        if (songid != null) {
-            command.addArg(songid);
-            if (to != null) {
-                command.addArg(to);
-            }
-        }
-        return dbExecutor.execute(command);
+        return execDoubleArgCommand(MOVE_ID, songid, to);
+
     }
 
     /*
@@ -131,14 +103,8 @@ public class Playlist {
     public static final String PLAYLISTFIND            = "playlistfind";
 
     public String playlistinfo(String tag, String needle) throws Exception {
-        DefaultCommand command = new DefaultCommand(PLAYLISTFIND);
-        if (tag != null) {
-            command.addArg(tag);
-            if (needle != null) {
-                command.addArg(needle);
-            }
-        }
-        return dbExecutor.execute(command);
+        return execDoubleArgCommand(PLAYLISTFIND, tag, needle);
+
     }
 
     /*
@@ -149,11 +115,8 @@ public class Playlist {
     public static final String PLAYLISTID              = "playlistid";
 
     public String playlistid(String songid) throws Exception {
-        DefaultCommand command = new DefaultCommand(PLAYLISTID);
-        if (songid != null) {
-            command.addArg(songid);
-        }
-        return dbExecutor.execute(command);
+        return execSingleArgCommand(PLAYLISTID, songid);
+
     }
 
     /*
@@ -164,11 +127,21 @@ public class Playlist {
     */
     public static final String PLAYLISTINFO            = "playlistinfo";
 
+    public String playlistinfo(String arg) throws Exception {
+        return execSingleArgCommand(PLAYLISTINFO, arg);
+
+    }
+
     /*
     Searches case-insensitively for partial matches in the current playlist.
             playlistsearch {TAG} {NEEDLE}
     */
     public final String PLAYLISTSEARCH                 = "playlistsearch";
+
+    public String playlistsearch(String tag, String needle) throws Exception {
+        return execDoubleArgCommand(PLAYLISTSEARCH, tag, needle);
+
+    }
 
     /*
     Displays changed songs currently in the playlist since VERSION.
@@ -176,7 +149,12 @@ public class Playlist {
     To detect songs that were deleted at the end of the playlist,
     use playlistlength returned by status command.
     */
-    public static final String CHANGES                 = "plchanges";
+    public static final String PLCHANGES                 = "plchanges";
+
+    public String plchanges(String version) throws Exception {
+        return execSingleArgCommand(PLCHANGES, version);
+
+    }
 
     /*
     Displays changed songs currently in the playlist since VERSION.
@@ -188,6 +166,11 @@ public class Playlist {
     */
     public static final String PLCHANGESPOSID         = "plchangesposid";
 
+    public String plchangesposid(String version) throws Exception {
+        return execSingleArgCommand(PLCHANGESPOSID, version);
+
+    }
+
     /*
     Set the priority of the specified songs. A higher priority means
     that it will be played first when "random" mode is enabled.
@@ -197,11 +180,19 @@ public class Playlist {
     */
     public static final String PRIO                   = "prio";
 
+    public String prio(String priority, String range) throws Exception {
+        return execDoubleArgCommand(PRIO, priority, range);
+    }
+
     /*
     Same as prio, but address the songs with their id.
             prioid {PRIORITY} {ID...}
     */
     public static final String PRIOID                 = "prioid";
+
+    public String prioid(String priority, String id) throws Exception {
+        return execDoubleArgCommand(PRIOID, priority, id);
+    }
 
     /*
     [7] Specifies the portion of the song that shall be played.
@@ -213,6 +204,10 @@ public class Playlist {
     */
     public static final String RANGEID               = "rangeid";
 
+    public String rangeid(String id, String range) throws Exception {
+        return execDoubleArgCommand(RANGEID, id, range);
+    }
+
     /*
     Shuffles the current playlist. START:END is optional and specifies
     a range of songs.
@@ -220,17 +215,29 @@ public class Playlist {
     */
     public static final String SHUFFLE               = "shuffle";
 
+    public String shuffle(String range) throws Exception {
+        return execSingleArgCommand(SHUFFLE, range);
+    }
+
     /*
     Swaps the positions of SONG1 and SONG2.
             swap {SONG1} {SONG2}
     */
     public static final String SWAP                  = "swap";
 
+    public String swap(String song1, String song2) throws Exception {
+        return execDoubleArgCommand(SWAP, song1, song2);
+    }
+
     /*
     Swaps the positions of SONG1 and SONG2 (both song ids).
         swapid {SONG1} {SONG2}
     */
     public static final String SWAPID                = "swapid";
+
+    public String swapid(String song1, String song2) throws Exception {
+        return execDoubleArgCommand(SWAPID, song1, song2);
+    }
 
     /*
     Adds a tag to the specified song. Editing song tags is only possible
@@ -241,6 +248,10 @@ public class Playlist {
     */
     public static final String ADDTAGID              = "addtagid";
 
+    public String addtagid(String songid, String tag, String value) throws Exception {
+        return execTripleArgCommand(ADDTAGID, songid, tag, value);
+    }
+
     /*
     Removes tags from the specified song. If TAG is not specified, then
     all tag values will be removed. Editing song tags is only possible
@@ -248,6 +259,10 @@ public class Playlist {
             cleartagid {SONGID} [TAG]
     */
     public static final String CLEARTAGID            = "cleartagid";
+
+    public String cleartagid(String songid, String tag) throws Exception {
+        return execDoubleArgCommand(CLEARTAGID, songid, tag);
+    }
 
     // listens when playlist is written.
     protected List<ChangeListener> listeners = new ArrayList<>();
@@ -357,6 +372,39 @@ public class Playlist {
         for (ChangeListener listener : songListeners) {
             listener.stateChanged(new ChangeEvent(song));
         }
+    }
+
+    private String execSingleArgCommand(String command, String arg) throws Exception {
+        DefaultCommand defaultCommand = new DefaultCommand(command);
+        if (arg != null) {
+            defaultCommand.addArg(arg);
+        }
+        return dbExecutor.execute(defaultCommand);
+    }
+
+    private String execDoubleArgCommand(String command, String arg1, String arg2) throws Exception {
+        DefaultCommand defaultCommand = new DefaultCommand(command);
+        if (arg1 != null) {
+            defaultCommand.addArg(arg1);
+            if (arg2 != null) {
+                defaultCommand.addArg(arg2);
+            }
+        }
+        return dbExecutor.execute(defaultCommand);
+    }
+
+    private String execTripleArgCommand(String command, String arg1, String arg2, String arg3) throws Exception {
+        DefaultCommand defaultCommand = new DefaultCommand(command);
+        if (arg1 != null) {
+            defaultCommand.addArg(arg1);
+            if (arg2 != null) {
+                defaultCommand.addArg(arg2);
+                if (arg3 != null) {
+                    defaultCommand.addArg(arg3);
+                }
+            }
+        }
+        return dbExecutor.execute(defaultCommand);
     }
 
     /*

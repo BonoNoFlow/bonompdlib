@@ -7,55 +7,62 @@ import javax.swing.event.ChangeListener;
 /**
  * Created by hendriknieuwenhuis on 23/03/16.
  */
-public class PlaylistTest {
+public class PlaylistTest extends Test {
 
-    static PlaylistTest playlistTest;
-
-    Playlist playlist = new Playlist();
+    Playlist playlist;
 
     DefaultListModel<Song> songs = new DefaultListModel<>();
 
-    public PlaylistTest(String entry) {
-
+    public PlaylistTest(Config config) {
+        super(config);
+        playlist = new Playlist(dbExecutor);
         playlist.addSongListener(new SongListener());
         playlist.addListener(new PlaylistListener());
-        playlist.populate(entry);
+
+        test();
+    }
+
+    @Override
+    public void test() {
+        String reply = "";
+        try {
+            reply = playlist.playlistinfo(null);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        playlist.populate(reply);
+
+        reply = "";
+        try {
+            reply = playlist.playlistinfo(null);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        playlist.populate(reply);
+
+        reply = "";
+        try {
+            reply = playlist.playlistinfo(null);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        playlist.populate(reply);
+
+        reply = "";
+        try {
+            reply = playlist.playlistinfo(null);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        playlist.populate(reply);
     }
 
     public static void main(String[] args) {
-        MPDEndpoint endpoint = new MPDEndpoint("192.168.2.4", 6600);
 
-        String reply = "";
-        try {
-            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        playlistTest = new PlaylistTest(reply);
+        new PlaylistTest(new Config("192.168.2.4", 6600));
 
-        reply = "";
-        try {
-            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        playlistTest.playlist.populate(reply);
 
-        reply = "";
-        try {
-            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        playlistTest.playlist.populate(reply);
 
-        reply = "";
-        try {
-            reply = endpoint.command(new DefaultCommand(PlaylistProperties.PLAYLISTINFO));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        playlistTest.playlist.populate(reply);
     }
 
     /* Song listener adds each added song to the songs list model. */
