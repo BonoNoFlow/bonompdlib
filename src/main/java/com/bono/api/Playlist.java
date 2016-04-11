@@ -363,38 +363,7 @@ public class Playlist extends Exec {
         }
     }
 
-    private String execSingleArgCommand(String command, String arg) throws Exception {
-        DefaultCommand defaultCommand = new DefaultCommand(command);
-        if (arg != null) {
-            defaultCommand.addArg(arg);
-        }
-        return dbExecutor.execute(defaultCommand);
-    }
 
-    private String execDoubleArgCommand(String command, String arg1, String arg2) throws Exception {
-        DefaultCommand defaultCommand = new DefaultCommand(command);
-        if (arg1 != null) {
-            defaultCommand.addArg(arg1);
-            if (arg2 != null) {
-                defaultCommand.addArg(arg2);
-            }
-        }
-        return dbExecutor.execute(defaultCommand);
-    }
-
-    private String execTripleArgCommand(String command, String arg1, String arg2, String arg3) throws Exception {
-        DefaultCommand defaultCommand = new DefaultCommand(command);
-        if (arg1 != null) {
-            defaultCommand.addArg(arg1);
-            if (arg2 != null) {
-                defaultCommand.addArg(arg2);
-                if (arg3 != null) {
-                    defaultCommand.addArg(arg3);
-                }
-            }
-        }
-        return dbExecutor.execute(defaultCommand);
-    }
 
     /*
     * Listener is triggered every time the playlist is populated.
