@@ -3,6 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 24/07/15.
  */
+@Deprecated
 public class PlayerProperties {
 
     public static final String NEXT = "next";

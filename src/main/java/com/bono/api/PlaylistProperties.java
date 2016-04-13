@@ -3,6 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 28/08/15.
  */
+@Deprecated
 public class PlaylistProperties {
 
 

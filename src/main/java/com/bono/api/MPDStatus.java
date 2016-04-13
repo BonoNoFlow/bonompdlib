@@ -191,6 +191,14 @@ public class MPDStatus extends Exec {
         listeners.add(listener);
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     /*
     Listens to the idle object. stateChanged is triggered every
     time the status is written.
