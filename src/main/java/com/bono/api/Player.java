@@ -3,7 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 03/04/16.
  */
-public abstract class Player extends Exec {
+public class Player extends Exec {
 
     public static final String NEXT = "next";
     public static final String PAUSE = "pause";
