@@ -13,7 +13,7 @@ public class Database extends Exec {
     public static final String COUNT = "count";
 
     public String count(String... args) throws Exception {
-        return null;
+        return execCommand(COUNT, args);
     }
     /*
     find {TYPE} {WHAT} [...] [window START:END]
@@ -27,11 +27,19 @@ public class Database extends Exec {
     The parameter is two zero-based record numbers; a start number and an end number.*/
     public static final String FIND = "find";
 
+    public String findd(String... args) throws Exception {
+        return execCommand(FIND, args);
+    }
+
     /*
     findadd {TYPE} {WHAT} [...]
     Finds songs in the db that are exactly WHAT and adds them to current
     playlist. Parameters have the same meaning as for find.*/
     public static final String FINDADD = "findadd";
+
+    public String findadd(String... args) throws Exception {
+        return execCommand(FINDADD, args);
+    }
 
     /*
     list {TYPE} [FILTERTYPE] [FILTERWHAT] [...] [group] [GROUPTYPE] [...]
@@ -42,6 +50,10 @@ public class Database extends Exec {
     list album group albumartist*/
     public static final String LIST = "list";
 
+    public String list(String... args) throws Exception {
+        return execCommand(LIST, args);
+    }
+
     /*
     listall [URI]
     Lists all songs and directories in URI.
@@ -50,6 +62,9 @@ public class Database extends Exec {
     Instead, query MPD whenever you need something.*/
     public static final String LISTALL = "listall";
 
+    public String listall(String... args) throws Exception {
+        return execCommand(LISTALL, args);
+    }
 
     /*
     listallinfo [URI]
@@ -57,6 +72,10 @@ public class Database extends Exec {
     Do not use this command. Do not manage a client-side copy of MPD's database. That is fragile and
     adds huge overhead. It will break with large databases. Instead, query MPD whenever you need something.*/
     public static final String LISTALLINFO = "listallinfo";
+
+    public String listallinfo(String... args) throws Exception {
+        return execCommand(LISTALLINFO, args);
+    }
 
     /*
     listfiles [URI]
@@ -68,7 +87,9 @@ public class Database extends Exec {
     "nfs://servername/path" obtains a directory listing from the NFS server.*/
     public static final String LISTFILES = "listfiles";
 
-
+    public String listfiles(String... args) throws Exception {
+        return execCommand(LISTFILES, args);
+    }
 
 
     /*

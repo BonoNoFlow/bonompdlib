@@ -20,9 +20,24 @@ public class DefaultCommand implements Command {
 
     }
 
+    /*
     public DefaultCommand(String command, String[] args) {
         this.command = command;
         this.args = args;
+
+    }*/
+
+    public DefaultCommand(String command, String... args) {
+        this.command = command;
+
+        if (args != null) {
+            String[] paras = new String[args.length];
+            int i = 0;
+            for (String arg : args) {
+                paras[i++] = arg;
+            }
+            this.args = paras;
+        }
 
     }
 
@@ -55,6 +70,7 @@ public class DefaultCommand implements Command {
         return command;
     }
 
+    @Deprecated
     public void addArg(String arg) {
         if (args == null) {
             args = new String[]{arg};
@@ -67,6 +83,7 @@ public class DefaultCommand implements Command {
         }
     }
 
+    @Deprecated
     public void addArgs(String[] args) {
         if (args == null) {
             this.args = args;

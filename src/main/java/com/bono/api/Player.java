@@ -20,38 +20,38 @@ public class Player extends Exec {
     }
 
     public String next() throws Exception {
-        return dbExecutor.execute(new DefaultCommand(NEXT));
+        return execCommand(NEXT);
      }
 
     public String pause(String value) throws Exception {
-        return dbExecutor.execute(new DefaultCommand(PAUSE, value));
+        return execCommand(PAUSE, value);
     }
 
     public String play() throws Exception {
-        return dbExecutor.execute(new DefaultCommand(PLAY));
+        return execCommand(PLAY);
     }
 
     public String playid(String value) throws Exception {
-        return dbExecutor.execute(new DefaultCommand(PLAYID, value));
+        return execCommand(PLAYID, value);
     }
 
     public String previous() throws Exception {
-        return dbExecutor.execute(new DefaultCommand(PREVIOUS));
+        return execCommand(PREVIOUS);
     }
 
     public String seek(String value) throws Exception {
-        return dbExecutor.execute(new DefaultCommand(SEEK, value));
+        return execCommand(SEEK, value);
     }
 
     public String seekid(String value) throws Exception {
-        return dbExecutor.execute((new DefaultCommand(SEEKID, value)));
+        return execCommand(SEEKID, value);
     }
 
     public String seekcur(String value) throws Exception {
-        return dbExecutor.execute(new DefaultCommand(SEEKCUR, value));
+        return execCommand(SEEKCUR, value);
     }
 
     public String stop() throws Exception {
-        return dbExecutor.execute(new DefaultCommand(STOP));
+        return execCommand(STOP);
     }
 }

@@ -11,11 +11,21 @@ abstract class Exec {
         this.dbExecutor = dbExecutor;
     }
 
-    protected String execCommand(String command) throws Exception {
+    protected String execCommand(String command, String... args) throws Exception {
         DefaultCommand defaultCommand = new DefaultCommand(command);
+        if (args != null) {
+            for (String arg : args) {
+                defaultCommand.addArg(arg);
+            }
+        }
         return dbExecutor.execute(defaultCommand);
     }
 
+    protected String execCommand(String command) throws Exception {
+        return execCommand(command, null);
+    }
+
+    @Deprecated
     protected String execSingleArgCommand(String command, String arg) throws Exception {
         DefaultCommand defaultCommand = new DefaultCommand(command);
         if (arg != null) {
@@ -51,13 +61,5 @@ abstract class Exec {
         return dbExecutor.execute(defaultCommand);
     }
 
-    protected String execMultipleArgCommand(String command, String[] args) throws Exception {
-        DefaultCommand defaultCommand = new DefaultCommand(command);
-        if (args != null) {
-            for (String arg : args) {
-                defaultCommand.addArg(arg);
-            }
-        }
-        return dbExecutor.execute(defaultCommand);
-    }
+
 }
