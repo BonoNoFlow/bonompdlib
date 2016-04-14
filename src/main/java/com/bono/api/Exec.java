@@ -24,6 +24,7 @@ abstract class Exec {
         return dbExecutor.execute(defaultCommand);
     }
 
+    @Deprecated
     protected String execDoubleArgCommand(String command, String arg1, String arg2) throws Exception {
         DefaultCommand defaultCommand = new DefaultCommand(command);
         if (arg1 != null) {
@@ -35,6 +36,7 @@ abstract class Exec {
         return dbExecutor.execute(defaultCommand);
     }
 
+    @Deprecated
     protected String execTripleArgCommand(String command, String arg1, String arg2, String arg3) throws Exception {
         DefaultCommand defaultCommand = new DefaultCommand(command);
         if (arg1 != null) {
@@ -44,6 +46,16 @@ abstract class Exec {
                 if (arg3 != null) {
                     defaultCommand.addArg(arg3);
                 }
+            }
+        }
+        return dbExecutor.execute(defaultCommand);
+    }
+
+    protected String execMultipleArgCommand(String command, String[] args) throws Exception {
+        DefaultCommand defaultCommand = new DefaultCommand(command);
+        if (args != null) {
+            for (String arg : args) {
+                defaultCommand.addArg(arg);
             }
         }
         return dbExecutor.execute(defaultCommand);
