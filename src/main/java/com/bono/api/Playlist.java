@@ -22,7 +22,7 @@ public class Playlist extends Exec {
     public static final String ADD                     = "add";
 
     public String add(String uri) throws Exception {
-        return execSingleArgCommand(ADD, uri);
+        return execCommand(ADD, uri);
 
     }
 
@@ -37,7 +37,7 @@ public class Playlist extends Exec {
     public static final String ADDID                     = "addid";
 
     public String addid(String uri, String pos) throws Exception {
-        return execDoubleArgCommand(ADDID, uri, pos);
+        return execCommand(ADDID, uri, pos);
 
     }
 
@@ -45,8 +45,7 @@ public class Playlist extends Exec {
     public static final String CLEAR                   = "clear";
 
     public String clear() throws Exception {
-        DefaultCommand command = new DefaultCommand(CLEAR);
-        return dbExecutor.execute(command);
+        return  execCommand(CLEAR);
     }
 
     /*
@@ -56,7 +55,7 @@ public class Playlist extends Exec {
     public static final String DELETE                  = "delete";
 
     public String delete(String uri) throws Exception {
-        return execSingleArgCommand(DELETE, uri);
+        return execCommand(DELETE, uri);
 
     }
 
@@ -67,7 +66,7 @@ public class Playlist extends Exec {
     public static final String DELETE_ID               = "deleteid";
 
     public String deleteId(String songid) throws Exception {
-        return execSingleArgCommand(DELETE_ID, songid);
+        return execCommand(DELETE_ID, songid);
 
     }
 
@@ -79,7 +78,7 @@ public class Playlist extends Exec {
     public static final String MOVE                    = "move";
 
     public String move(String from, String to) throws Exception {
-        return execDoubleArgCommand(MOVE, from, to);
+        return execCommand(MOVE, from, to);
 
     }
 
@@ -92,7 +91,7 @@ public class Playlist extends Exec {
     public static final String MOVE_ID                 = "moveid";
 
     public String moveId(String songid, String to) throws Exception {
-        return execDoubleArgCommand(MOVE_ID, songid, to);
+        return execCommand(MOVE_ID, songid, to);
 
     }
 
@@ -103,7 +102,7 @@ public class Playlist extends Exec {
     public static final String PLAYLISTFIND            = "playlistfind";
 
     public String playlistinfo(String tag, String needle) throws Exception {
-        return execDoubleArgCommand(PLAYLISTFIND, tag, needle);
+        return execCommand(PLAYLISTFIND, tag, needle);
 
     }
 
@@ -115,7 +114,7 @@ public class Playlist extends Exec {
     public static final String PLAYLISTID              = "playlistid";
 
     public String playlistid(String songid) throws Exception {
-        return execSingleArgCommand(PLAYLISTID, songid);
+        return execCommand(PLAYLISTID, songid);
 
     }
 
@@ -128,7 +127,7 @@ public class Playlist extends Exec {
     public static final String PLAYLISTINFO            = "playlistinfo";
 
     public String playlistinfo(String arg) throws Exception {
-        return execSingleArgCommand(PLAYLISTINFO, arg);
+        return execCommand(PLAYLISTINFO, arg);
 
     }
 
@@ -139,7 +138,7 @@ public class Playlist extends Exec {
     public final String PLAYLISTSEARCH                 = "playlistsearch";
 
     public String playlistsearch(String tag, String needle) throws Exception {
-        return execDoubleArgCommand(PLAYLISTSEARCH, tag, needle);
+        return execCommand(PLAYLISTSEARCH, tag, needle);
 
     }
 
@@ -152,7 +151,7 @@ public class Playlist extends Exec {
     public static final String PLCHANGES                 = "plchanges";
 
     public String plchanges(String version) throws Exception {
-        return execSingleArgCommand(PLCHANGES, version);
+        return execCommand(PLCHANGES, version);
 
     }
 
@@ -167,7 +166,7 @@ public class Playlist extends Exec {
     public static final String PLCHANGESPOSID         = "plchangesposid";
 
     public String plchangesposid(String version) throws Exception {
-        return execSingleArgCommand(PLCHANGESPOSID, version);
+        return execCommand(PLCHANGESPOSID, version);
 
     }
 
@@ -181,7 +180,7 @@ public class Playlist extends Exec {
     public static final String PRIO                   = "prio";
 
     public String prio(String priority, String range) throws Exception {
-        return execDoubleArgCommand(PRIO, priority, range);
+        return execCommand(PRIO, priority, range);
     }
 
     /*
@@ -191,7 +190,7 @@ public class Playlist extends Exec {
     public static final String PRIOID                 = "prioid";
 
     public String prioid(String priority, String id) throws Exception {
-        return execDoubleArgCommand(PRIOID, priority, id);
+        return execCommand(PRIOID, priority, id);
     }
 
     /*
@@ -205,7 +204,7 @@ public class Playlist extends Exec {
     public static final String RANGEID               = "rangeid";
 
     public String rangeid(String id, String range) throws Exception {
-        return execDoubleArgCommand(RANGEID, id, range);
+        return execCommand(RANGEID, id, range);
     }
 
     /*
@@ -216,7 +215,7 @@ public class Playlist extends Exec {
     public static final String SHUFFLE               = "shuffle";
 
     public String shuffle(String range) throws Exception {
-        return execSingleArgCommand(SHUFFLE, range);
+        return execCommand(SHUFFLE, range);
     }
 
     /*
@@ -226,7 +225,7 @@ public class Playlist extends Exec {
     public static final String SWAP                  = "swap";
 
     public String swap(String song1, String song2) throws Exception {
-        return execDoubleArgCommand(SWAP, song1, song2);
+        return execCommand(SWAP, song1, song2);
     }
 
     /*
@@ -236,7 +235,7 @@ public class Playlist extends Exec {
     public static final String SWAPID                = "swapid";
 
     public String swapid(String song1, String song2) throws Exception {
-        return execDoubleArgCommand(SWAPID, song1, song2);
+        return execCommand(SWAPID, song1, song2);
     }
 
     /*
@@ -249,7 +248,7 @@ public class Playlist extends Exec {
     public static final String ADDTAGID              = "addtagid";
 
     public String addtagid(String songid, String tag, String value) throws Exception {
-        return execTripleArgCommand(ADDTAGID, songid, tag, value);
+        return execCommand(ADDTAGID, songid, tag, value);
     }
 
     /*
@@ -261,7 +260,7 @@ public class Playlist extends Exec {
     public static final String CLEARTAGID            = "cleartagid";
 
     public String cleartagid(String songid, String tag) throws Exception {
-        return execDoubleArgCommand(CLEARTAGID, songid, tag);
+        return execCommand(CLEARTAGID, songid, tag);
     }
 
     // listens when playlist is written.

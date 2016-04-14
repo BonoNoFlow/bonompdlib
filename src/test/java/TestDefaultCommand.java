@@ -9,11 +9,11 @@ public class TestDefaultCommand {
 
     public TestDefaultCommand() {
         command = new DefaultCommand("Hallo");
-        command.addArg("wereld!");
-        command.addArgs(new String[]{"Krijg", "de", "kolere!"});
-        command.addArg("Krijg");
-        command.addArg("de");
-        command.addArg("kolere!");
+        //command.addArg("wereld!");
+        //c/ommand.addArgs(new String[]{"Krijg", "de", "kolere!"});
+        //command.addArg("Krijg");
+        //command.addArg("de");
+        //command.addArg("kolere!");
         System.out.print(new String(command.getCommandBytes()));
     }
 

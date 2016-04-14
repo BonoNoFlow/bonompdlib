@@ -12,12 +12,12 @@ abstract class Exec {
     }
 
     protected String execCommand(String command, String... args) throws Exception {
-        DefaultCommand defaultCommand = new DefaultCommand(command);
-        if (args != null) {
-            for (String arg : args) {
-                defaultCommand.addArg(arg);
-            }
-        }
+        DefaultCommand defaultCommand = new DefaultCommand(command, args);
+        //if (args != null) {
+        //    for (String arg : args) {
+        //        defaultCommand.addArg(arg);
+        //    }
+        //}
         return dbExecutor.execute(defaultCommand);
     }
 
