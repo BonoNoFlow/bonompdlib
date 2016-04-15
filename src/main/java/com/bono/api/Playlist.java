@@ -101,8 +101,8 @@ public class Playlist extends Exec {
     */
     public static final String PLAYLISTFIND            = "playlistfind";
 
-    public String playlistinfo(String tag, String needle) throws Exception {
-        return execCommand(PLAYLISTFIND, tag, needle);
+    public String playlistfind(String... args) throws Exception {
+        return execCommand(PLAYLISTFIND, args);
 
     }
 
@@ -127,6 +127,9 @@ public class Playlist extends Exec {
     public static final String PLAYLISTINFO            = "playlistinfo";
 
     public String playlistinfo(String arg) throws Exception {
+        if (arg == null) {
+            return execCommand(PLAYLISTINFO);
+        }
         return execCommand(PLAYLISTINFO, arg);
 
     }
