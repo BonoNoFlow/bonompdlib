@@ -22,7 +22,7 @@ abstract class Exec {
     }
 
     protected String execCommand(String command) throws Exception {
-        return execCommand(command, null);
+        return execCommand(command, (String) null);
     }
 
     @Deprecated
