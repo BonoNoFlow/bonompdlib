@@ -202,4 +202,27 @@ public class Status {
     public void setNextsongid(String nextsongid) {
         this.nextsongid = nextsongid;
     }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "volume='" + volume + '\'' +
+                ", repeat='" + repeat + '\'' +
+                ", random='" + random + '\'' +
+                ", single='" + single + '\'' +
+                ", consume='" + consume + '\'' +
+                ", playlist='" + playlist + '\'' +
+                ", playlistlength='" + playlistlength + '\'' +
+                ", mixrampdb='" + mixrampdb + '\'' +
+                ", state='" + state + '\'' +
+                ", song='" + song + '\'' +
+                ", songid='" + songid + '\'' +
+                ", time='" + time + '\'' +
+                ", elapsed='" + elapsed + '\'' +
+                ", bitrate='" + bitrate + '\'' +
+                ", audio='" + audio + '\'' +
+                ", nextsong='" + nextsong + '\'' +
+                ", nextsongid='" + nextsongid + '\'' +
+                '}';
+    }
 }

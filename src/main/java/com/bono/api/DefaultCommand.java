@@ -31,12 +31,13 @@ public class DefaultCommand implements Command {
         this.command = command;
 
         if (args != null) {
-            String[] paras = new String[args.length];
+            System.out.println("null is not null!");
+            this.args = new String[args.length];
             int i = 0;
             for (String arg : args) {
-                paras[i++] = arg;
+                this.args[i++] = arg;
             }
-            this.args = paras;
+
         }
 
     }
