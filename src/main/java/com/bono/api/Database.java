@@ -62,8 +62,8 @@ public class Database extends Exec {
     Instead, query MPD whenever you need something.*/
     public static final String LISTALL = "listall";
 
-    public String listall(String... args) throws Exception {
-        return execCommand(LISTALL, args);
+    public String listall(String uri) throws Exception {
+        return execCommand(LISTALL, uri);
     }
 
     /*
@@ -73,8 +73,8 @@ public class Database extends Exec {
     adds huge overhead. It will break with large databases. Instead, query MPD whenever you need something.*/
     public static final String LISTALLINFO = "listallinfo";
 
-    public String listallinfo(String... args) throws Exception {
-        return execCommand(LISTALLINFO, args);
+    public String listallinfo(String uri) throws Exception {
+        return execCommand(LISTALLINFO, uri);
     }
 
     /*
@@ -87,64 +87,91 @@ public class Database extends Exec {
     "nfs://servername/path" obtains a directory listing from the NFS server.*/
     public static final String LISTFILES = "listfiles";
 
-    public String listfiles(String... args) throws Exception {
-        return execCommand(LISTFILES, args);
+    public String listfiles(String uri) throws Exception {
+        return execCommand(LISTFILES, uri);
     }
 
 
     /*
+    lsinfo [URI]
+    Lists the contents of the directory URI.
+    When listing the root directory, this currently returns the list of stored playlists. This behavior
+    is deprecated; use "listplaylists" instead. This command may be used to list metadata of remote files
+    (e.g. URI beginning with "http://" or "smb://"). Clients that are connected via UNIX domain socket
+    may use this command to read the tags of an arbitrary local file (URI is an absolute path).*/
+    public static final String LSINFO = "lsinfo";
 
-lsinfo [URI]
+    public String lsinfo(String uri) throws Exception {
+        return execCommand(LSINFO, uri);
+    }
 
-Lists the contents of the directory URI.
 
-When listing the root directory, this currently returns the list of stored playlists. This behavior is deprecated; use "listplaylists" instead.
+    /*
+    readcomments [URI]
+    Read "comments" (i.e. key-value pairs) from the file specified by "URI". This "URI" can be a
+    path relative to the music directory or an absolute path. This command may be used to list metadata
+    of remote files (e.g. URI beginning with "http://" or "smb://"). The response consists of lines in
+    the form "KEY: VALUE". Comments with suspicious characters (e.g. newlines) are ignored silently.
+    The meaning of these depends on the codec, and not all decoder plugins support it. For example,
+    on Ogg files, this lists the Vorbis comments.*/
+    public static final String READCOMMENTS = "readcomment";
 
-This command may be used to list metadata of remote files (e.g. URI beginning with "http://" or "smb://").
+    public String readcomments(String uri) throws Exception {
+        return execCommand(READCOMMENTS, uri);
+    }
 
-Clients that are connected via UNIX domain socket may use this command to read the tags of an arbitrary local file (URI is an absolute path).
+/*
+    search {TYPE} {WHAT} [...] [window START:END]
+    Searches for any song that contains WHAT. Parameters have the same meaning as for find,
+    except that search is not case sensitive.*/
+    public static final String SEARCH = "search";
 
-readcomments [URI]
+    public String search(String... args) throws Exception {
+        return execCommand(SEARCH, args);
+    }
 
-Read "comments" (i.e. key-value pairs) from the file specified by "URI". This "URI" can be a path relative to the music directory or an absolute path.
+    /*
+    searchadd {TYPE} {WHAT} [...]
+    Searches for any song that contains WHAT in tag TYPE and adds them to current playlist.
+    Parameters have the same meaning as for find, except that search is not case sensitive.*/
+    public static final String SEARCHADD = "searchadd";
 
-This command may be used to list metadata of remote files (e.g. URI beginning with "http://" or "smb://").
+    public String searchadd(String... args) throws Exception {
+        return execCommand(SEARCHADD, args);
+    }
 
-The response consists of lines in the form "KEY: VALUE". Comments with suspicious characters (e.g. newlines) are ignored silently.
+    /*
+    searchaddpl {NAME} {TYPE} {WHAT} [...]
+    Searches for any song that contains WHAT in tag TYPE and adds them to the playlist named NAME.
+    If a playlist by that name doesn't exist it is created.
+    Parameters have the same meaning as for find, except that search is not case sensitive.*/
+    public static final String SEARCHADDPL = "searchaddpl";
 
-The meaning of these depends on the codec, and not all decoder plugins support it. For example, on Ogg files, this lists the Vorbis comments.
+    public String searchaddpl(String... args) throws Exception {
+        return execCommand(SEARCHADDPL, args);
+    }
 
-search {TYPE} {WHAT} [...] [window START:END]
 
-Searches for any song that contains WHAT. Parameters have the same meaning as for find, except that search is not case sensitive.
+    /*
+    update [URI]
+    Updates the music database: find new files, remove deleted files, update modified files.
+    URI is a particular directory or song/file to update. If you do not specify it, everything is updated.
+    Prints "updating_db: JOBID" where JOBID is a positive number identifying the update job. You can read
+    the current job id in the status response.*/
+    public static final String UPDATE = "update";
 
-searchadd {TYPE} {WHAT} [...]
+    public String update(String uri) throws Exception {
+        return execCommand(UPDATE, uri);
+    }
 
-Searches for any song that contains WHAT in tag TYPE and adds them to current playlist.
+    /*
+    rescan [URI]
+    Same as update, but also rescans unmodified files.*/
+    public static final String RESCAN = "rescan";
 
-Parameters have the same meaning as for find, except that search is not case sensitive.
-
-searchaddpl {NAME} {TYPE} {WHAT} [...]
-
-Searches for any song that contains WHAT in tag TYPE and adds them to the playlist named NAME.
-
-If a playlist by that name doesn't exist it is created.
-
-Parameters have the same meaning as for find, except that search is not case sensitive.
-
-update [URI]
-
-Updates the music database: find new files, remove deleted files, update modified files.
-
-URI is a particular directory or song/file to update. If you do not specify it, everything is updated.
-
-Prints "updating_db: JOBID" where JOBID is a positive number identifying the update job. You can read the current job id in the status response.
-
-rescan [URI]
-
-Same as update, but also rescans unmodified files.
-
-     */
+     public String rescan(String uri) throws Exception {
+         return execCommand(RESCAN, uri);
+     }
 
     public Database(DBExecutor dbExecutor) {
         super(dbExecutor);
