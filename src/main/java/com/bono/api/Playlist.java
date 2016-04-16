@@ -21,7 +21,13 @@ public class Playlist extends Exec {
     */
     public static final String ADD                     = "add";
 
+    /*
+    @param String uri, for file path to add, cannot be null.
+     */
     public String add(String uri) throws Exception {
+        if (uri == null) {
+            throw new NullPointerException("String uri cannot be null!");
+        }
         return execCommand(ADD, uri);
 
     }
@@ -36,7 +42,17 @@ public class Playlist extends Exec {
     */
     public static final String ADDID                     = "addid";
 
+    /*
+    @param String uri, the file to be added, cannot be null.
+    @param String pos, the position to add the file to, can be null.
+     */
     public String addid(String uri, String pos) throws Exception {
+        if (uri == null) {
+            throw new NullPointerException("String uri cannot be null!");
+        }
+        if (pos == null) {
+            return execCommand(ADDID, uri);
+        }
         return execCommand(ADDID, uri, pos);
 
     }

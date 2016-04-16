@@ -24,6 +24,7 @@ public class PlaylistTest extends Test {
 
     @Override
     public void test() {
+        /*
         String reply = "";
         try {
             reply = playlist.playlistinfo(null);
@@ -55,6 +56,15 @@ public class PlaylistTest extends Test {
             e.printStackTrace();
         }
         playlist.populate(reply);
+        */
+
+        try {
+            System.out.println(playlist.add(null));
+        } catch (NullPointerException ne) {
+            ne.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
