@@ -15,13 +15,10 @@ import java.util.List;
  */
 public class Playlist extends Exec {
 
+    public static final String ADD                     = "add";
     /*
     Adds the file URI to the playlist (directories add recursively).
     URI can also be a single file.
-    */
-    public static final String ADD                     = "add";
-
-    /*
     @param String uri, for file path to add, cannot be null.
      */
     public String add(String uri) throws Exception {
@@ -33,16 +30,14 @@ public class Playlist extends Exec {
     }
 
 
+
+    public static final String ADDID                     = "addid";
     /*
     Adds a song to the playlist (non-recursive) and returns the song id.
     URI is always a single file or URL. For example:
     addid "foo.mp3"
     Id: 999
     OK
-    */
-    public static final String ADDID                     = "addid";
-
-    /*
     @param String uri, the file to be added, cannot be null.
     @param String pos, the position to add the file to, can be null.
      */
@@ -59,21 +54,28 @@ public class Playlist extends Exec {
 
     // Clears the current playlist.
     public static final String CLEAR                   = "clear";
-
+    /*
+    Clear the current playlist.
+     */
     public String clear() throws Exception {
         return  execCommand(CLEAR);
     }
 
+
+    public static final String DELETE                  = "delete";
     /*
     Deletes a song from the playlist.
             delete [{POS} | {START:END}]
-    */
-    public static final String DELETE                  = "delete";
-
-    public String delete(String uri) throws Exception {
-        return execCommand(DELETE, uri);
+    @param String pos, the song position or range of positions to delete, cannot be null.
+     */
+    public String delete(String pos) throws Exception {
+        if (pos == null) {
+            throw new NullPointerException("String pos cannot be null");
+        }
+        return execCommand(DELETE, pos);
 
     }
+
 
     /*
     Deletes the song SONGID from the playlist

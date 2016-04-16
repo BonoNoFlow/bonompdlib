@@ -62,7 +62,6 @@ public class DefaultCommand implements Command {
             return null;
         }
         outCommand += "\n";
-        //System.out.println(outCommand);
         return outCommand.getBytes();
     }
 

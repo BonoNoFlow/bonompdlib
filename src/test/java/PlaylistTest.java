@@ -59,7 +59,7 @@ public class PlaylistTest extends Test {
         */
 
         try {
-            System.out.println(playlist.add(null));
+            System.out.println(playlist.delete(null));
         } catch (NullPointerException ne) {
             ne.printStackTrace();
         } catch (Exception e) {
