@@ -123,11 +123,16 @@ public class Playlist extends Exec {
     argument is given, displays information only for the song
     SONGPOS or the range of songs START:END [6]
             playlistinfo [[SONGPOS] | [START:END]]
+
+
     */
     public static final String PLAYLISTINFO            = "playlistinfo";
 
+    /*
+    @param String arg for songpos or start:end, can be null.*/
     public String playlistinfo(String arg) throws Exception {
         if (arg == null) {
+            System.out.println("arg is null");
             return execCommand(PLAYLISTINFO);
         }
         return execCommand(PLAYLISTINFO, arg);
@@ -144,6 +149,8 @@ public class Playlist extends Exec {
         return execCommand(PLAYLISTSEARCH, tag, needle);
 
     }
+
+
 
     /*
     Displays changed songs currently in the playlist since VERSION.

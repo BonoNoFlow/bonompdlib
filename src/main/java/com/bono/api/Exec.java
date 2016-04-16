@@ -1,5 +1,7 @@
 package com.bono.api;
 
+import com.sun.istack.internal.NotNull;
+
 /**
  * Created by hendriknieuwenhuis on 08/04/16.
  */
@@ -12,12 +14,13 @@ abstract class Exec {
     }
 
     protected String execCommand(String command, String... args) throws Exception {
-        DefaultCommand defaultCommand = new DefaultCommand(command, args);
-        //if (args != null) {
-        //    for (String arg : args) {
-        //        defaultCommand.addArg(arg);
-        //    }
-        //}
+        DefaultCommand defaultCommand;
+
+        if (args == null) {
+            defaultCommand = new DefaultCommand(command);
+            return dbExecutor.execute(defaultCommand);
+        }
+        defaultCommand = new DefaultCommand(command, args);
         return dbExecutor.execute(defaultCommand);
     }
 

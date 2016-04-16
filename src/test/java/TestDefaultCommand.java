@@ -8,7 +8,7 @@ public class TestDefaultCommand {
     DefaultCommand command;
 
     public TestDefaultCommand() {
-        command = new DefaultCommand(MPDStatus.STATUS, (String[]) null);
+        command = new DefaultCommand(MPDStatus.STATUS);
         //command.addArg("wereld!");
         //c/ommand.addArgs(new String[]{"Krijg", "de", "kolere!"});
         //command.addArg("Krijg");

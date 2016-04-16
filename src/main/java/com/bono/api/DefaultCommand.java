@@ -14,11 +14,12 @@ public class DefaultCommand implements Command {
         this.command = command;
     }
 
+    /*
     public DefaultCommand(String command, String arg) {
         this.command = command;
         this.args = new String[]{arg};
 
-    }
+    }*/
 
     /*
     public DefaultCommand(String command, String[] args) {
@@ -31,7 +32,6 @@ public class DefaultCommand implements Command {
         this.command = command;
 
         if (args != null) {
-            System.out.println("null is not null!");
             this.args = new String[args.length];
             int i = 0;
             for (String arg : args) {
