@@ -334,9 +334,6 @@ public class Playlist extends Exec {
     // the songs in this playlist.
     protected List<Song> songs = new ArrayList<>();
 
-    public Playlist() {
-        super(new DBExecutor(new Config("127.0.0.1", 6600)));
-    }
 
     public Playlist(DBExecutor dbExecutor) {
         super(dbExecutor);
