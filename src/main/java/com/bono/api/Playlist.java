@@ -136,34 +136,33 @@ public class Playlist extends Exec {
 
     }
 
+
+    public static final String PLAYLISTINFO            = "playlistinfo";
     /*
     Displays a list of all songs in the playlist, or if the optional
     argument is given, displays information only for the song
     SONGPOS or the range of songs START:END [6]
             playlistinfo [[SONGPOS] | [START:END]]
-
-
-    */
-    public static final String PLAYLISTINFO            = "playlistinfo";
-
-    /*
     @param String arg for songpos or start:end, can be null.*/
     public String playlistinfo(String arg) throws Exception {
         if (arg == null) {
-            System.out.println("arg is null");
             return execCommand(PLAYLISTINFO);
         }
         return execCommand(PLAYLISTINFO, arg);
-
     }
 
+
+    public final String PLAYLISTSEARCH                 = "playlistsearch";
     /*
     Searches case-insensitively for partial matches in the current playlist.
             playlistsearch {TAG} {NEEDLE}
+    @param  String tag, the tag to search for, cannot be null.
+    @param String needla, TODO test!
     */
-    public final String PLAYLISTSEARCH                 = "playlistsearch";
-
     public String playlistsearch(String tag, String needle) throws Exception {
+        if (tag == null) {
+            throw new NullPointerException("String tag cannot be null!");
+        }
         return execCommand(PLAYLISTSEARCH, tag, needle);
 
     }
@@ -235,59 +234,94 @@ public class Playlist extends Exec {
         return execCommand(RANGEID, id, range);
     }
 
+
+    public static final String SHUFFLE               = "shuffle";
     /*
     Shuffles the current playlist. START:END is optional and specifies
     a range of songs.
             shuffle [START:END]
+    @param String range, optional range of songs to shuffle, can be null!
     */
-    public static final String SHUFFLE               = "shuffle";
-
     public String shuffle(String range) throws Exception {
+        if (range == null) {
+            return execCommand(SHUFFLE);
+        }
         return execCommand(SHUFFLE, range);
     }
 
+
+    public static final String SWAP                  = "swap";
     /*
     Swaps the positions of SONG1 and SONG2.
             swap {SONG1} {SONG2}
+    @param String song1 an song2, cannot be null!
     */
-    public static final String SWAP                  = "swap";
-
     public String swap(String song1, String song2) throws Exception {
+        if (song1 == null) {
+            throw new NullPointerException("String song1 cannot be null");
+        }
+        if (song2 == null) {
+            throw new NullPointerException("String song2 cannot be null");
+        }
         return execCommand(SWAP, song1, song2);
     }
 
+
+    public static final String SWAPID                = "swapid";
     /*
     Swaps the positions of SONG1 and SONG2 (both song ids).
-        swapid {SONG1} {SONG2}
+        swapid {SONGID1} {SONGID2}
+    @param String song1 and song2, songs specofied by id to swap, cannot be null!
     */
-    public static final String SWAPID                = "swapid";
-
-    public String swapid(String song1, String song2) throws Exception {
-        return execCommand(SWAPID, song1, song2);
+    public String swapid(String songid1, String songid2) throws Exception {
+        if (songid1 == null) {
+            throw new NullPointerException("String songid1 cannot be null");
+        }
+        if (songid2 == null) {
+            throw new NullPointerException("String songid2 cannot be null");
+        }
+        return execCommand(SWAPID, songid1, songid2);
     }
 
+
+    public static final String ADDTAGID              = "addtagid";
     /*
     Adds a tag to the specified song. Editing song tags is only possible
     for remote songs. This change is volatile: it may be overwritten by
     tags received from the server, and the data is gone when the song gets
     removed from the queue.
             addtagid {SONGID} {TAG} {VALUE}
+    @param String songid, the specified song, cannot be null!
+    @param String tag, the tag to add, cannot be null!
+    @param String value, TODO NULL or NOT!
     */
-    public static final String ADDTAGID              = "addtagid";
-
     public String addtagid(String songid, String tag, String value) throws Exception {
+        if (songid == null) {
+            throw new NullPointerException("String songid cannot be null!");
+        }
+        if (tag == null) {
+            throw new NullPointerException("String tag cannot be null!");
+        }
         return execCommand(ADDTAGID, songid, tag, value);
     }
 
+
+    public static final String CLEARTAGID            = "cleartagid";
     /*
     Removes tags from the specified song. If TAG is not specified, then
     all tag values will be removed. Editing song tags is only possible
     for remote songs.
             cleartagid {SONGID} [TAG]
+    @param String songid, the song to be cleared from tags, cannot be null!
+    @param String tag, the tag to be removed, can be null!
     */
-    public static final String CLEARTAGID            = "cleartagid";
-
     public String cleartagid(String songid, String tag) throws Exception {
+        if (songid == null) {
+            throw new NullPointerException("String songid cannot be null!");
+        }
+        if (tag == null) {
+            return execCommand(CLEARTAGID, songid);
+        }
         return execCommand(CLEARTAGID, songid, tag);
     }
 
