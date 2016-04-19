@@ -1,17 +1,10 @@
 package com.bono.api;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static com.bono.api.Status.RANDOM;
 
 /**
  * Created by hendriknieuwenhuis on 02/03/16.
  */
-public class MPDStatus extends Exec {
+public class StatusControl extends Exec {
 
     // Clears the current error message in status,
     // this is also accomplished by any command
@@ -42,7 +35,7 @@ public class MPDStatus extends Exec {
     public static final String IDLE = "idle";
 
     public String idle(String subsystem) throws Exception {
-        return execSingleArgCommand(IDLE, subsystem);
+        return execCommand(IDLE, subsystem);
     }
 
     // Reports the current status of the player
@@ -104,7 +97,7 @@ public class MPDStatus extends Exec {
 
 
 
-    public MPDStatus(DBExecutor dbExecutor) {
+    public StatusControl(DBExecutor dbExecutor) {
         super(dbExecutor);
 
     }
