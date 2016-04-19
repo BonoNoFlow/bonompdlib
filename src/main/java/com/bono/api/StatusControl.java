@@ -35,6 +35,9 @@ public class StatusControl extends Exec {
     public static final String IDLE = "idle";
 
     public String idle(String subsystem) throws Exception {
+        if (subsystem == null) {
+            return execCommand(IDLE);
+        }
         return execCommand(IDLE, subsystem);
     }
 
