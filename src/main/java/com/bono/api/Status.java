@@ -1,5 +1,11 @@
 package com.bono.api;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by hendriknieuwenhuis on 01/03/16.
  *
@@ -46,6 +52,90 @@ public class Status {
     private String audio;
     private String nextsong;
     private String nextsongid;
+
+    private List<ChangeListener> listeners = new ArrayList<>();
+
+    public void populateStatus(String entry) {
+        clear();
+
+        Reply reply = new Reply(entry);
+        Iterator<String> i = reply.iterator();
+        while (i.hasNext()) {
+            String[] state = i.next().split(Reply.SPLIT_LINE);
+
+            switch (state[0]) {
+                case Status.VOLUME:
+                    setVolume(state[1]);
+                    break;
+                case Status.REPEAT:
+                    setRepeat(state[1]);
+                    break;
+                case Status.RANDOM:
+                    setRandom(state[1]);
+                    break;
+                case Status.SINGLE:
+                    setSingle(state[1]);
+                    break;
+                case Status.CONSUME:
+                    setConsume(state[1]);
+                    break;
+                case Status.PLAYLIST:
+                    setPlaylist(state[1]);
+                    break;
+                case Status.PLAYLISTLENGTH:
+                    setPlaylistlength(state[1]);
+                    break;
+                case Status.MIXRAMPDB:
+                    setMixrampdb(state[1]);
+                    break;
+                case Status.STATE:
+                    setState(state[1]);
+                    break;
+                case Status.SONG:
+                    setSong(state[1]);
+                    break;
+                case Status.SONGID:
+                    setSongid(state[1]);
+                    break;
+                case Status.TIME:
+                    setTime(state[1]);
+                    break;
+                case Status.ELAPSED:
+                    setElapsed(state[1]);
+                    break;
+                case Status.BITRATE:
+                    setBitrate(state[1]);
+                    break;
+                case Status.AUDIO:
+                    setAudio(state[1]);
+                    break;
+                case Status.NEXTSONG:
+                    setNextsong(state[1]);
+                    break;
+                case Status.NEXTSONGID:
+                    setNextsongid(state[1]);
+                    break;
+                default:
+                    //System.out.println("Not a status property: " + state[0]);
+                    break;
+            }
+
+        }
+        fireListeners();
+    }
+
+
+
+    private void fireListeners() {
+        Iterator i = listeners.iterator();
+        while (i.hasNext()) {
+            ((ChangeListener) i.next()).stateChanged(new ChangeEvent(this));
+        }
+    }
+
+    public void addListener(ChangeListener listener) {
+        listeners.add(listener);
+    }
 
     protected void clear() {
         setVolume(null);

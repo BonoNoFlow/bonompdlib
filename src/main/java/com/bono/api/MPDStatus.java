@@ -99,121 +99,18 @@ public class MPDStatus extends Exec {
     // subscribed to.
     public static final String IDLE_MESSAGE = "message";
 
-    private List<ChangeListener> listeners = new ArrayList<>();
 
-    private Status status;
+
+
 
 
     public MPDStatus(DBExecutor dbExecutor) {
         super(dbExecutor);
-        status = new Status();
-    }
 
-    public void populateStatus(String entry) {
-        status.clear();
-
-        Reply reply = new Reply(entry);
-        Iterator<String> i = reply.iterator();
-        while (i.hasNext()) {
-            String[] state = i.next().split(Reply.SPLIT_LINE);
-
-            switch (state[0]) {
-                case Status.VOLUME:
-                    status.setVolume(state[1]);
-                    break;
-                case Status.REPEAT:
-                    status.setRepeat(state[1]);
-                    break;
-                case Status.RANDOM:
-                    status.setRandom(state[1]);
-                    break;
-                case Status.SINGLE:
-                    status.setSingle(state[1]);
-                    break;
-                case Status.CONSUME:
-                    status.setConsume(state[1]);
-                    break;
-                case Status.PLAYLIST:
-                    status.setPlaylist(state[1]);
-                    break;
-                case Status.PLAYLISTLENGTH:
-                    status.setPlaylistlength(state[1]);
-                    break;
-                case Status.MIXRAMPDB:
-                    status.setMixrampdb(state[1]);
-                    break;
-                case Status.STATE:
-                    status.setState(state[1]);
-                    break;
-                case Status.SONG:
-                    status.setSong(state[1]);
-                    break;
-                case Status.SONGID:
-                    status.setSongid(state[1]);
-                    break;
-                case Status.TIME:
-                    status.setTime(state[1]);
-                    break;
-                case Status.ELAPSED:
-                    status.setElapsed(state[1]);
-                    break;
-                case Status.BITRATE:
-                    status.setBitrate(state[1]);
-                    break;
-                case Status.AUDIO:
-                    status.setAudio(state[1]);
-                    break;
-                case Status.NEXTSONG:
-                    status.setNextsong(state[1]);
-                    break;
-                case Status.NEXTSONGID:
-                    status.setNextsongid(state[1]);
-                    break;
-                default:
-                    //System.out.println("Not a status property: " + state[0]);
-                    break;
-            }
-
-        }
-        fireListeners();
     }
 
 
 
-    private void fireListeners() {
-        Iterator i = listeners.iterator();
-        while (i.hasNext()) {
-            ((ChangeListener) i.next()).stateChanged(new ChangeEvent(this));
-        }
-    }
 
-    public void addListener(ChangeListener listener) {
-        listeners.add(listener);
-    }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    /*
-    Listens to the idle object. stateChanged is triggered every
-    time the status is written.
-     */
-    /*
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        String reply = "";
-
-        try {
-            reply = dbExecutor.execute(new MPDCommand("status"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        setStatus(reply);
-    }*/
 }
