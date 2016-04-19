@@ -3,6 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 25/07/15.
  */
+@Deprecated
 public class StatusProperties {
 
     // Clears the current error message in status,
