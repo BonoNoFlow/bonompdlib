@@ -17,23 +17,23 @@ import java.util.List;
  */
 public class Status {
 
-    public static final String VOLUME = "volume";
-    public static final String REPEAT = "repeat";
-    public static final String RANDOM = "random";
-    public static final String SINGLE = "single";
-    public static final String CONSUME = "consume";
-    public static final String PLAYLIST = "playlist";
-    public static final String PLAYLISTLENGTH = "playlistlength";
-    public static final String MIXRAMPDB = "mixrampdb";
-    public static final String STATE = "state";
-    public static final String SONG = "song";
-    public static final String SONGID = "songid";
-    public static final String TIME = "time";
-    public static final String ELAPSED = "elapsed";
-    public static final String BITRATE = "bitrate";
-    public static final String AUDIO = "audio";
-    public static final String NEXTSONG = "nextsong";
-    public static final String NEXTSONGID = "nextsongid";
+    public static final String VOLUME          = "volume";
+    public static final String REPEAT          = "repeat";
+    public static final String RANDOM          = "random";
+    public static final String SINGLE          = "single";
+    public static final String CONSUME         = "consume";
+    public static final String PLAYLIST        = "playlist";
+    public static final String PLAYLISTLENGTH  = "playlistlength";
+    public static final String MIXRAMPDB       = "mixrampdb";
+    public static final String STATE           = "state";
+    public static final String SONG            = "song";
+    public static final String SONGID          = "songid";
+    public static final String TIME            = "time";
+    public static final String ELAPSED         = "elapsed";
+    public static final String BITRATE         = "bitrate";
+    public static final String AUDIO           = "audio";
+    public static final String NEXTSONG        = "nextsong";
+    public static final String NEXTSONGID      = "nextsongid";
 
     private String volume;
     private String repeat;
