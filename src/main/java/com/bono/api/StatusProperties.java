@@ -52,7 +52,7 @@ public class StatusProperties {
         // Current playlist modification
         public static final String PLAYLIST = "playlist";
 
-        // Player started, stopped or seeked.
+        // PlayerControl started, stopped or seeked.
         public static final String PLAYER = "player";
 
         // Volume change
