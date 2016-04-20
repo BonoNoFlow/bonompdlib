@@ -20,7 +20,7 @@ public class DBExecutor {
     }
 
     public String execute(Command command) throws Exception {
-        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new MPDEndpoint(config.getHost(), config.getPort()));
+        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(config.getHost(), config.getPort()));
         String reply = null;
         Future<String> future = executor.submit(executeCommand);
         reply = future.get();
@@ -35,9 +35,9 @@ public class DBExecutor {
 
         private Command command;
         private CommandList commandList;
-        private MPDEndpoint endpoint;
+        private Endpoint endpoint;
 
-        public ExecuteCommand(Command command, CommandList commandList, MPDEndpoint endpoint) {
+        public ExecuteCommand(Command command, CommandList commandList, Endpoint endpoint) {
             this.command = command;
             this.commandList = commandList;
             this.endpoint = endpoint;

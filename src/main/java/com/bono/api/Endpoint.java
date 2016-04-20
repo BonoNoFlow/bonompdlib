@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
  */
 
 
-public class MPDEndpoint {
+public class Endpoint {
 
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
     private String host = null;
@@ -22,7 +22,7 @@ public class MPDEndpoint {
 
     private Socket socket;
 
-    public MPDEndpoint(String host, int port) {
+    public Endpoint(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -63,11 +63,11 @@ public class MPDEndpoint {
                         Errors moeten hier afgehandeld worden!
                         of doorgegeven worden en later behandeld worden als zodanig.
                          */
-                        System.out.println("MPDEndpoint read loop broken by error feedback! " + reply);
+                        System.out.println("Endpoint read loop broken by error feedback! " + reply);
                         break;
                     } else if (reply.endsWith("OK\n")) {
                         reply = reply.replaceAll("OK\n", "");
-                        System.out.println("MPDEndpoint read loop broken by OK feedback!");
+                        System.out.println("Endpoint read loop broken by OK feedback!");
                         break;
                     }
                 }
