@@ -6,54 +6,15 @@ package com.bono.api;
  */
 public class StatusControl extends Exec {
 
-    // Clears the current error message in status,
-    // this is also accomplished by any command
-    // that starts playback.
     public static final String CLEARERROR = "clearerror";
 
-    public String clearerror() throws Exception {
-        return execCommand(CLEARERROR);
-    }
-
-    // Display the song info of the current song.
     public static final String CURRENTSONG = "currentsong";
 
-    public String currentsong() throws Exception {
-        return execCommand(CURRENTSONG);
-    }
-
-    // Wait, keep connection bind, until a subsystem is changed.
-    // Response is the subsystem that is changed. After response the
-    // connection is closed.
-    // A subsystem can also be given as argument, then only a response
-    // will follow after that subsystem is changed.
-    // Example:
-    // idle [idleSubsystem],
-    //
-    // idle
-    //
     public static final String IDLE = "idle";
 
-    public String idle(String subsystem) throws Exception {
-        if (subsystem == null) {
-            return execCommand(IDLE);
-        }
-        return execCommand(IDLE, subsystem);
-    }
-
-    // Reports the current status of the player
     public static final String STATUS = "status";
 
-    public String status() throws Exception {
-        return execCommand(STATUS);
-    }
-
-    // Displays the statistics
     public static final String STATS = "stats";
-
-    public String stats() throws Exception {
-        return execCommand(STATS);
-    }
 
     /*
      The subsystems of the idle command.
@@ -96,17 +57,48 @@ public class StatusControl extends Exec {
     public static final String IDLE_MESSAGE = "message";
 
 
-
-
-
-
     public StatusControl(DBExecutor dbExecutor) {
         super(dbExecutor);
 
     }
 
+    // Clears the current error message in status,
+    // this is also accomplished by any command
+    // that starts playback.
+    public String clearerror() throws Exception {
+        return execCommand(CLEARERROR);
+    }
 
+    // Display the song info of the current song.
+    public String currentsong() throws Exception {
+        return execCommand(CURRENTSONG);
+    }
 
+    // Wait, keep connection bind, until a subsystem is changed.
+    // Response is the subsystem that is changed. After response the
+    // connection is closed.
+    // A subsystem can also be given as argument, then only a response
+    // will follow after that subsystem is changed.
+    // Example:
+    // idle [idleSubsystem],
+    //
+    // idle
+    //
+    public String idle(String subsystem) throws Exception {
+        if (subsystem == null) {
+            return execCommand(IDLE);
+        }
+        return execCommand(IDLE, subsystem);
+    }
 
+    // Reports the current status of the player
+    public String status() throws Exception {
+        return execCommand(STATUS);
+    }
+
+    // Displays the statistics
+    public String stats() throws Exception {
+        return execCommand(STATS);
+    }
 
 }
