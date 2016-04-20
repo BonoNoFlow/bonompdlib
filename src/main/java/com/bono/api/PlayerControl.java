@@ -23,7 +23,18 @@ public class PlayerControl extends Exec {
         return execCommand(NEXT);
      }
 
+    /*
+    pause [{0} | {1}]
+
+    pause 0: continue.
+    pause 1: pause.
+
+    @param String value, cannot be null!
+     */
     public String pause(String value) throws Exception {
+        if (value == null) {
+            throw new NullPointerException("String value cannot be null!");
+        }
         return execCommand(PAUSE, value);
     }
 
@@ -31,8 +42,16 @@ public class PlayerControl extends Exec {
         return execCommand(PLAY);
     }
 
-    public String playid(String value) throws Exception {
-        return execCommand(PLAYID, value);
+    /*
+    playid {songid}
+
+    @param String songid, cannot be null!
+     */
+    public String playid(String songid) throws Exception {
+        if (songid == null) {
+            throw new NullPointerException("String songid cannot be null!");
+        }
+        return execCommand(PLAYID, songid);
     }
 
     public String previous() throws Exception {
@@ -40,14 +59,23 @@ public class PlayerControl extends Exec {
     }
 
     public String seek(String value) throws Exception {
+        if (value == null) {
+            throw new NullPointerException("String value, cannot be null!");
+        }
         return execCommand(SEEK, value);
     }
 
-    public String seekid(String value) throws Exception {
-        return execCommand(SEEKID, value);
+    public String seekid(String songid) throws Exception {
+        if (songid == null) {
+            throw new NullPointerException("String songid, cannot be null!");
+        }
+        return execCommand(SEEKID, songid);
     }
 
     public String seekcur(String value) throws Exception {
+        if (value == null) {
+            throw new NullPointerException("String value, cannot be null!");
+        }
         return execCommand(SEEKCUR, value);
     }
 
