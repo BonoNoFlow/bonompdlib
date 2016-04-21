@@ -14,20 +14,6 @@ public class DefaultCommand implements Command {
         this.command = command;
     }
 
-    /*
-    public DefaultCommand(String command, String arg) {
-        this.command = command;
-        this.args = new String[]{arg};
-
-    }*/
-
-    /*
-    public DefaultCommand(String command, String[] args) {
-        this.command = command;
-        this.args = args;
-
-    }*/
-
     public DefaultCommand(String command, String... args) {
         this.command = command;
 

@@ -12,14 +12,13 @@ public class CommandList {
     public static final String COMMAND_LIST_OK_BEGIN = "command_list_ok_begin";
     public static final String COMMAND_LIST_END = "command_list_end";
 
-    private Command[] commands;
+    private DefaultCommand[] commands;
 
     private static CommandList commandList;
 
-    private CommandList() {}
-
     private CommandList(String begin) {
-        commands = new Command[]{new DefaultCommand(begin)};
+        commands = new DefaultCommand[1];
+        commands[0] = new DefaultCommand(begin);
     }
 
     public static CommandList commandList(String begin) {
@@ -29,24 +28,39 @@ public class CommandList {
         return commandList;
     }
 
-    public void addCommand(Command command) {
-        Command[] temp = new Command[commands.length + 1];
+    public void addCommand(DefaultCommand command) {
+        DefaultCommand[] temp = new DefaultCommand[commands.length + 1];
+        DefaultCommand[] add = new DefaultCommand[]{command};
+
         System.arraycopy(commands, 0, temp, 0, commands.length);
-        System.arraycopy(command, 0, temp, (commands.length -1),1);
+        System.arraycopy(add, 0, temp, commands.length ,1);
+
         commands = temp;
     }
 
-    public String getCommandListBytes() {
+    public byte[] getCommandListBytes() {
         byte[] bytes = null;
 
-        for (Command command : commands) {
+        for (DefaultCommand command : commands) {
             if (bytes == null) {
                 bytes = command.getCommandBytes();
             } else {
-                byte[] temp = new byte[bytes.length + command.getCommandBytes().length];
-                System.arraycopy(command.getCommandBytes(), 0, temp, bytes.length, );
+                byte[] temp = new byte[(bytes.length + command.getCommandBytes().length)];
+                System.arraycopy(bytes, 0, temp, 0, bytes.length);
+                System.arraycopy(command.getCommandBytes(), 0, temp, bytes.length, command.getCommandBytes().length);
+                bytes = temp;
             }
         }
+        return bytes;
+    }
+
+    public void commandlistEnd() {
+        DefaultCommand defaultCommand = new DefaultCommand(COMMAND_LIST_END);
+        addCommand(defaultCommand);
+    }
+
+    public int size() {
+        return commands.length;
     }
 
 

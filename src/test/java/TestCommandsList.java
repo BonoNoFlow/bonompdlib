@@ -9,7 +9,7 @@ public class TestCommandsList {
 
     public static void main(String[] args) {
 
-        CommandList commandList = new CommandList();
+        CommandList commandList = CommandList.commandList(CommandList.COMMAND_LIST_BEGIN);
 
         DefaultCommand defaultCommand;
 
@@ -19,7 +19,8 @@ public class TestCommandsList {
         commandList.addCommand(defaultCommand);
         defaultCommand = new DefaultCommand(".");
         commandList.addCommand(defaultCommand);
+        commandList.commandlistEnd();
 
-
+        System.out.println(new String(commandList.getCommandListBytes()));
     }
 }
