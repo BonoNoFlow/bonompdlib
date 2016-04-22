@@ -15,7 +15,7 @@ public class DefaultCommand implements Command {
     }
 
     public DefaultCommand(String command, String... args) {
-        this.command = command;
+        this(command);
 
         if (args != null) {
             this.args = new String[args.length];
@@ -23,9 +23,7 @@ public class DefaultCommand implements Command {
             for (String arg : args) {
                 this.args[i++] = arg;
             }
-
         }
-
     }
 
     /**

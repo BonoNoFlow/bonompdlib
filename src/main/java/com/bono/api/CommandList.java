@@ -59,6 +59,10 @@ public class CommandList {
         addCommand(defaultCommand);
     }
 
+    public void executeCommandList(DBExecutor dbExecutor) throws Exception {
+
+    }
+
     public int size() {
         return commands.length;
     }
