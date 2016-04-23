@@ -1,11 +1,10 @@
 package com.bono.api;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.Iterator;
 
 /**
  * Created by hendriknieuwenhuis on 28/09/15.
@@ -43,32 +42,21 @@ public class Endpoint {
                 in = new DataInputStream(socket.getInputStream());
                 out.write(command.getCommandBytes());
                 out.flush();
-                //buffer.flip();
 
-                /*
-                Doel is om volledige feedback te lezen alvorens er wordt
-                gekeken of het een error is of ok is
-
-                Dus break uit loop zou moeten worden aangeroepen door
-                einde feedback.Wanneer reply begint met ACK en eindigt met '\n'
-                break moet worden uitgevoerd als error en wanneer feedback
-                eindigt met 'OK\n' break en feedback return.
-                 */
                 int count = 0;
                 while ((read = in.read(buffer.array())) != -1) {
                     reply += new String(buffer.array(), 0, read);
-                    //System.out.println("amount of loops: " + ++count);
+
                     if (reply.startsWith("ACK") && reply.endsWith("\n")) {
                         /*
                         Errors moeten hier afgehandeld worden!
                         of doorgegeven worden en later behandeld worden als zodanig.
                          */
-                        //System.out.println("Endpoint read loop broken by error feedback! " + reply);
-                        //break;
+
                         throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
+
                     } else if (reply.endsWith("OK\n")) {
-                        reply = reply.replaceAll("OK\n", "");
-                        //System.out.println("Endpoint read loop broken by OK feedback!");
+
                         break;
                     }
                 }
@@ -78,17 +66,18 @@ public class Endpoint {
         } finally {
             buffer.clear();
             socket.close();
-            //System.out.println(reply + " closed " + this.getClass().getName());
+
         }
-        return reply;
+        return getClass().getName() + " Command " + reply;
     }
-    public String command(Command[] commands) throws Exception {
+    public String command(CommandList commands) throws Exception {
 
         String reply = "";
         //boolean end = false;
         int read = 0;
         DataOutputStream out;
         DataInputStream in;
+        BufferedReader reader;
 
         connect();
 
@@ -96,35 +85,31 @@ public class Endpoint {
             if (version.startsWith("OK")) {
                 out = new DataOutputStream(socket.getOutputStream());
                 in = new DataInputStream(socket.getInputStream());
-                for (Command command : commands) {
+                reader = new BufferedReader(new InputStreamReader(in));
+
+                Iterator<Command> i = commands.iterator();
+                while (i.hasNext()) {
+                    Command command = i.next();
                     out.write(command.getCommandBytes());
+
                 }
                 out.flush();
-                //buffer.flip();
 
-                /*
-                Doel is om volledige feedback te lezen alvorens er wordt
-                gekeken of het een error is of ok is
-
-                Dus break uit loop zou moeten worden aangeroepen door
-                einde feedback.Wanneer reply begint met ACK en eindigt met '\n'
-                break moet worden uitgevoerd als error en wanneer feedback
-                eindigt met 'OK\n' break en feedback return.
-                 */
+                String line = null;
                 int count = 0;
-                while ((read = in.read(buffer.array())) != -1) {
-                    reply += new String(buffer.array(), 0, read);
-                    //System.out.println("amount of loops: " + ++count);
-                    if (reply.startsWith("ACK") && reply.endsWith("\n")) {
+                while ((line = reader.readLine()) != null) {
+                    reply += line;
+
+                    if (line.startsWith("ACK") && line.endsWith("\n")) {
                         /*
                         Errors moeten hier afgehandeld worden!
                         of doorgegeven worden en later behandeld worden als zodanig.
                          */
-                        System.out.println("Endpoint read loop broken by error feedback! " + reply);
-                        break;
-                    } else if (reply.endsWith("OK\n")) {
-                        reply = reply.replaceAll("OK\n", "");
-                        System.out.println("Endpoint read loop broken by OK feedback!");
+
+                        throw new ACKException(line);
+
+                    } else if (reply.endsWith("OK")) {
+
                         break;
                     }
                 }
@@ -134,7 +119,7 @@ public class Endpoint {
         } finally {
             buffer.clear();
             socket.close();
-            //System.out.println(reply + " closed " + this.getClass().getName());
+
         }
         return reply;
     }

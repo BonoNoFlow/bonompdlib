@@ -1,12 +1,13 @@
 package com.bono.api;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 17/03/16.
  */
-public class CommandList {
+public class CommandList implements Iterable {
 
     public static final String COMMAND_LIST_BEGIN = "command_list_begin";
     public static final String COMMAND_LIST_OK_BEGIN = "command_list_ok_begin";
@@ -61,6 +62,35 @@ public class CommandList {
 
     public void executeCommandList(DBExecutor dbExecutor) throws Exception {
 
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new CommandListIterator();
+    }
+
+
+    private class CommandListIterator implements Iterator {
+
+        private int count = 0;
+
+        @Override
+        public boolean hasNext() {
+            if (count < size()) {
+                return true;
+            }
+            return  false;
+        }
+
+        @Override
+        public Object next() {
+            return commands[count++];
+        }
+
+        @Override
+        public void remove() {
+
+        }
     }
 
     public int size() {

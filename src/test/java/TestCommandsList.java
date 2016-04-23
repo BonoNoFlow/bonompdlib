@@ -1,7 +1,6 @@
-import com.bono.api.CommandList;
-import com.bono.api.DefaultCommand;
-import com.bono.api.PlayerControl;
-import com.bono.api.PlaylistControl;
+import com.bono.api.*;
+
+import java.util.Iterator;
 
 /**
  * Created by hendriknieuwenhuis on 20/04/16.
@@ -22,6 +21,11 @@ public class TestCommandsList {
         commandList.addCommand(defaultCommand);
         commandList.commandlistEnd();
 
-        System.out.println(new String(commandList.getCommandListBytes()));
+        //System.out.println(new String(commandList.getCommandListBytes()));
+        Iterator<Command> i = commandList.iterator();
+        while (i.hasNext()) {
+            Command command = i.next();
+            System.out.print(new String(command.getCommandBytes()));
+        }
     }
 }

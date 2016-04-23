@@ -1,5 +1,6 @@
 package com.bono.api;
 
+import java.util.Iterator;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,8 +28,13 @@ public class DBExecutor {
         return  reply;
     }
 
-    public String executeList(CommandList commandList) {
-        return null;
+    public String executeList(CommandList commandList) throws Exception {
+
+        ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(config.getHost(), config.getPort()));
+        String reply = null;
+        Future<String> future = executor.submit(executeCommand);
+        reply = future.get();
+        return  reply;
     }
 
     private class ExecuteCommand implements Callable<String> {
@@ -45,10 +51,10 @@ public class DBExecutor {
         @Override
         public String call() throws Exception {
 
-            if (command == null) {
-                new NullPointerException("Command can not be null!");
-            } else if (commandList == null) {
+            if (command != null) {
                 return endpoint.command(command);
+            } else if (commandList != null) {
+                return endpoint.command(commandList);
             }
 
             return null;
