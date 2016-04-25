@@ -27,9 +27,7 @@ public class Endpoint {
     }
 
     public String command(Command command) throws Exception {
-
         String reply = "";
-        //boolean end = false;
         int read = 0;
         DataOutputStream out;
         DataInputStream in;
@@ -43,20 +41,13 @@ public class Endpoint {
                 out.write(command.getCommandBytes());
                 out.flush();
 
-                int count = 0;
                 while ((read = in.read(buffer.array())) != -1) {
                     reply += new String(buffer.array(), 0, read);
 
                     if (reply.startsWith("ACK") && reply.endsWith("\n")) {
-                        /*
-                        Errors moeten hier afgehandeld worden!
-                        of doorgegeven worden en later behandeld worden als zodanig.
-                         */
 
                         throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
-
                     } else if (reply.endsWith("OK\n")) {
-
                         break;
                     }
                 }
@@ -71,10 +62,7 @@ public class Endpoint {
         return getClass().getName() + " Command " + reply;
     }
     public String command(CommandList commands) throws Exception {
-
         String reply = "";
-        //boolean end = false;
-        int read = 0;
         DataOutputStream out;
         DataInputStream in;
         BufferedReader reader;
@@ -91,25 +79,15 @@ public class Endpoint {
                 while (i.hasNext()) {
                     Command command = i.next();
                     out.write(command.getCommandBytes());
-
                 }
                 out.flush();
 
                 String line = null;
-                int count = 0;
                 while ((line = reader.readLine()) != null) {
                     reply += line;
-
-                    if (line.startsWith("ACK") && line.endsWith("\n")) {
-                        /*
-                        Errors moeten hier afgehandeld worden!
-                        of doorgegeven worden en later behandeld worden als zodanig.
-                         */
-
+                    if (line.startsWith("ACK")) {
                         throw new ACKException(line);
-
                     } else if (reply.endsWith("OK")) {
-
                         break;
                     }
                 }
@@ -119,7 +97,6 @@ public class Endpoint {
         } finally {
             buffer.clear();
             socket.close();
-
         }
         return reply;
     }
