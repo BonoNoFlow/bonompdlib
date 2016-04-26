@@ -1,5 +1,7 @@
 package com.bono.api;
 
+import java.util.Iterator;
+
 /**
  * Created by hendriknieuwenhuis on 29/07/15.
  */
@@ -39,6 +41,59 @@ public class Song {
     private String pos;
     private String id;
     private String Name;
+
+    public  void populate(String entry) {
+        Reply reply = new Reply(entry);
+        Iterator i = reply.iterator();
+
+        while (i.hasNext()) {
+            String[] line = ((String) i.next()).split(Reply.SPLIT_LINE);
+            switch (line[0]) {
+                case Song.FILE:
+                    setFile(line[1]);
+                    break;
+                case Song.LAST_MODIFIED:
+                    setLastModified(line[1]);
+                    break;
+                case Song.TITLE:
+                    setTitle(line[1]);
+                    break;
+                case Song.ALBUM:
+                    setAlbum(line[1]);
+                    break;
+                case Song.ARTIST:
+                    setArtist(line[1]);
+                    break;
+                case Song.GENRE:
+                    setGenre(line[1]);
+                    break;
+                case Song.DATE:
+                    setDate(line[1]);
+                    break;
+                case Song.TRACK:
+                    setTrack(line[1]);
+                    break;
+                case Song.ALBUM_ARTIST:
+                    setAlbumArtist(line[1]);
+                    break;
+                case Song.NAME:
+                    setName(line[1]);
+                    break;
+                case Song.TIME:
+                    setTime(line[1]);
+                    break;
+                case Song.POS:
+                    setPos(line[1]);
+                    break;
+                case Song.ID:
+                    setId(line[1]);
+                    break;
+                default:
+                    System.out.println("Not a property: " + line[0]);
+                    break;
+            }
+        }
+    }
 
     public String getFile() {
         return file;

@@ -37,6 +37,11 @@ public class Reply implements Iterable {
         public Object next() {
             return response[count++];
         }
+
+        @Override
+        public void remove() {
+
+        }
     }
 
 }
