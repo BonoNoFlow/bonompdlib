@@ -42,6 +42,12 @@ public class Song {
     private String id;
     private String Name;
 
+    public Song() {}
+
+    public Song(String entry) {
+        populate(entry);
+    }
+
     public  void populate(String entry) {
         Reply reply = new Reply(entry);
         Iterator i = reply.iterator();
