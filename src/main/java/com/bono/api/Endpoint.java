@@ -21,6 +21,10 @@ public class Endpoint {
 
     private Socket socket;
 
+    public Endpoint(Config config) {
+        this(config.getHost(), config.getPort());
+    }
+
     public Endpoint(String host, int port) {
         this.host = host;
         this.port = port;
