@@ -52,6 +52,7 @@ public class Endpoint {
 
                         throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
                     } else if (reply.endsWith("OK\n")) {
+                        reply = reply.substring(0, (reply.length() - 3));
                         break;
                     }
                 }
@@ -63,7 +64,7 @@ public class Endpoint {
             socket.close();
 
         }
-        return getClass().getName() + " Command " + reply;
+        return reply;
     }
     public String command(CommandList commands) throws Exception {
         String reply = "";
