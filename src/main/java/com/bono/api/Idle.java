@@ -10,8 +10,6 @@ import java.util.Iterator;
  */
 public class Idle {
 
-    private final static String CHANGED_STATUS = "changed: status\n";
-
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
 
     private Status status;
@@ -29,9 +27,9 @@ public class Idle {
 
         while (true) {
             feedback = status.idle(null);
-            //System.out.println(feedback);
 
-            Reply reply = new Reply(CHANGED_STATUS + feedback);
+
+            Reply reply = new Reply(feedback);
             Iterator<String> i = reply.iterator();
             while (i.hasNext()) {
                 String line = i.next();
