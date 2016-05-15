@@ -3,6 +3,7 @@ package com.bono.api;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -121,6 +122,12 @@ public class Playlist {
     public void addSongListener(ChangeListener listener) {
         songListeners.add(listener);
     }
+
+    public Song[] playlist() {
+        Song[] songA = songs.toArray(new Song[songs.size()]);
+        return songA;
+    }
+
 
     public void printPlaylist() {
         Iterator i = songs.iterator();
