@@ -21,10 +21,6 @@ public class Song {
     public static final String ID = "Id";
     public static final String NAME = "Name";
     public static final String COMPOSER = "Composer";
-    /*
-    TODO String property 'Composer' toevoegen.
-
-     */
 
     private String file;
     private String lastModified;
