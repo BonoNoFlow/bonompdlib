@@ -20,9 +20,9 @@ public class Song {
     public static final String POS = "Pos";
     public static final String ID = "Id";
     public static final String NAME = "Name";
-
+    public static final String COMPOSER = "Composer";
     /*
-    TODO String property 'composer' toevoegen.
+    TODO String property 'Composer' toevoegen.
 
      */
 
@@ -39,6 +39,7 @@ public class Song {
     private String pos;
     private String id;
     private String Name;
+    private String composer;
 
     public Song() {}
 
@@ -146,6 +147,14 @@ public class Song {
         Name = name;
     }
 
+    public String getComposer() {
+        return composer;
+    }
+
+    public void setComposer(String composer) {
+        this.composer = composer;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
@@ -161,6 +170,52 @@ public class Song {
                 ", time='" + time + '\'' +
                 ", pos='" + pos + '\'' +
                 ", id='" + id + '\'' +
+                ", Name='" + Name + '\'' +
+                ", composer='" + composer + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Song song = (Song) o;
+
+        if (file != null ? !file.equals(song.file) : song.file != null) return false;
+        if (lastModified != null ? !lastModified.equals(song.lastModified) : song.lastModified != null) return false;
+        if (title != null ? !title.equals(song.title) : song.title != null) return false;
+        if (album != null ? !album.equals(song.album) : song.album != null) return false;
+        if (artist != null ? !artist.equals(song.artist) : song.artist != null) return false;
+        if (genre != null ? !genre.equals(song.genre) : song.genre != null) return false;
+        if (date != null ? !date.equals(song.date) : song.date != null) return false;
+        if (track != null ? !track.equals(song.track) : song.track != null) return false;
+        if (albumArtist != null ? !albumArtist.equals(song.albumArtist) : song.albumArtist != null) return false;
+        if (time != null ? !time.equals(song.time) : song.time != null) return false;
+        if (pos != null ? !pos.equals(song.pos) : song.pos != null) return false;
+        if (id != null ? !id.equals(song.id) : song.id != null) return false;
+        if (Name != null ? !Name.equals(song.Name) : song.Name != null) return false;
+        return composer != null ? composer.equals(song.composer) : song.composer == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = file != null ? file.hashCode() : 0;
+        result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (album != null ? album.hashCode() : 0);
+        result = 31 * result + (artist != null ? artist.hashCode() : 0);
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (track != null ? track.hashCode() : 0);
+        result = 31 * result + (albumArtist != null ? albumArtist.hashCode() : 0);
+        result = 31 * result + (time != null ? time.hashCode() : 0);
+        result = 31 * result + (pos != null ? pos.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (Name != null ? Name.hashCode() : 0);
+        result = 31 * result + (composer != null ? composer.hashCode() : 0);
+        return result;
+    }
+
 }
