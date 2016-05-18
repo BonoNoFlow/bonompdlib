@@ -31,12 +31,13 @@ public class Playlist {
     }
 
     public void populate(String entry) {
+        System.out.println("before songs.clear - first in method");
         songs.clear();
-
+        System.out.println("after songs.clear");
         Song song = null;
         Reply reply = new Reply(entry);
         Iterator i = reply.iterator();
-
+        System.out.println("before switch");
         while (i.hasNext()) {
             String[] line = ((String) i.next()).split(Reply.SPLIT_LINE);
             switch (line[0]) {
@@ -59,6 +60,9 @@ public class Playlist {
                 case Song.GENRE:
                     song.setGenre(line[1]);
                     break;
+                case Song.COMPOSER:
+                    song.setId(line[1]);
+                    break;
                 case Song.DATE:
                     song.setDate(line[1]);
                     break;
@@ -79,12 +83,6 @@ public class Playlist {
                     break;
                 case Song.ID:
                     song.setId(line[1]);
-                    //songs.add(song);
-                    //fireSongListeners(song);  // add boolean.
-                    // = null;
-                    break;
-                case Song.COMPOSER:
-                    song.setId(line[1]);
                     songs.add(song);
                     fireSongListeners(song);  // add boolean.
                     song = null;
@@ -102,14 +100,18 @@ public class Playlist {
     }
 
     protected void fireListeners() {
-        for (ChangeListener listener : listeners) {
-            listener.stateChanged(new ChangeEvent(this));
+        if (listeners.size() > 0) {
+            for (ChangeListener listener : listeners) {
+                listener.stateChanged(new ChangeEvent(this));
+            }
         }
     }
 
     protected void fireSongListeners(Song song) {
-        for (ChangeListener listener : songListeners) {
-            listener.stateChanged(new ChangeEvent(song));
+        if (listeners.size() > 0) {
+            for (ChangeListener listener : songListeners) {
+                listener.stateChanged(new ChangeEvent(song));
+            }
         }
     }
 
