@@ -79,6 +79,12 @@ public class Playlist {
                     break;
                 case Song.ID:
                     song.setId(line[1]);
+                    //songs.add(song);
+                    //fireSongListeners(song);  // add boolean.
+                    // = null;
+                    break;
+                case Song.COMPOSER:
+                    song.setId(line[1]);
                     songs.add(song);
                     fireSongListeners(song);  // add boolean.
                     song = null;
