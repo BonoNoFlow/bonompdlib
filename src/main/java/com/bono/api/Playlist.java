@@ -31,13 +31,11 @@ public class Playlist {
     }
 
     public void populate(String entry) {
-        System.out.println("before songs.clear - first in method");
         songs.clear();
-        System.out.println("after songs.clear");
+
         Song song = null;
         Reply reply = new Reply(entry);
         Iterator i = reply.iterator();
-        System.out.println("before switch");
         while (i.hasNext()) {
             String[] line = ((String) i.next()).split(Reply.SPLIT_LINE);
             switch (line[0]) {
