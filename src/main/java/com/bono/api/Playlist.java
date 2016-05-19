@@ -57,14 +57,17 @@ public class Playlist {
                 case Song.ARTIST:
                     song.setArtist(line[1]);
                     break;
+                case Song.DATE:
+                    song.setDate(line[1]);
+                    break;
                 case Song.GENRE:
                     song.setGenre(line[1]);
                     break;
+                case Song.DISC:
+                    song.setDisc(line[1]);
+                    break;
                 case Song.COMPOSER:
                     song.setId(line[1]);
-                    break;
-                case Song.DATE:
-                    song.setDate(line[1]);
                     break;
                 case Song.TRACK:
                     song.setTrack(line[1]);
