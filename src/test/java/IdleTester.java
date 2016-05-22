@@ -1,7 +1,7 @@
 import com.bono.api.*;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.util.EventObject;
+
 
 /**
  * Created by hendriknieuwenhuis on 10/05/16.
@@ -37,10 +37,10 @@ public class IdleTester {
 
     private class IdleListener implements ChangeListener {
 
+
         @Override
-        public void stateChanged(ChangeEvent e) {
-            String print = (String) e.getSource();
-            System.out.println(print);
+        public void stateChanged(EventObject e) {
+
         }
     }
 
