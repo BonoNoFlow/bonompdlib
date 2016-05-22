@@ -40,7 +40,8 @@ public class IdleTester {
 
         @Override
         public void stateChanged(EventObject e) {
-
+            String s = (String) e.getSource();
+            System.out.println(s);
         }
     }
 
