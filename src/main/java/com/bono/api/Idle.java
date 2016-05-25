@@ -20,6 +20,10 @@ public class Idle {
         changeListeners.add(listener);
     }
 
+    public void removeListeners() {
+        changeListeners.clear();
+    }
+
     public void runIdle() throws Exception {
         String feedback = null;
 
