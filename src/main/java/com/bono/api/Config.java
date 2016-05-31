@@ -15,7 +15,7 @@ public class Config {
     TODO werken met Properties.
 
      */
-    private Properties properties;
+    protected Properties properties;
 
     public Config() {
         properties = new Properties();
