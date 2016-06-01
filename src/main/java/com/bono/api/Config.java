@@ -6,7 +6,7 @@ import java.util.Properties;
 /**
  * Created by hendriknieuwenhuis on 17/02/16.
  */
-abstract class Config {
+public class Config {
 
     public static final String CONFIG_FILE = "server.properties";
     public static final String HOST = "host";
@@ -16,6 +16,12 @@ abstract class Config {
 
     public Config() {
         properties = new Properties();
+    }
+
+    public Config(String host, int port) {
+        this();
+        setHost(host);
+        setPort(port);
     }
 
     public void loadConfig() throws Exception {
