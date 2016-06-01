@@ -68,4 +68,8 @@ abstract class Config {
     public void setPort(String port) {
         properties.setProperty(Config.PORT, port);
     }
+
+    public void setPort(int port) {
+        properties.setProperty(Config.PORT, Integer.toString(port));
+    }
 }
