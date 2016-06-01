@@ -8,6 +8,8 @@ import java.util.Properties;
  */
 public class Config {
 
+    public static final String CONFIG_FILE = "server.properties";
+
     private String host;
     private int port;
 
@@ -33,7 +35,7 @@ public class Config {
 
         // First try loading from the current directory.
         try {
-            File file = new File("server.properties");
+            File file = new File(Config.CONFIG_FILE);
             inputStream = new FileInputStream(file);
         } catch (Exception e) {
             inputStream = null;
@@ -42,7 +44,7 @@ public class Config {
         /* here's where the exception throw comes from. */
         if (inputStream == null) {
              // try loading from classpath.
-            inputStream = getClass().getResourceAsStream("server.properties");
+            inputStream = getClass().getResourceAsStream(Config.CONFIG_FILE);
         }
         // try loading properties from the file (if found)
         properties.load(inputStream);
@@ -52,13 +54,13 @@ public class Config {
 
     }
 
-    public Properties loadProperties() throws Exception {
+    public Properties loadConfig() throws Exception {
         Properties properties = new Properties();
         InputStream inputStream = null;
 
         // First try loading from the current directory.
         try {
-            File file = new File("server.properties");
+            File file = new File(Config.CONFIG_FILE);
             inputStream = new FileInputStream(file);
         } catch (Exception e) {
             inputStream = null;
@@ -67,7 +69,7 @@ public class Config {
         /* here's where the exception throw comes from. */
         if (inputStream == null) {
             // try loading from classpath.
-            inputStream = getClass().getResourceAsStream("server.properties");
+            inputStream = getClass().getResourceAsStream(Config.CONFIG_FILE);
         }
         // try loading properties from the file (if found)
         properties.load(inputStream);
@@ -79,7 +81,7 @@ public class Config {
             Properties properties = new Properties();
             properties.setProperty("HostAddress", host);
             properties.setProperty("Port", Integer.toString(port));
-            File file = new File("server.properties");
+            File file = new File(Config.CONFIG_FILE);
             OutputStream out = new FileOutputStream(file);
             properties.store(out, "properties");
         } catch (Exception e) {
@@ -87,14 +89,18 @@ public class Config {
         }
     }
 
-    public void saveParamChanges(Properties properties) throws Exception {
+    public void saveConfig() throws Exception {
         try {
-            File file = new File("server.properties");
+            File file = new File(Config.CONFIG_FILE);
             OutputStream out = new FileOutputStream(file);
             properties.store(out, "properties");
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public void setProperty(String key, String property) {
+        properties.setProperty(key, property);
     }
 
     public String getHost() {
