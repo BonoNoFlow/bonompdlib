@@ -55,7 +55,7 @@ public class Config {
     }
 
     public void loadConfig() throws Exception {
-        properties = new Properties();
+        //properties = new Properties();
         InputStream inputStream = null;
 
         // First try loading from the current directory.
