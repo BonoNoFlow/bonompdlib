@@ -54,8 +54,8 @@ public class Config {
 
     }
 
-    public Properties loadConfig() throws Exception {
-        Properties properties = new Properties();
+    public void loadConfig() throws Exception {
+        properties = new Properties();
         InputStream inputStream = null;
 
         // First try loading from the current directory.
@@ -73,7 +73,6 @@ public class Config {
         }
         // try loading properties from the file (if found)
         properties.load(inputStream);
-        return properties;
     }
 
     public void saveParamChanges() throws Exception {
