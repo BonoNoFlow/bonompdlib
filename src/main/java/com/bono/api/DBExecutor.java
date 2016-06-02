@@ -13,15 +13,17 @@ public class DBExecutor {
 
     private ExecutorService executor;
 
-    private Config config;
+    //private Config config;
 
-    public DBExecutor(Config config) {
-        this.config = config;
+    private Connection connection;
+
+    public DBExecutor(Connection conection) {
+        this.connection = connection;
         this.executor = Executors.newFixedThreadPool(10);
     }
 
     public String execute(Command command) throws Exception {
-        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(config.getHost(), config.getPort()));
+        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(connection.getHost(), connection.getPort()));
         String reply = null;
         Future<String> future = executor.submit(executeCommand);
         reply = future.get();
@@ -30,7 +32,7 @@ public class DBExecutor {
 
     public String executeList(CommandList commandList) throws Exception {
 
-        ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(config.getHost(), config.getPort()));
+        ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(connection.getHost(), connection.getPort()));
         String reply = null;
         Future<String> future = executor.submit(executeCommand);
         reply = future.get();

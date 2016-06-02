@@ -10,7 +10,7 @@ public class TestEndpoint {
     final String HOST = "192.168.2.4";
     final int PORT = 6600;
 
-    DBExecutor dbExecutor = new DBExecutor(new Config(HOST, PORT));
+    DBExecutor dbExecutor = new DBExecutor(new Connection(HOST, PORT));
     PlayerControl playerControl = new PlayerControl(dbExecutor);
 
     public TestEndpoint() {

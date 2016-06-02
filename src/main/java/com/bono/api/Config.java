@@ -9,8 +9,7 @@ import java.util.Properties;
 public class Config {
 
     public static final String CONFIG_FILE = "server.properties";
-    public static final String HOST = "host";
-    public static final String PORT = "port";
+
 
     protected Properties properties;
 
@@ -20,8 +19,7 @@ public class Config {
 
     public Config(String host, int port) {
         this();
-        setHost(host);
-        setPort(port);
+
     }
 
     public void loadConfig() throws Exception {
@@ -55,27 +53,15 @@ public class Config {
         }
     }
 
-    protected void setProperty(String key, String property) {
+    public void setProperty(String key, String property) {
         properties.setProperty(key, property);
     }
 
-    public String getHost() {
-        return properties.getProperty(Config.HOST);
+    public String getProperty(String key) {
+        return properties.getProperty(key);
     }
 
-    public void setHost(String host) {
-        properties.setProperty(Config.HOST, host);
-    }
-
-    public int getPort() {
-        return Integer.parseInt(properties.getProperty(Config.PORT));
-    }
-
-    public void setPort(String port) {
-        properties.setProperty(Config.PORT, port);
-    }
-
-    public void setPort(int port) {
-        properties.setProperty(Config.PORT, Integer.toString(port));
+    public void clearProperties() {
+        properties.clear();
     }
 }

@@ -11,7 +11,7 @@ public class IdleTester {
     private Status status;
 
     public void test() {
-        status = new Status(new DBExecutor(new Config("192.168.2.4", 6600)));
+        status = new Status(new DBExecutor(new Connection("192.168.2.4", 6600)));
         IdleRunnable idleRunnable = new IdleRunnable(status);
         Thread thread = new Thread(idleRunnable);
         thread.start();

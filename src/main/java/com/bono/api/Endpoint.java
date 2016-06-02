@@ -22,7 +22,7 @@ public class Endpoint {
     private Socket socket;
 
     public Endpoint(Config config) {
-        this(config.getHost(), config.getPort());
+        this(config.getProperty(Connection.HOST), Integer.parseInt(config.getProperty(Connection.PORT)));
     }
 
     public Endpoint(String host, int port) {
