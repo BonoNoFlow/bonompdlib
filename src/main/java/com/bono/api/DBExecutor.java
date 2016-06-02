@@ -1,6 +1,5 @@
 package com.bono.api;
 
-import java.util.Iterator;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,17 +12,29 @@ public class DBExecutor {
 
     private ExecutorService executor;
 
-    //private Config config;
-
     private Connection connection;
 
-    public DBExecutor(Connection conection) {
-        this.connection = connection;
+    private String host;
+    private int port;
+
+    public DBExecutor() {
         this.executor = Executors.newFixedThreadPool(10);
     }
 
+    public DBExecutor(String host, int port) {
+        this();
+        this.host = host;
+        this.port = port;
+    }
+
+    public DBExecutor(Connection connection) {
+        this();
+        host = connection.getHost();
+        port = connection.getPort();
+    }
+
     public String execute(Command command) throws Exception {
-        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(connection.getHost(), connection.getPort()));
+        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(host, port));
         String reply = null;
         Future<String> future = executor.submit(executeCommand);
         reply = future.get();
@@ -31,8 +42,7 @@ public class DBExecutor {
     }
 
     public String executeList(CommandList commandList) throws Exception {
-
-        ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(connection.getHost(), connection.getPort()));
+        ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(host, port));
         String reply = null;
         Future<String> future = executor.submit(executeCommand);
         reply = future.get();
@@ -61,5 +71,21 @@ public class DBExecutor {
 
             return null;
         }
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }
