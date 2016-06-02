@@ -17,11 +17,6 @@ public class Config {
         properties = new Properties();
     }
 
-    public Config(String host, int port) {
-        this();
-
-    }
-
     public void loadConfig() throws Exception {
         //properties = new Properties();
         InputStream inputStream = null;
