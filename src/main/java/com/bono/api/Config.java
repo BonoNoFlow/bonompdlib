@@ -59,4 +59,12 @@ public class Config {
     public void clearProperties() {
         properties.clear();
     }
+
+    public void propertiesSize() {
+        properties.size();
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
 }
