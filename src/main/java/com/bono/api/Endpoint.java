@@ -115,6 +115,11 @@ public class Endpoint {
         }
     }
 
+    public String ping() throws IOException {
+        connect();
+        return version;
+    }
+
     public void closeEndpoint() throws IOException {
         socket.close();
     }
