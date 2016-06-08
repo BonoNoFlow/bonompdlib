@@ -3,6 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 03/04/16.
  */
+@Deprecated
 public class PlayerControl extends Exec {
 
     public static final String NEXT = "next";

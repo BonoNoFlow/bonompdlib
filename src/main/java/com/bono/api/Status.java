@@ -13,7 +13,7 @@ import java.util.List;
  * Status varies in type of stats. So listeners
  * should always check whether a stat is null or not!
  */
-public class Status extends Exec {
+public class Status {
 
     public static final String CLEARERROR = "clearerror";
 
@@ -65,23 +65,23 @@ public class Status extends Exec {
     // subscribed to.
     public static final String IDLE_MESSAGE = "message";
 
-    public static final String VOLUME          = "volume";
-    public static final String REPEAT          = "repeat";
-    public static final String RANDOM          = "random";
-    public static final String SINGLE          = "single";
-    public static final String CONSUME         = "consume";
-    public static final String PLAYLIST        = "playlist";
-    public static final String PLAYLISTLENGTH  = "playlistlength";
-    public static final String MIXRAMPDB       = "mixrampdb";
-    public static final String STATE           = "state";
-    public static final String SONG            = "song";
-    public static final String SONGID          = "songid";
-    public static final String TIME            = "time";
-    public static final String ELAPSED         = "elapsed";
-    public static final String BITRATE         = "bitrate";
-    public static final String AUDIO           = "audio";
-    public static final String NEXTSONG        = "nextsong";
-    public static final String NEXTSONGID      = "nextsongid";
+    private static final String VOLUME          = "volume";
+    private static final String REPEAT          = "repeat";
+    private static final String RANDOM          = "random";
+    private static final String SINGLE          = "single";
+    private static final String CONSUME         = "consume";
+    private static final String PLAYLIST        = "playlist";
+    private static final String PLAYLISTLENGTH  = "playlistlength";
+    private static final String MIXRAMPDB       = "mixrampdb";
+    private static final String STATE           = "state";
+    private static final String SONG            = "song";
+    private static final String SONGID          = "songid";
+    private static final String TIME            = "time";
+    private static final String ELAPSED         = "elapsed";
+    private static final String BITRATE         = "bitrate";
+    private static final String AUDIO           = "audio";
+    private static final String NEXTSONG        = "nextsong";
+    private static final String NEXTSONGID      = "nextsongid";
 
     private String volume;
     private String repeat;
@@ -100,14 +100,6 @@ public class Status extends Exec {
     private String audio;
     private String nextsong;
     private String nextsongid;
-
-    public Status() {
-        super(null);
-    }
-
-    public Status(DBExecutor dbExecutor) {
-        super(dbExecutor);
-    }
 
     private List<ChangeListener> listeners = new ArrayList<>();
 
@@ -212,50 +204,6 @@ public class Status extends Exec {
         setNextsong(null);
         setNextsongid(null);
     }
-
-    public void populate() throws Exception {
-        populateStatus(status());
-    }
-
-    // Clears the current error message in status,
-    // this is also accomplished by any command
-    // that starts playback.
-    public String clearerror() throws Exception {
-        return execCommand(CLEARERROR);
-    }
-
-    // Display the song info of the current song.
-    public String currentsong() throws Exception {
-        return execCommand(CURRENTSONG);
-    }
-
-    // Wait, keep connection bind, until a subsystem is changed.
-    // Response is the subsystem that is changed. After response the
-    // connection is closed.
-    // A subsystem can also be given as argument, then only a response
-    // will follow after that subsystem is changed.
-    // Example:
-    // idle [idleSubsystem],
-    //
-    // idle
-    //
-    public String idle(String subsystem) throws Exception {
-        if (subsystem == null) {
-            return execCommand(IDLE);
-        }
-        return execCommand(IDLE, subsystem);
-    }
-
-    // Reports the current status of the player
-    public String status() throws Exception {
-        return execCommand(STATUS);
-    }
-
-    // Displays the statistics
-    public String stats() throws Exception {
-        return execCommand(STATS);
-    }
-
 
     public String getVolume() {
         return volume;

@@ -4,6 +4,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 02/03/16.
  */
+@Deprecated
 public class StatusControl extends Exec {
 
     public static final String CLEARERROR = "clearerror";

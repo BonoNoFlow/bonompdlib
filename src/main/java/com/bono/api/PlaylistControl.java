@@ -13,6 +13,7 @@ import java.util.List;
  *
  * changelistener implementere!
  */
+@Deprecated
 public class PlaylistControl extends Exec {
 
     public static final String ADD                     = "add";
