@@ -3,7 +3,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 08/06/16.
  */
-public class Playback {
+public abstract class Playback {
 
     public static final String NEXT           = "next";
 
