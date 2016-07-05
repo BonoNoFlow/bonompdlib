@@ -5,14 +5,16 @@ import com.bono.api.*;
  */
 public class EndpointTest {
 
-    Endpoint endpoint = new Endpoint("192.168.2.4", 6600);
+    Endpoint endpoint = new Endpoint("192.168.2.5", 6600);
 
     public EndpointTest() {
-        DefaultCommand defaultCommand = new DefaultCommand(PlaylistControl.ADDID);
+        //DefaultCommand defaultCommand = new DefaultCommand(Playlist.ADDID);
         try {
-            endpoint.command(defaultCommand);
-        } catch (ACKException ack) {
-            ack.printStackTrace();
+            //endpoint.command(defaultCommand);
+            String version = endpoint.getVersion(4000);
+            System.out.println(version);
+        //} catch (ACKException ack) {
+        //    ack.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

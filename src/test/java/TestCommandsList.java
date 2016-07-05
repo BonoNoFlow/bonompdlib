@@ -13,9 +13,9 @@ public class TestCommandsList {
 
         DefaultCommand defaultCommand;
 
-        defaultCommand = new DefaultCommand(PlayerControl.NEXT);
+        defaultCommand = new DefaultCommand(Playback.NEXT);
         commandList.addCommand(defaultCommand);
-        defaultCommand = new DefaultCommand(PlaylistControl.ADDID, "123", "next");
+        defaultCommand = new DefaultCommand(Playlist.ADDID, "123", "next");
         commandList.addCommand(defaultCommand);
         defaultCommand = new DefaultCommand(".");
         commandList.addCommand(defaultCommand);

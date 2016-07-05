@@ -12,8 +12,14 @@ public class Idle {
 
     private Status status;
 
+    private DBExecutor dbExecutor;
+
     public Idle(Status status) {
         this.status = status;
+    }
+
+    public Idle(DBExecutor dbExecutor) {
+        this.dbExecutor = dbExecutor;
     }
 
     public void addListener(ChangeListener listener) {
@@ -28,8 +34,8 @@ public class Idle {
         String feedback = null;
 
         while (true) {
-            feedback = status.idle(null);
-
+            //feedback = status.idle(null);
+            feedback = dbExecutor.execute(new DefaultCommand(Status.IDLE));
 
             Reply reply = new Reply(feedback);
             Iterator<String> i = reply.iterator();

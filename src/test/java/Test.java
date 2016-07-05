@@ -9,15 +9,10 @@ import com.bono.api.Status;
 public class Test {
 
     protected DBExecutor dbExecutor;
-    protected Status status;
+
 
     public Test() {
         dbExecutor = new DBExecutor(new Connection("192.168.2.4", 6600));
-        status = new Status(dbExecutor);
-        try {
-            status.populate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 }
