@@ -1,5 +1,6 @@
 package com.bono.api;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,6 +72,14 @@ public class DBExecutor {
 
             return null;
         }
+    }
+
+    public String testConnection() throws IOException {
+
+        // test the connection settings.
+        Endpoint endpoint = new Endpoint(host, port);
+        String version = endpoint.getVersion(1000);
+        return version;
     }
 
 
