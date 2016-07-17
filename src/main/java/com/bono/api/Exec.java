@@ -5,7 +5,7 @@ package com.bono.api;
 /**
  * Created by hendriknieuwenhuis on 08/04/16.
  */
-abstract class Exec {
+public abstract class Exec {
 
     protected DBExecutor dbExecutor;
 
