@@ -7,6 +7,7 @@ public interface Command {
 
     byte[] getCommandBytes();
 
+    // verwijderen is niet vereist!
     String getCommandString();
 
 }

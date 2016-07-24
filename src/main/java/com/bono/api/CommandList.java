@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 17/03/16.
+ *
+ * class verwijderen kan gewoon een List<Command> gebruiken</Command>
  */
 public class CommandList implements Iterable {
 
