@@ -14,15 +14,23 @@ import java.util.concurrent.Future;
  */
 public class ClientExecutor {
 
+    private ExecutorService executor;
+
     private String host;
     private int port;
 
+    public ClientExecutor() {
+        executor = Executors.newFixedThreadPool(10);
+    };
+
     public ClientExecutor(String host, String port) {
+        this();
         this.host = host;
         this.port = Integer.parseInt(port);
     }
 
     public ClientExecutor(String host, int port) {
+        this();
         this.host = host;
         this.port = port;
     }
@@ -54,10 +62,10 @@ public class ClientExecutor {
 
     private class DBExecutor {
 
-        private ExecutorService executor;
+
 
         public DBExecutor() {
-            this.executor = Executors.newFixedThreadPool(10);
+            ClientExecutor.this.executor = Executors.newFixedThreadPool(10);
         }
 
         public DBExecutor(String host, int port) {
@@ -82,6 +90,9 @@ public class ClientExecutor {
          */
         public String executeList(List<Command> commands) throws Exception {
 
+            // if first command is COMMAND_LIST_BEGIN.
+            // else if first command is COMMAND_LIST_BEGIN_OK.
+
             for (Command c : commands) {
 
             }
@@ -101,24 +112,24 @@ public class ClientExecutor {
     private class ExecuteCommand implements Callable<String> {
 
         private Command command;
-        private CommandList commandList;
+        private List<Command> commands;
         private Endpoint endpoint;
 
         public ExecuteCommand(Command command, List<Command> commands, Endpoint endpoint) {
             this.command = command;
-            this.commandList = commandList;
+            this.commands = commands;
             this.endpoint = endpoint;
         }
         @Override
         public String call() throws Exception {
-
             if (command != null) {
-                return endpoint.command(command);
-            } else if (commandList != null) {
-                return endpoint.command(commandList);
-            }
 
-            return null;
+            } else if (commands != null) {
+                for (Command c : commands) {
+
+                }
+            }
+            return endpoint.command(command);
         }
     }
 
