@@ -7,6 +7,7 @@ import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 28/09/15.
@@ -28,29 +29,30 @@ public class Endpoint {
         this.port = port;
     }
 
-    public String send(byte[] bytes, int timeout) throws Exception {
+    private String send(byte[] bytes, int timeout) throws Exception {
         String reply = "";
-        int read = 0;
+        String line;
         DataOutputStream out;
         DataInputStream in;
+        BufferedReader reader;
 
-        connect(timeout);
 
         try {
             if (version.startsWith("OK")) {
                 out = new DataOutputStream(socket.getOutputStream());
                 in = new DataInputStream(socket.getInputStream());
+                reader = new BufferedReader(new InputStreamReader(in));
                 out.write(bytes);
                 out.flush();
 
-                while ((read = in.read(buffer.array())) != -1) {
-                    reply += new String(buffer.array(), 0, read);
+                while ((line = reader.readLine()) != null) {
+                    reply += line;
 
                     if (reply.startsWith("ACK") && reply.endsWith("\n")) {
 
                         throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
                     } else if (reply.endsWith("OK\n")) {
-                        reply = reply.substring(0, (reply.length() - 3));
+                        //reply = reply.substring(0, (reply.length() - 3));
                         break;
                     }
                 }
@@ -103,42 +105,25 @@ public class Endpoint {
         return reply;
     }
 
-    @Deprecated
+
     public String command(Command command, int timeout) throws Exception {
-        String reply = "";
-        int read = 0;
-        DataOutputStream out;
-        DataInputStream in;
+        byte[] bytes = command.getCommandBytes();
 
         connect(timeout);
 
-        try {
-            if (version.startsWith("OK")) {
-                out = new DataOutputStream(socket.getOutputStream());
-                in = new DataInputStream(socket.getInputStream());
-                out.write(command.getCommandBytes());
-                out.flush();
+        return send(bytes, timeout);
+    }
 
-                while ((read = in.read(buffer.array())) != -1) {
-                    reply += new String(buffer.array(), 0, read);
+    public String commands(List<Command> commands, int timeout) throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
-                    if (reply.startsWith("ACK") && reply.endsWith("\n")) {
-
-                        throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
-                    } else if (reply.endsWith("OK\n")) {
-                        reply = reply.substring(0, (reply.length() - 3));
-                        break;
-                    }
-                }
-            } else {
-                return null;
-            }
-        } finally {
-            buffer.clear();
-            socket.close();
-
+        for (Command c : commands) {
+            bytes.write(c.getCommandBytes());
         }
-        return reply;
+
+        connect();
+
+        return send(bytes.toByteArray(), timeout);
     }
 
     @Deprecated

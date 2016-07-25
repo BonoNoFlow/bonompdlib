@@ -60,60 +60,43 @@ public class ClientExecutor {
         this.port = port;
     }
 
-    private class DBExecutor {
-
-
-
-        public DBExecutor() {
-            ClientExecutor.this.executor = Executors.newFixedThreadPool(10);
-        }
-
-        public DBExecutor(String host, int port) {
-            this();
-            ClientExecutor.this.host = host;
-            ClientExecutor.this.port = port;
-        }
-
-        /*
-         * Execute a single command.
-         */
-        public String execute(Command command) throws Exception {
-            ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(host, port));
-            String reply = null;
-            Future<String> future = executor.submit(executeCommand);
-            reply = future.get();
-            return  reply;
-        }
-
-        /*
-         * Execute a List<Command> command list.
-         */
-        public String executeList(List<Command> commands) throws Exception {
-
-            // if first command is COMMAND_LIST_BEGIN.
-            // else if first command is COMMAND_LIST_BEGIN_OK.
-
-            for (Command c : commands) {
-
-            }
-
-            return null;
-        }
-
-        public String executeList(CommandList commandList) throws Exception {
-            //ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(host, port));
-            String reply = null;
-            //Future<String> future = executor.submit(executeCommand);
-            //reply = future.get();
-            return  reply;
-        }
+    /*
+     * Execute a single command.
+     */
+    public String execute(Command command) throws Exception {
+        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(host, port));
+        String reply = null;
+        Future<String> future = executor.submit(executeCommand);
+        reply = future.get();
+        return  reply;
     }
+
+    /*
+     * Execute a List<Command> command list.
+     */
+    public String executeList(List<Command> commands) throws Exception {
+
+        // if first command is COMMAND_LIST_BEGIN.
+        // else if first command is COMMAND_LIST_BEGIN_OK.
+
+        for (Command c : commands) {
+
+        }
+
+        return null;
+    }
+
 
     private class ExecuteCommand implements Callable<String> {
 
+        private byte[] bytes;
         private Command command;
         private List<Command> commands;
         private Endpoint endpoint;
+
+        public ExecuteCommand(byte[] bytes, Endpoint endpoint) {
+
+        }
 
         public ExecuteCommand(Command command, List<Command> commands, Endpoint endpoint) {
             this.command = command;
