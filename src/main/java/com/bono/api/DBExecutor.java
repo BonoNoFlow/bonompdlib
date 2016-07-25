@@ -1,6 +1,7 @@
 package com.bono.api;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,6 +9,10 @@ import java.util.concurrent.Future;
 
 /**
  * Created by hendriknieuwenhuis on 02/12/15.
+ *
+ * Wellicht moet hier Exec de main class zijn en DBExecutor een inner class van Exec.
+ *
+ * zie ClientExecutor.
  */
 public class DBExecutor {
 
@@ -34,6 +39,12 @@ public class DBExecutor {
         port = connection.getPort();
     }
 
+    /**
+     * Execute a single command.
+     * @param command
+     * @return
+     * @throws Exception
+     */
     public String execute(Command command) throws Exception {
         ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(host, port));
         String reply = null;
@@ -42,11 +53,26 @@ public class DBExecutor {
         return  reply;
     }
 
+    /**
+     * Execute a List<Command> command list.
+     * @param commands
+     * @return
+     * @throws Exception
+     */
+    public String executeList(List<Command> commands) throws Exception {
+
+        for (Command c : commands) {
+
+        }
+
+        return null;
+    }
+
     public String executeList(CommandList commandList) throws Exception {
-        ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(host, port));
+        //ExecuteCommand executeCommand = new ExecuteCommand(null, commandList, new Endpoint(host, port));
         String reply = null;
-        Future<String> future = executor.submit(executeCommand);
-        reply = future.get();
+        //Future<String> future = executor.submit(executeCommand);
+        //r/eply = future.get();
         return  reply;
     }
 
@@ -54,11 +80,13 @@ public class DBExecutor {
 
         private Command command;
         private CommandList commandList;
+        private List<Command> commands;
         private Endpoint endpoint;
 
-        public ExecuteCommand(Command command, CommandList commandList, Endpoint endpoint) {
+        public ExecuteCommand(Command command, List<Command> commands, Endpoint endpoint) {
             this.command = command;
             this.commandList = commandList;
+            this.commands = commands;
             this.endpoint = endpoint;
         }
         @Override
@@ -68,6 +96,8 @@ public class DBExecutor {
                 return endpoint.command(command);
             } else if (commandList != null) {
                 return endpoint.command(commandList);
+            } else if(commands != null) {
+                return null;
             }
 
             return null;
