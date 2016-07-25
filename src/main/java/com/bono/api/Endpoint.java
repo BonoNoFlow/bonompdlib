@@ -123,7 +123,7 @@ public class Endpoint {
 
         connect();
 
-        return send(bytes.toByteArray(), timeout);
+        return send(bytes.toByteArray() , timeout);
     }
 
     @Deprecated
