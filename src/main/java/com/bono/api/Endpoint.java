@@ -112,7 +112,7 @@ public class Endpoint {
     }
 
     public List<String> commands(List<Command> commands, int timeout) throws Exception {
-        List<String> reply = new ArrayList<>();
+        //List<String> reply = new ArrayList<>();
 
         // collect all the command bytes to send at once.
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

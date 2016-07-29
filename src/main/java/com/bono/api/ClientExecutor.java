@@ -19,20 +19,24 @@ public class ClientExecutor {
     private String host;
     private int port;
 
+    private int timeout;
+
     public ClientExecutor() {
         executor = Executors.newFixedThreadPool(10);
     };
 
-    public ClientExecutor(String host, String port) {
+    public ClientExecutor(String host, String port, int timeout) {
         this();
         this.host = host;
         this.port = Integer.parseInt(port);
+        this.timeout = timeout;
     }
 
-    public ClientExecutor(String host, int port) {
+    public ClientExecutor(String host, int port, int timeout) {
         this();
         this.host = host;
         this.port = port;
+        this.timeout = timeout;
     }
 
     public String testConnection() throws IOException {
@@ -60,59 +64,63 @@ public class ClientExecutor {
         this.port = port;
     }
 
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
     /*
-     * Execute a single command.
-     */
-    public String execute(Command command) throws Exception {
-        ExecuteCommand executeCommand = new ExecuteCommand(command, null, new Endpoint(host, port));
-        String reply = null;
-        Future<String> future = executor.submit(executeCommand);
-        reply = future.get();
-        return  reply;
+         * Execute a single command.
+         */
+    public List<String> execute(Command command) throws Exception {
+        CommandExecutor commandExecutor = new CommandExecutor(command, new Endpoint(host, port));
+        Future<List<String>> future = executor.submit(commandExecutor);
+        return  future.get();
     }
 
     /*
      * Execute a List<Command> command list.
      */
-    public String executeList(List<Command> commands) throws Exception {
+    public List<String> executeList(List<Command> commands) throws Exception {
+        CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port));
+        Future<List<String>> future = executor.submit(commandExecutor);
+        return  future.get();
+    }
 
-        // if first command is COMMAND_LIST_BEGIN.
-        // else if first command is COMMAND_LIST_BEGIN_OK.
-
-        for (Command c : commands) {
-
-        }
-
-        return null;
+    public void shutdownExecutor() {
+        executor.shutdown();
     }
 
 
-    private class ExecuteCommand implements Callable<String> {
+    private class CommandExecutor implements Callable<List<String>> {
 
-        private byte[] bytes;
-        private Command command;
-        private List<Command> commands;
-        private Endpoint endpoint;
+        private Command command = null;
+        private List<Command> commands = null;
+        private Endpoint endpoint = null;
 
-        public ExecuteCommand(byte[] bytes, Endpoint endpoint) {
-
+        public CommandExecutor(Command command, Endpoint endpoint) {
+            this.command = command;
+            this.endpoint = endpoint;
         }
 
-        public ExecuteCommand(Command command, List<Command> commands, Endpoint endpoint) {
-            this.command = command;
+        public CommandExecutor(List<Command> commands, Endpoint endpoint) {
             this.commands = commands;
             this.endpoint = endpoint;
         }
         @Override
-        public String call() throws Exception {
-            if (command != null) {
-
-            } else if (commands != null) {
-                for (Command c : commands) {
-
-                }
+        public List<String> call() throws Exception {
+            if (endpoint == null) {
+                throw new Exception("Endpoint cannot be null!");
             }
-            return endpoint.command(command);
+            if (command != null) {
+                return endpoint.command(command, timeout);
+            } else if (commands != null) {
+                return endpoint.commands(commands, timeout);
+            }
+            return null;
         }
     }
 

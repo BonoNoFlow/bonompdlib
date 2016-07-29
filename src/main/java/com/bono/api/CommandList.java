@@ -9,6 +9,7 @@ import java.util.List;
  *
  * class verwijderen kan gewoon een List<Command> gebruiken</Command>
  */
+@Deprecated
 public class CommandList implements Iterable {
 
     public static final String COMMAND_LIST_BEGIN = "command_list_begin";
