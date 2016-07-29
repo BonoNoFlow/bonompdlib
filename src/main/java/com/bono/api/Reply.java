@@ -5,6 +5,7 @@ import java.util.Iterator;
 /**
  * Created by hendriknieuwenhuis on 04/03/16.
  */
+@Deprecated
 public class Reply implements Iterable {
 
     public static final String SPLIT_LINE = ": ";

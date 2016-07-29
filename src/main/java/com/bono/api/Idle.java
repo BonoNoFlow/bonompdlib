@@ -2,6 +2,7 @@ package com.bono.api;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 09/05/16.
@@ -14,11 +15,11 @@ public class Idle {
 
     private ClientExecutor clientExecutor;
 
-    private int timeout;
 
-    public Idle(ClientExecutor clientExecutor, int timeout) {
+
+    public Idle(ClientExecutor clientExecutor) {
         this.clientExecutor = clientExecutor;
-        this.timeout = timeout;
+
     }
 
     public Idle(DBExecutor dbExecutor) {
@@ -34,14 +35,16 @@ public class Idle {
     }
 
     public void runIdle() throws Exception {
-        String feedback = null;
+        //String feedback = null;
+        List<String> feedback = new ArrayList<>();
 
         while (true) {
             //feedback = status.idle(null);
-            feedback = dbExecutor.execute(new DefaultCommand(Status.IDLE));
 
-            Reply reply = new Reply(feedback);
-            Iterator<String> i = reply.iterator();
+            feedback = clientExecutor.execute(new DefaultCommand(Status.IDLE));
+
+
+            Iterator<String> i = feedback.iterator();
             while (i.hasNext()) {
                 String line = i.next();
                 String[] lines = line.split(" ");
