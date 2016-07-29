@@ -14,6 +14,7 @@ import java.util.concurrent.Future;
  *
  * zie ClientExecutor.
  */
+@Deprecated
 public class DBExecutor {
 
     private ExecutorService executor;

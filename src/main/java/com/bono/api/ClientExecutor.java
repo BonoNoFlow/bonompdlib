@@ -47,7 +47,6 @@ public class ClientExecutor {
         return version;
     }
 
-
     public String getHost() {
         return host;
     }
