@@ -10,12 +10,15 @@ public class Idle {
 
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
 
-    private Status status;
-
     private DBExecutor dbExecutor;
 
-    public Idle(Status status) {
-        this.status = status;
+    private ClientExecutor clientExecutor;
+
+    private int timeout;
+
+    public Idle(ClientExecutor clientExecutor, int timeout) {
+        this.clientExecutor = clientExecutor;
+        this.timeout = timeout;
     }
 
     public Idle(DBExecutor dbExecutor) {
