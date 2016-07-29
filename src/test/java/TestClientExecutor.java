@@ -33,8 +33,7 @@ public class TestClientExecutor {
             for (String s : status) {
                 System.out.println(s);
             }
-            //} catch (ACKException ack) {
-            //    ack.printStackTrace();
+
         } catch (Exception e) {
             e.printStackTrace();
 
