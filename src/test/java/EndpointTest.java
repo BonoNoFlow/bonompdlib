@@ -1,5 +1,6 @@
 import com.bono.api.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,10 +12,21 @@ public class EndpointTest {
 
     public EndpointTest() {
         DefaultCommand defaultCommand = new DefaultCommand(Status.STATUS);
+        List<Command> commands = new ArrayList<>();
+        commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_OK_BEGIN));
+        commands.add(new DefaultCommand("repeat", "1"));
+        commands.add(new DefaultCommand("setvol", "90"));
+        commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_END));
         try {
             //endpoint.command(defaultCommand);
             String version = endpoint.getVersion(4000);
             System.out.println(version);
+
+            List<String> response = endpoint.commands(commands, 4000);
+            for (String s : response) {
+                System.out.println(s);
+            }
+
             List<String> status = endpoint.command(defaultCommand, 4000);
             for (String s : status) {
                 System.out.println(s);
@@ -23,6 +35,7 @@ public class EndpointTest {
         //    ack.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 

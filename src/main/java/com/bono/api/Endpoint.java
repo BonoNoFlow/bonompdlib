@@ -31,15 +31,11 @@ public class Endpoint {
     }
 
     private List<String> send(byte[] bytes, int timeout) throws Exception {
-        //StringBuilder reply = new StringBuilder();
-        //String replyS = "";
         List<String> reply = new ArrayList<>();
         String line;
         DataOutputStream out;
         DataInputStream in;
         BufferedReader reader;
-
-
 
         if (version.startsWith("OK")) {
 
@@ -51,7 +47,7 @@ public class Endpoint {
             line = reader.readLine();
 
             while (line != null) {
-                //System.out.println(line);
+
                 if (line.startsWith("OK")) {
                     break;
                 } else if (line.startsWith("ACK")) {
@@ -65,7 +61,7 @@ public class Endpoint {
             return null;
         }
         return reply;
-        //return reply.toString();
+
     }
 
     @Deprecated
@@ -116,15 +112,17 @@ public class Endpoint {
     }
 
     public List<String> commands(List<Command> commands, int timeout) throws Exception {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        List<String> reply = new ArrayList<>();
 
+        // collect all the command bytes to send at once.
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         for (Command c : commands) {
             bytes.write(c.getCommandBytes());
         }
 
-        connect();
+        connect(timeout);
 
-        return send(bytes.toByteArray() , timeout);
+        return send(bytes.toByteArray(), 4000);
     }
 
     @Deprecated

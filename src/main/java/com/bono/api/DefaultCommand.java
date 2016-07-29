@@ -15,6 +15,10 @@ import java.util.Arrays;
  */
 public class DefaultCommand implements Command {
 
+    public static final String COMMAND_LIST_BEGIN = "command_list_begin";
+    public static final String COMMAND_LIST_OK_BEGIN = "command_list_ok_begin";
+    public static final String COMMAND_LIST_END = "command_list_end";
+
     protected String command;
     protected String[] args;
 
