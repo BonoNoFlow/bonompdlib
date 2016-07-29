@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,42 +30,42 @@ public class Endpoint {
         this.port = port;
     }
 
-    private String send(byte[] bytes, int timeout) throws Exception {
-        String reply = "";
+    private List<String> send(byte[] bytes, int timeout) throws Exception {
+        //StringBuilder reply = new StringBuilder();
+        //String replyS = "";
+        List<String> reply = new ArrayList<>();
         String line;
         DataOutputStream out;
         DataInputStream in;
         BufferedReader reader;
 
 
-        try {
-            if (version.startsWith("OK")) {
-                out = new DataOutputStream(socket.getOutputStream());
-                in = new DataInputStream(socket.getInputStream());
-                reader = new BufferedReader(new InputStreamReader(in));
-                out.write(bytes);
-                out.flush();
 
-                while ((line = reader.readLine()) != null) {
-                    reply += line;
+        if (version.startsWith("OK")) {
 
-                    if (reply.startsWith("ACK") && reply.endsWith("\n")) {
+            out = new DataOutputStream(socket.getOutputStream());
+            in = new DataInputStream(socket.getInputStream());
+            reader = new BufferedReader(new InputStreamReader(in));
+            out.write(bytes);
+            out.flush();
+            line = reader.readLine();
 
-                        throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
-                    } else if (reply.endsWith("OK\n")) {
-                        //reply = reply.substring(0, (reply.length() - 3));
-                        break;
-                    }
+            while (line != null) {
+                //System.out.println(line);
+                if (line.startsWith("OK")) {
+                    break;
+                } else if (line.startsWith("ACK")) {
+                    throw new ACKException(line);
                 }
-            } else {
-                return null;
+                reply.add(line);
+                line = reader.readLine();
             }
-        } finally {
-            buffer.clear();
-            socket.close();
 
+        } else {
+            return null;
         }
         return reply;
+        //return reply.toString();
     }
 
     @Deprecated
@@ -106,7 +107,7 @@ public class Endpoint {
     }
 
 
-    public String command(Command command, int timeout) throws Exception {
+    public List<String> command(Command command, int timeout) throws Exception {
         byte[] bytes = command.getCommandBytes();
 
         connect(timeout);
@@ -114,7 +115,7 @@ public class Endpoint {
         return send(bytes, timeout);
     }
 
-    public String commands(List<Command> commands, int timeout) throws Exception {
+    public List<String> commands(List<Command> commands, int timeout) throws Exception {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
         for (Command c : commands) {
