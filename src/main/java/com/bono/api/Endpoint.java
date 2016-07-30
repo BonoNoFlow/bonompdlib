@@ -62,11 +62,7 @@ public class Endpoint {
         } finally {
             socket.close();
         }
-
-
-
         return reply;
-
     }
 
     @Deprecated
@@ -117,7 +113,6 @@ public class Endpoint {
     }
 
     public List<String> commands(List<Command> commands, int timeout) throws Exception {
-        //List<String> reply = new ArrayList<>();
 
         // collect all the command bytes to send at once.
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -128,47 +123,6 @@ public class Endpoint {
         connect(timeout);
 
         return send(bytes.toByteArray(), 4000);
-    }
-
-    @Deprecated
-    public String command(CommandList commands) throws Exception {
-        String reply = "";
-        DataOutputStream out;
-        DataInputStream in;
-        BufferedReader reader;
-
-        connect();
-
-        try {
-            if (version.startsWith("OK")) {
-                out = new DataOutputStream(socket.getOutputStream());
-                in = new DataInputStream(socket.getInputStream());
-                reader = new BufferedReader(new InputStreamReader(in));
-
-                Iterator<Command> i = commands.iterator();
-                while (i.hasNext()) {
-                    Command command = i.next();
-                    out.write(command.getCommandBytes());
-                }
-                out.flush();
-
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    reply += line;
-                    if (line.startsWith("ACK")) {
-                        throw new ACKException(line);
-                    } else if (reply.endsWith("OK")) {
-                        break;
-                    }
-                }
-            } else {
-                return null;
-            }
-        } finally {
-            buffer.clear();
-            socket.close();
-        }
-        return reply;
     }
 
     private void connect() throws IOException {
