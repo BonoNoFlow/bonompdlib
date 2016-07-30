@@ -33,16 +33,14 @@ public class Endpoint {
     private List<String> send(byte[] bytes, int timeout) throws Exception {
         List<String> reply = new ArrayList<>();
         String line;
-        DataOutputStream out;
-        DataInputStream in;
+        OutputStream out;
         BufferedReader reader;
 
         try {
             if (socket.isConnected()) {
 
-                out = new DataOutputStream(socket.getOutputStream());
-                in = new DataInputStream(socket.getInputStream());
-                reader = new BufferedReader(new InputStreamReader(in));
+                out = socket.getOutputStream();
+                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out.write(bytes);
                 out.flush();
                 line = reader.readLine();
@@ -179,14 +177,11 @@ public class Endpoint {
 
     // connect to server
     private void connect(int timeout) throws IOException {
-        byte[] versionBuffer = new byte[18];
         BufferedReader reader;
         if (host != null && port != 0) {
             socket = new Socket();
             socket.connect(new InetSocketAddress(host, port), timeout);
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            reader = new BufferedReader(new InputStreamReader(in));
-            //int read = in.read(versionBuffer);
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             version = reader.readLine();
         } else {
             throw new UnknownHostException();
