@@ -36,13 +36,12 @@ public class Idle {
 
     public void runIdle() throws Exception {
         //String feedback = null;
-        List<String> feedback = new ArrayList<>();
+        List<String> feedback;
 
         while (true) {
-            //feedback = status.idle(null);
+            feedback = new ArrayList<>();
 
             feedback = clientExecutor.execute(new DefaultCommand(Status.IDLE));
-
 
             Iterator<String> i = feedback.iterator();
             while (i.hasNext()) {

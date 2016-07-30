@@ -23,7 +23,8 @@ public class ClientExecutor {
 
     public ClientExecutor() {
         executor = Executors.newFixedThreadPool(10);
-    };
+
+    }
 
     public ClientExecutor(String host, String port, int timeout) {
         this();

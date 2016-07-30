@@ -103,6 +103,75 @@ public class Status {
 
     private List<ChangeListener> listeners = new ArrayList<>();
 
+    public void populate(List<String> entry) {
+        clear();
+
+        Iterator<String> i = entry.iterator();
+        while (i.hasNext()) {
+            String[] state = i.next().split(": ");
+
+            switch (state[0]) {
+                case Status.VOLUME:
+                    setVolume(state[1]);
+                    break;
+                case Status.REPEAT:
+                    setRepeat(state[1]);
+                    break;
+                case Status.RANDOM:
+                    setRandom(state[1]);
+                    break;
+                case Status.SINGLE:
+                    setSingle(state[1]);
+                    break;
+                case Status.CONSUME:
+                    setConsume(state[1]);
+                    break;
+                case Status.PLAYLIST:
+                    setPlaylist(state[1]);
+                    break;
+                case Status.PLAYLISTLENGTH:
+                    setPlaylistlength(state[1]);
+                    break;
+                case Status.MIXRAMPDB:
+                    setMixrampdb(state[1]);
+                    break;
+                case Status.STATE:
+                    setState(state[1]);
+                    break;
+                case Status.SONG:
+                    setSong(state[1]);
+                    break;
+                case Status.SONGID:
+                    setSongid(state[1]);
+                    break;
+                case Status.TIME:
+                    setTime(state[1]);
+                    break;
+                case Status.ELAPSED:
+                    setElapsed(state[1]);
+                    break;
+                case Status.BITRATE:
+                    setBitrate(state[1]);
+                    break;
+                case Status.AUDIO:
+                    setAudio(state[1]);
+                    break;
+                case Status.NEXTSONG:
+                    setNextsong(state[1]);
+                    break;
+                case Status.NEXTSONGID:
+                    setNextsongid(state[1]);
+                    break;
+                default:
+                    //System.out.println("Not a status property: " + state[0]);
+                    break;
+            }
+
+        }
+        fireListeners();
+    }
+
+    @Deprecated
     public void populateStatus(String entry) {
         clear();
 
