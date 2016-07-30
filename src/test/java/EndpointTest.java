@@ -14,9 +14,9 @@ public class EndpointTest {
         DefaultCommand defaultCommand = new DefaultCommand(Status.STATUS);
         List<Command> commands = new ArrayList<>();
         commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_BEGIN));
-        commands.add(new DefaultCommand(Playback.REPEAT, "0"));
-        commands.add(new DefaultCommand(Playback.RANDOM, "1"));
-        commands.add(new DefaultCommand("setvol", "90"));
+        commands.add(new DefaultCommand(Playback.REPEAT, "1"));
+        commands.add(new DefaultCommand(Playback.RANDOM, "0"));
+        commands.add(new DefaultCommand("setvol", "9"));
         commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_END));
         try {
             //endpoint.command(defaultCommand);

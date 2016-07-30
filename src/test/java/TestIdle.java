@@ -18,6 +18,11 @@ public class TestIdle {
             @Override
             public void stateChanged(EventObject e) {
                 System.out.println((String)e.getSource());
+                try {
+                    status.populate(clientExecutor.execute(new DefaultCommand(Status.STATUS)));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -32,15 +37,16 @@ public class TestIdle {
         thread.start();*/
 
         idle.start();
+        try {
+            status.populate(clientExecutor.execute(new DefaultCommand(Status.STATUS)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         while (true) {
 
             //List<String> statusQuery = null;
-            try {
-                status.populate(clientExecutor.execute(new DefaultCommand(Status.STATUS)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
             System.out.println(status.getState());
 
@@ -59,7 +65,7 @@ public class TestIdle {
             }
 
             try {
-                Thread.sleep(20000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

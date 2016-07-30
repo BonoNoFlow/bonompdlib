@@ -37,29 +37,36 @@ public class Endpoint {
         DataInputStream in;
         BufferedReader reader;
 
-        if (version.startsWith("OK")) {
+        try {
+            if (socket.isConnected()) {
 
-            out = new DataOutputStream(socket.getOutputStream());
-            in = new DataInputStream(socket.getInputStream());
-            reader = new BufferedReader(new InputStreamReader(in));
-            out.write(bytes);
-            out.flush();
-            line = reader.readLine();
-
-            while (line != null) {
-
-                if (line.startsWith("OK")) {
-                    break;
-                } else if (line.startsWith("ACK")) {
-                    throw new ACKException(line);
-                }
-                reply.add(line);
+                out = new DataOutputStream(socket.getOutputStream());
+                in = new DataInputStream(socket.getInputStream());
+                reader = new BufferedReader(new InputStreamReader(in));
+                out.write(bytes);
+                out.flush();
                 line = reader.readLine();
-            }
 
-        } else {
-            return null;
+                while (line != null) {
+
+                    if (line.startsWith("OK")) {
+                        break;
+                    } else if (line.startsWith("ACK")) {
+                        throw new ACKException(line);
+                    }
+                    reply.add(line);
+                    line = reader.readLine();
+                }
+
+            } else {
+                return null;
+            }
+        } finally {
+            socket.close();
         }
+
+
+
         return reply;
 
     }
@@ -173,12 +180,14 @@ public class Endpoint {
     // connect to server
     private void connect(int timeout) throws IOException {
         byte[] versionBuffer = new byte[18];
+        BufferedReader reader;
         if (host != null && port != 0) {
             socket = new Socket();
             socket.connect(new InetSocketAddress(host, port), timeout);
             DataInputStream in = new DataInputStream(socket.getInputStream());
-            int read = in.read(versionBuffer);
-            version = new String(versionBuffer, 0, read);
+            reader = new BufferedReader(new InputStreamReader(in));
+            //int read = in.read(versionBuffer);
+            version = reader.readLine();
         } else {
             throw new UnknownHostException();
         }
