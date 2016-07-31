@@ -1,6 +1,7 @@
 package com.bono.api;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 29/07/15.
@@ -43,6 +44,68 @@ public class Song {
 
     public Song(String song) {
         populate(song);
+    }
+
+    public Song(List<String> entry) {
+        populate(entry);
+    }
+
+    public void populate(List<String> entry) {
+        //Reply reply = new Reply(entry);
+        Iterator<String> i = entry.iterator();
+        while (i.hasNext()) {
+            String[] line = i.next().split(": ");
+            switch (line[0]) {
+                case Song.FILE:
+                    setFile(line[1]);
+                    break;
+                case Song.LAST_MODIFIED:
+                    setLastModified(line[1]);
+                    break;
+                case Song.TITLE:
+                    setTitle(line[1]);
+                    break;
+                case Song.ALBUM:
+                    setAlbum(line[1]);
+                    break;
+                case Song.ARTIST:
+                    setArtist(line[1]);
+                    break;
+                case Song.DATE:
+                    setDate(line[1]);
+                    break;
+                case Song.GENRE:
+                    setGenre(line[1]);
+                    break;
+                case Song.DISC:
+                    setDisc(line[1]);
+                    break;
+                case Song.COMPOSER:
+                    setId(line[1]);
+                    break;
+                case Song.TRACK:
+                    setTrack(line[1]);
+                    break;
+                case Song.ALBUM_ARTIST:
+                    setAlbumArtist(line[1]);
+                    break;
+                case Song.NAME:
+                    setName(line[1]);
+                    break;
+                case Song.TIME:
+                    setTime(line[1]);
+                    break;
+                case Song.POS:
+                    setPos(line[1]);
+                    break;
+                case Song.ID:
+                    setId(line[1]);
+                    break;
+                default:
+                    System.out.println("Not a property: " + line[0]);
+                    break;
+            }
+        }
     }
 
     public void populate(String entry) {
