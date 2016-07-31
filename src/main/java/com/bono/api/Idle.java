@@ -1,5 +1,7 @@
 package com.bono.api;
 
+import com.bono.api.protocol.MPDStatus;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +43,7 @@ public class Idle {
         while (true) {
             feedback = new ArrayList<>();
 
-            feedback = clientExecutor.execute(new DefaultCommand(Status.IDLE));
+            feedback = clientExecutor.execute(new DefaultCommand(MPDStatus.IDLE));
 
             Iterator<String> i = feedback.iterator();
             while (i.hasNext()) {
