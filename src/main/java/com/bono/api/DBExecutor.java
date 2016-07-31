@@ -94,9 +94,9 @@ public class DBExecutor {
         public String call() throws Exception {
 
             if (command != null) {
-                return endpoint.command(command);
+                // return endpoint.command(command);
             } else if (commandList != null) {
-                return endpoint.command(commandList);
+                //return endpoint.command(commandList);
             } else if(commands != null) {
                 return null;
             }

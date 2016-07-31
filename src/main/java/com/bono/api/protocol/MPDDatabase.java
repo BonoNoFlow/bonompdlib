@@ -1,12 +1,13 @@
-package com.bono.api;
+package com.bono.api.protocol;
+
+import com.bono.api.DefaultCommand;
 
 import java.util.List;
 
 /**
- * Created by hendriknieuwenhuis on 14/04/16.
+ * Created by bono on 7/31/16.
  */
-@Deprecated
-public class Database {
+public class MPDDatabase {
 
     /*
     count {TAG} {NEEDLE} [...] [group] [GROUPTYPE]
@@ -15,9 +16,7 @@ public class Database {
     count group artist*/
     public static final String COUNT = "count";
 
-    public List<String> count(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(COUNT, args));
-    }
+
     /*
     find {TYPE} {WHAT} [...] [window START:END]
     Finds songs in the db that are exactly WHAT. TYPE can be any tag supported by MPD, or one of the special parameters:
@@ -30,9 +29,6 @@ public class Database {
     The parameter is two zero-based record numbers; a start number and an end number.*/
     public static final String FIND = "find";
 
-    public List<String> findd(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(FIND, args));
-    }
 
     /*
     findadd {TYPE} {WHAT} [...]
@@ -40,9 +36,6 @@ public class Database {
     playlist. Parameters have the same meaning as for find.*/
     public static final String FINDADD = "findadd";
 
-    public List<String> findadd(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(FINDADD, args));
-    }
 
     /*
     list {TYPE} [FILTERTYPE] [FILTERWHAT] [...] [group] [GROUPTYPE] [...]
@@ -53,9 +46,6 @@ public class Database {
     list album group albumartist*/
     public static final String LIST = "list";
 
-    public List<String> list(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(LIST, args));
-    }
 
     /*
     listall [URI]
@@ -65,9 +55,6 @@ public class Database {
     Instead, query MPD whenever you need something.*/
     public static final String LISTALL = "listall";
 
-    public List<String> listall(String uri) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(LISTALL, uri));
-    }
 
     /*
     listallinfo [URI]
@@ -76,9 +63,6 @@ public class Database {
     adds huge overhead. It will break with large databases. Instead, query MPD whenever you need something.*/
     public static final String LISTALLINFO = "listallinfo";
 
-    public List<String> listallinfo(String uri) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(LISTALLINFO, uri));
-    }
 
     /*
     listfiles [URI]
@@ -90,10 +74,6 @@ public class Database {
     "nfs://servername/path" obtains a directory listing from the NFS server.*/
     public static final String LISTFILES = "listfiles";
 
-    public List<String> listfiles(String uri) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(LISTFILES, uri));
-    }
-
 
     /*
     lsinfo [URI]
@@ -103,10 +83,6 @@ public class Database {
     (e.g. URI beginning with "http://" or "smb://"). Clients that are connected via UNIX domain socket
     may use this command to read the tags of an arbitrary local file (URI is an absolute path).*/
     public static final String LSINFO = "lsinfo";
-
-    public List<String> lsinfo(String uri) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(LSINFO, uri));
-    }
 
 
     /*
@@ -119,19 +95,13 @@ public class Database {
     on Ogg files, this lists the Vorbis comments.*/
     public static final String READCOMMENTS = "readcomment";
 
-    public List<String> readcomments(String uri) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(READCOMMENTS, uri));
-    }
 
-/*
-    search {TYPE} {WHAT} [...] [window START:END]
-    Searches for any song that contains WHAT. Parameters have the same meaning as for find,
-    except that search is not case sensitive.*/
+    /*
+        search {TYPE} {WHAT} [...] [window START:END]
+        Searches for any song that contains WHAT. Parameters have the same meaning as for find,
+        except that search is not case sensitive.*/
     public static final String SEARCH = "search";
 
-    public List<String> search(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(SEARCH, args));
-    }
 
     /*
     searchadd {TYPE} {WHAT} [...]
@@ -139,9 +109,6 @@ public class Database {
     Parameters have the same meaning as for find, except that search is not case sensitive.*/
     public static final String SEARCHADD = "searchadd";
 
-    public List<String> searchadd(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(SEARCHADD, args));
-    }
 
     /*
     searchaddpl {NAME} {TYPE} {WHAT} [...]
@@ -149,10 +116,6 @@ public class Database {
     If a playlist by that name doesn't exist it is created.
     Parameters have the same meaning as for find, except that search is not case sensitive.*/
     public static final String SEARCHADDPL = "searchaddpl";
-
-    public List<String> searchaddpl(String... args) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(SEARCHADDPL, args));
-    }
 
 
     /*
@@ -163,22 +126,10 @@ public class Database {
     the current job id in the status response.*/
     public static final String UPDATE = "update";
 
-    public List<String> update(String uri) throws Exception {
-        return clientExecutor.execute(new DefaultCommand(UPDATE, uri));
-    }
 
     /*
     rescan [URI]
     Same as update, but also rescans unmodified files.*/
     public static final String RESCAN = "rescan";
 
-     public List<String> rescan(String uri) throws Exception {
-         return clientExecutor.execute(new DefaultCommand(RESCAN, uri));
-     }
-
-    protected ClientExecutor clientExecutor;
-
-    public Database(ClientExecutor clientExecutor) {
-        this.clientExecutor = clientExecutor;
-    }
 }
