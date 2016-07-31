@@ -27,6 +27,72 @@ public class Playlist {
         return songs.get(index);
     }
 
+    public void populate(List<String> entry) {
+        songs.clear();
+
+        Song song = null;
+
+        Iterator<String> i = entry.iterator();
+        while (i.hasNext()) {
+            String[] line = i.next().split(": ");
+            switch (line[0]) {
+                case Song.FILE:
+                    song = new Song();
+                    song.setFile(line[1]);
+                    break;
+                case Song.LAST_MODIFIED:
+                    song.setLastModified(line[1]);
+                    break;
+                case Song.TITLE:
+                    song.setTitle(line[1]);
+                    break;
+                case Song.ALBUM:
+                    song.setAlbum(line[1]);
+                    break;
+                case Song.ARTIST:
+                    song.setArtist(line[1]);
+                    break;
+                case Song.DATE:
+                    song.setDate(line[1]);
+                    break;
+                case Song.GENRE:
+                    song.setGenre(line[1]);
+                    break;
+                case Song.DISC:
+                    song.setDisc(line[1]);
+                    break;
+                case Song.COMPOSER:
+                    song.setId(line[1]);
+                    break;
+                case Song.TRACK:
+                    song.setTrack(line[1]);
+                    break;
+                case Song.ALBUM_ARTIST:
+                    song.setAlbumArtist(line[1]);
+                    break;
+                case Song.NAME:
+                    song.setName(line[1]);
+                    break;
+                case Song.TIME:
+                    song.setTime(line[1]);
+                    break;
+                case Song.POS:
+                    song.setPos(line[1]);
+                    break;
+                case Song.ID:
+                    song.setId(line[1]);
+                    songs.add(song);
+                    fireSongListeners(song);  // add boolean.
+                    song = null;
+                    break;
+                default:
+                    System.out.println("Not a property: " + line[0]);
+                    break;
+            }
+        }
+        fireListeners();
+    }
+
     public void populate(String entry) {
         songs.clear();
 
