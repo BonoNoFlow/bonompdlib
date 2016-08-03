@@ -12,22 +12,39 @@ import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 28/09/15.
+ *
+ * Class creates an endpoint to the server. It can
+ * be used to send Command objects to the server.
+ * Command objects can be send singular or as a
+ * list of commands.
  */
 
 
 public class Endpoint {
 
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
-    private String host = null;
-    private int port = 0;
+    private InetSocketAddress address;
+    private int timeout = 0;
 
     private String version = null;
 
     private Socket socket;
 
     public Endpoint(String host, int port) {
-        this.host = host;
-        this.port = port;
+        address = new InetSocketAddress(host, port);
+    }
+
+    public Endpoint(String host, int port, int timeout) {
+        this(host, port);
+        this.timeout = timeout;
+    }
+
+    public Endpoint(InetSocketAddress address) {
+        this.address = address;
+    }
+
+    public Endpoint(InetSocketAddress address, int timeout) {
+        this(address);
     }
 
     private List<String> send(byte[] bytes, int timeout) throws Exception {
@@ -65,45 +82,6 @@ public class Endpoint {
         return reply;
     }
 
-    @Deprecated
-    public String command(Command command) throws Exception {
-        String reply = "";
-        int read = 0;
-        DataOutputStream out;
-        DataInputStream in;
-
-        connect();
-
-        try {
-            if (version.startsWith("OK")) {
-                out = new DataOutputStream(socket.getOutputStream());
-                in = new DataInputStream(socket.getInputStream());
-                out.write(command.getCommandBytes());
-                out.flush();
-
-                while ((read = in.read(buffer.array())) != -1) {
-                    reply += new String(buffer.array(), 0, read);
-
-                    if (reply.startsWith("ACK") && reply.endsWith("\n")) {
-
-                        throw new ACKException("Endpoint read loop broken by error feedback! " + reply);
-                    } else if (reply.endsWith("OK\n")) {
-                        reply = reply.substring(0, (reply.length() - 3));
-                        break;
-                    }
-                }
-            } else {
-                return null;
-            }
-        } finally {
-            buffer.clear();
-            socket.close();
-
-        }
-        return reply;
-    }
-
-
     public List<String> command(Command command, int timeout) throws Exception {
         byte[] bytes = command.getCommandBytes();
 
@@ -132,9 +110,9 @@ public class Endpoint {
     // connect to server
     private void connect(int timeout) throws IOException {
         BufferedReader reader;
-        if (host != null && port != 0) {
+        if (address.getHostName() != null && address.getPort() != 0) {
             socket = new Socket();
-            socket.connect(new InetSocketAddress(host, port), timeout);
+            socket.connect(address, timeout);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             version = reader.readLine();
         } else {
