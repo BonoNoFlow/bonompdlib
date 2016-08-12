@@ -47,7 +47,7 @@ public class Endpoint {
         this(address);
     }
 
-    private List<String> send(byte[] bytes, int timeout) throws Exception {
+    private List<String> send(byte[] bytes, int timeout) throws ACKException, IOException {
         List<String> reply = new ArrayList<>();
         String line;
         OutputStream out;
@@ -82,7 +82,7 @@ public class Endpoint {
         return reply;
     }
 
-    public List<String> command(Command command, int timeout) throws Exception {
+    public List<String> command(Command command, int timeout) throws ACKException, IOException {
         byte[] bytes = command.getCommandBytes();
 
         connect(timeout);
@@ -90,7 +90,7 @@ public class Endpoint {
         return send(bytes, timeout);
     }
 
-    public List<String> commands(List<Command> commands, int timeout) throws Exception {
+    public List<String> commands(List<Command> commands, int timeout) throws ACKException, IOException {
 
         // collect all the command bytes to send at once.
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
