@@ -72,7 +72,9 @@ public class ClientExecutor {
     /*
          * Execute a single command.
          */
-    public List<String> execute(Command command) throws Exception {
+    public List<String> execute(Command command) throws ACKException,
+            IOException, ExecutionException, InterruptedException {
+
         CommandExecutor commandExecutor = new CommandExecutor(command, new Endpoint(host, port));
         Future<List<String>> future = executor.submit(commandExecutor);
         return  future.get();
@@ -81,7 +83,8 @@ public class ClientExecutor {
     /*
      * Execute a List<Command> command list.
      */
-    public List<String> executeList(List<Command> commands) throws Exception {
+    public List<String> executeList(List<Command> commands) throws ACKException,
+            IOException, ExecutionException, InterruptedException {
         CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port));
         Future<List<String>> future = executor.submit(commandExecutor);
         return  future.get();

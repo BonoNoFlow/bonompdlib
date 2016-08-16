@@ -204,6 +204,17 @@ public class Status {
         listeners.add(listener);
     }
 
+    public boolean removeListener(ChangeListener listener) {
+        Iterator<ChangeListener> i = listeners.iterator();
+        while (i.hasNext()) {
+            ChangeListener c = i.next();
+            if (c.equals(listener)) {
+                return listeners.remove(c);
+            }
+        }
+        return false;
+    }
+
     protected void clear() {
         setVolume(null);
         setRepeat(null);

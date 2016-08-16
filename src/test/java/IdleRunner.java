@@ -15,10 +15,11 @@ public class IdleRunner {
         thread = new Thread(new Runner());
     }
 
+    /*
     public IdleRunner(DBExecutor dbExecutor) {
         idle = new Idle(dbExecutor);
         thread = new Thread(new Runner());
-    }
+    }*/
 
     public IdleRunner(ClientExecutor clientExecutor) {
         idle = new Idle(clientExecutor);

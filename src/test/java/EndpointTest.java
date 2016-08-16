@@ -1,4 +1,6 @@
 import com.bono.api.*;
+import com.bono.api.protocol.MPDPlayback;
+import com.bono.api.protocol.MPDStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +13,11 @@ public class EndpointTest {
     Endpoint endpoint = new Endpoint("192.168.2.4", 6600);
 
     public EndpointTest() {
-        DefaultCommand defaultCommand = new DefaultCommand(Status.STATUS);
+        DefaultCommand defaultCommand = new DefaultCommand(MPDStatus.STATUS);
         List<Command> commands = new ArrayList<>();
         commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_BEGIN));
-        commands.add(new DefaultCommand(Playback.REPEAT, "1"));
-        commands.add(new DefaultCommand(Playback.RANDOM, "0"));
+        commands.add(new DefaultCommand(MPDPlayback.REPEAT, "1"));
+        commands.add(new DefaultCommand(MPDPlayback.RANDOM, "0"));
         commands.add(new DefaultCommand("setvol", "9"));
         commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_END));
         try {

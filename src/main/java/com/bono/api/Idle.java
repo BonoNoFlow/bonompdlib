@@ -13,19 +13,10 @@ public class Idle {
 
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
 
-    private DBExecutor dbExecutor;
-
     private ClientExecutor clientExecutor;
-
-
 
     public Idle(ClientExecutor clientExecutor) {
         this.clientExecutor = clientExecutor;
-
-    }
-
-    public Idle(DBExecutor dbExecutor) {
-        this.dbExecutor = dbExecutor;
     }
 
     public void addListener(ChangeListener listener) {
@@ -37,12 +28,9 @@ public class Idle {
     }
 
     public void runIdle() throws Exception {
-        //String feedback = null;
         List<String> feedback;
 
         while (true) {
-            feedback = new ArrayList<>();
-
             feedback = clientExecutor.execute(new DefaultCommand(MPDStatus.IDLE));
 
             Iterator<String> i = feedback.iterator();
