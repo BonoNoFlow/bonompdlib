@@ -176,7 +176,7 @@ public class Playlist {
     }
 
     protected void fireSongListeners(Song song) {
-        if (listeners.size() > 0) {
+        if (songListeners.size() > 0) {
             for (ChangeListener listener : songListeners) {
                 listener.stateChanged(new ChangeEvent(song));
             }

@@ -1,5 +1,6 @@
 package com.bono.api;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class Song {
     private String id;
     private String Name;
     private String composer;
+
+    protected List<ChangeListener> listeners = new ArrayList<>();
 
     public Song() {}
 
@@ -106,8 +109,10 @@ public class Song {
                     break;
             }
         }
+        fireListeners();
     }
 
+    @Deprecated
     public void populate(String entry) {
         Reply reply = new Reply(entry);
         Iterator i = reply.iterator();
@@ -164,6 +169,18 @@ public class Song {
                     break;
             }
         }
+    }
+
+    protected void fireListeners() {
+        if (listeners.size() > 0) {
+            for (ChangeListener listener : listeners) {
+                listener.stateChanged(new ChangeEvent(this));
+            }
+        }
+    }
+
+    public void addListener(ChangeListener listener) {
+        listeners.add(listener);
     }
 
     public String getFile() {
