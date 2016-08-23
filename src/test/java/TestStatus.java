@@ -4,31 +4,37 @@ import com.bono.api.DefaultCommand;
 import com.bono.api.Status;
 import com.bono.api.protocol.MPDStatus;
 
+import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
 
 /**
  * Created by bono on 8/16/16.
  */
 public class TestStatus {
-    Status status = new Status();
+    //Status status = new Status();
     ClientExecutor clientExecutor = new ClientExecutor("192.168.2.4", 6600, 4000);
-    FirstChangelistener f = new FirstChangelistener();
-    SecondChangelistener s = new SecondChangelistener();
+    //FirstChangelistener f = new FirstChangelistener();
+    //SecondChangelistener s = new SecondChangelistener();
 
     public TestStatus() {
-        status.addListener(f);
-        status.addListener(s);
+        //status.addListener(f);
+        //status.addListener(s);
         populateStatus();
-        status.removeListener(f);
-        populateStatus();
+        //status.removeListener(f);
+        //populateStatus();
     }
 
     private void populateStatus() {
+        List<String> response = new ArrayList<>();
         try {
-            status.populate(clientExecutor.execute(new DefaultCommand(MPDStatus.STATUS)));
+            response = clientExecutor.execute(new DefaultCommand(MPDStatus.STATUS));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Status status = new Status();
+        status.populate(response);
+        System.out.println(status.toString());
     }
 
     private class FirstChangelistener implements ChangeListener {

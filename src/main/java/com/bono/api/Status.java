@@ -1,13 +1,14 @@
 package com.bono.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by hendriknieuwenhuis on 01/03/16.
  *
- * Class Status holds the various stats of the staus
+ * Class Status holds the various stats of the status
  * of the server.
  *
  * Status varies in type of stats. So listeners
@@ -15,114 +16,154 @@ import java.util.List;
  */
 public class Status {
 
-    private static final String VOLUME          = "volume";
-    private static final String REPEAT          = "repeat";
-    private static final String RANDOM          = "random";
-    private static final String SINGLE          = "single";
-    private static final String CONSUME         = "consume";
-    private static final String PLAYLIST        = "playlist";
-    private static final String PLAYLISTLENGTH  = "playlistlength";
-    private static final String MIXRAMPDB       = "mixrampdb";
-    private static final String STATE           = "state";
-    private static final String SONG            = "song";
-    private static final String SONGID          = "songid";
-    private static final String TIME            = "time";
-    private static final String ELAPSED         = "elapsed";
-    private static final String BITRATE         = "bitrate";
-    private static final String AUDIO           = "audio";
-    private static final String NEXTSONG        = "nextsong";
-    private static final String NEXTSONGID      = "nextsongid";
+    public static final int PAUSE_STATE = 0;
 
-    private String volume;
-    private String repeat;
-    private String random;
-    private String single;
-    private String consume;
-    private String playlist;
-    private String playlistlength;
-    private String mixrampdb;
-    private String state;
-    private String song;
-    private String songid;
-    private String time;
-    private String elapsed;
-    private String bitrate;
-    private String audio;
-    private String nextsong;
-    private String nextsongid;
+    public static final int PLAY_STATE = 1;
 
+    public static final int STOP_STATE = 2;
+
+    public static final int UNKNOWN_STATE = 3;
+
+    private long bitrate;
+    private int bitsPerSample;
+    private int channels;
+    private boolean consume;
+    private long elapsedTime;
+    private float elapsedTimeHighRes;
+    private String error;
+    private float mixrampdb;
+    private float mixRampDelay;
+    private int nextsong;
+    private int nextsongid;
+    private int playlist;
+    private int playlistlength;
+    private boolean random;
+    private boolean repeat;
+    private int sampleRate;
+    private boolean single;
+    private int song;
+    private int songid;
+    private int state;
+    private long totalTime;
+    private boolean updating;
+    private int volume;
+    private int xFade;
+
+    // Listeners for status class. They are fired
+    // when status is populated.
     private List<ChangeListener> listeners = new ArrayList<>();
 
-    public void populate(List<String> entry) {
-        clear();
+    public Status() {
+        reset();
+    }
 
-        Iterator<String> i = entry.iterator();
-        while (i.hasNext()) {
-            String[] state = i.next().split(": ");
+    public void populate(final Collection<String> entry) {
+        reset();
+        for (String s : entry) {
 
-            switch (state[0]) {
-                case Status.VOLUME:
-                    setVolume(state[1]);
+            String[] stateEntry = s.split(": ");
+            switch (stateEntry[0]) {
+                case "audio":
+                    String[] audio = stateEntry[1].split(":");
+                    try {
+                        sampleRate = Integer.parseInt(audio[0]);
+                        bitsPerSample = Integer.parseInt(audio[1]);
+                        channels = Integer.parseInt(audio[2]);
+                    } catch (NumberFormatException e) {
+                        // when a value is 'unknown' or '?' it
+                        // can't be written as integer.
+                    }
                     break;
-                case Status.REPEAT:
-                    setRepeat(state[1]);
+                case "bitrate":
+                    bitrate = Long.parseLong(stateEntry[1]);
                     break;
-                case Status.RANDOM:
-                    setRandom(state[1]);
+                case "consume":
+                    consume = "1".equals(stateEntry[1]);
                     break;
-                case Status.SINGLE:
-                    setSingle(state[1]);
+                case "elapsed":
+                    elapsedTimeHighRes = Float.parseFloat(stateEntry[1]);
                     break;
-                case Status.CONSUME:
-                    setConsume(state[1]);
+                case "error":
+                    error = stateEntry[1];
                     break;
-                case Status.PLAYLIST:
-                    setPlaylist(state[1]);
+                case "mixrampdb":
+                    try {
+                        mixrampdb = Float.parseFloat(stateEntry[1]);
+                    } catch (NumberFormatException e) {
+                        // sometimes server sends 'nan' as
+                        // mixrampdb.
+                    }
                     break;
-                case Status.PLAYLISTLENGTH:
-                    setPlaylistlength(state[1]);
+                case "mixrampdelay":
+                    try {
+                        mixRampDelay = Float.parseFloat(stateEntry[1]);
+                    } catch (NumberFormatException e) {
+                        // sometimes server sends 'nan' as
+                        // mixrampdb.
+                    }
                     break;
-                case Status.MIXRAMPDB:
-                    setMixrampdb(state[1]);
+                case "nextsong":
+                    nextsong = Integer.parseInt(stateEntry[1]);
                     break;
-                case Status.STATE:
-                    setState(state[1]);
+                case "nextsongid":
+                    nextsongid = Integer.parseInt(stateEntry[1]);
                     break;
-                case Status.SONG:
-                    setSong(state[1]);
+                case "playlist":
+                    playlist = Integer.parseInt(stateEntry[1]);
                     break;
-                case Status.SONGID:
-                    setSongid(state[1]);
+                case "playlistlength":
+                    playlistlength = Integer.parseInt(stateEntry[1]);
                     break;
-                case Status.TIME:
-                    setTime(state[1]);
+                case "random":
+                    random = "1".equals(stateEntry[1]);
                     break;
-                case Status.ELAPSED:
-                    setElapsed(state[1]);
+                case "repeat":
+                    repeat = "1".equals(stateEntry[1]);
                     break;
-                case Status.BITRATE:
-                    setBitrate(state[1]);
+                case "single":
+                    single = "1".equals(stateEntry[1]);
                     break;
-                case Status.AUDIO:
-                    setAudio(state[1]);
+                case "song":
+                    song = Integer.parseInt(stateEntry[1]);
                     break;
-                case Status.NEXTSONG:
-                    setNextsong(state[1]);
+                case "songid":
+                    songid = Integer.parseInt(stateEntry[1]);
                     break;
-                case Status.NEXTSONGID:
-                    setNextsongid(state[1]);
+                case "state":
+                    switch (stateEntry[1]) {
+                        case "pause":
+                            state = PAUSE_STATE;
+                            break;
+                        case "play":
+                            state = PLAY_STATE;
+                            break;
+                        case "stop":
+                            state = STOP_STATE;
+                            break;
+                        default:
+                            state = UNKNOWN_STATE;
+                    }
+                    break;
+                case "time":
+                    String[] timeEntry = stateEntry[1].split(":");
+                    elapsedTime = Long.parseLong(timeEntry[0]);
+                    totalTime = Long.parseLong(timeEntry[1]);
+                    break;
+                case "volume":
+                    volume = Integer.parseInt(stateEntry[1]);
+                    break;
+                case "xfade":
+                    xFade = Integer.parseInt(stateEntry[1]);
+                    break;
+                case "updating_db":
+                    updating = true;
                     break;
                 default:
-                    //System.out.println("Not a status property: " + state[0]);
-                    break;
+                    System.out.println("Unknown status value: " + stateEntry[0] + ": " + stateEntry[1]);
             }
-
         }
         fireListeners();
     }
-
-
-
 
     private void fireListeners() {
         Iterator i = listeners.iterator();
@@ -146,182 +187,158 @@ public class Status {
         return false;
     }
 
-    protected void clear() {
-        setVolume(null);
-        setRepeat(null);
-        setRandom(null);
-        setSingle(null);
-        setConsume(null);
-        setPlaylist(null);
-        setPlaylistlength(null);
-        setMixrampdb(null);
-        setState(null);
-        setSong(null);
-        setSongid(null);
-        setTime(null);
-        setElapsed(null);
-        setBitrate(null);
-        setAudio(null);
-        setNextsong(null);
-        setNextsongid(null);
+
+    protected void reset() {
+        bitrate = 0L;
+        bitsPerSample = 0;
+        channels = 0;
+        consume = false;  // always in status
+        elapsedTime = 0L;
+        elapsedTimeHighRes = 0L;
+        error = null;
+        mixrampdb = 0.0f;  // always in status
+        mixRampDelay = 0.0f;
+        nextsong = -1;
+        nextsongid = 0;
+        playlist = 0;  // always in status
+        playlistlength = 0;  // always in status
+        random = false;  // always in status
+        repeat = false;  // always in status
+        sampleRate = 0;
+        single = false;  // always in status
+        song = 0;
+        songid = 0;
+        state = UNKNOWN_STATE;  // always in status
+        totalTime = 0l;
+        updating = false;
+        volume = 0;  // always in status
+        xFade = 0;
+
     }
 
-    public String getVolume() {
-        return volume;
-    }
-
-    public void setVolume(String volume) {
-        this.volume = volume;
-    }
-
-    public String getRepeat() {
-        return repeat;
-    }
-
-    public void setRepeat(String repeat) {
-        this.repeat = repeat;
-    }
-
-    public String getRandom() {
-        return random;
-    }
-
-    public void setRandom(String random) {
-        this.random = random;
-    }
-
-    public String getSingle() {
-        return single;
-    }
-
-    public void setSingle(String single) {
-        this.single = single;
-    }
-
-    public String getConsume() {
-        return consume;
-    }
-
-    public void setConsume(String consume) {
-        this.consume = consume;
-    }
-
-    public String getPlaylist() {
-        return playlist;
-    }
-
-    public void setPlaylist(String playlist) {
-        this.playlist = playlist;
-    }
-
-    public String getPlaylistlength() {
-        return playlistlength;
-    }
-
-    public void setPlaylistlength(String playlistlength) {
-        this.playlistlength = playlistlength;
-    }
-
-    public String getMixrampdb() {
-        return mixrampdb;
-    }
-
-    public void setMixrampdb(String mixrampdb) {
-        this.mixrampdb = mixrampdb;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getSong() {
-        return song;
-    }
-
-    public void setSong(String song) {
-        this.song = song;
-    }
-
-    public String getSongid() {
-        return songid;
-    }
-
-    public void setSongid(String songid) {
-        this.songid = songid;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getElapsed() {
-        return elapsed;
-    }
-
-    public void setElapsed(String elapsed) {
-        this.elapsed = elapsed;
-    }
-
-    public String getBitrate() {
+    public long getBitrate() {
         return bitrate;
     }
 
-    public void setBitrate(String bitrate) {
-        this.bitrate = bitrate;
+    public int getBitsPerSample() {
+        return bitsPerSample;
     }
 
-    public String getAudio() {
-        return audio;
+    public int getChannels() {
+        return channels;
     }
 
-    public void setAudio(String audio) {
-        this.audio = audio;
+    public boolean isConsume() {
+        return consume;
     }
 
-    public String getNextsong() {
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public float getElapsedTimeHighRes() {
+        return elapsedTimeHighRes;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public float getMixrampdb() {
+        return mixrampdb;
+    }
+
+    public float getMixRampDelay() {
+        return mixRampDelay;
+    }
+
+    public int getNextsong() {
         return nextsong;
     }
 
-    public void setNextsong(String nextsong) {
-        this.nextsong = nextsong;
-    }
-
-    public String getNextsongid() {
+    public int getNextsongid() {
         return nextsongid;
     }
 
-    public void setNextsongid(String nextsongid) {
-        this.nextsongid = nextsongid;
+    public int getPlaylist() {
+        return playlist;
+    }
+
+    public int getPlaylistlength() {
+        return playlistlength;
+    }
+
+    public boolean isRandom() {
+        return random;
+    }
+
+    public boolean isRepeat() {
+        return repeat;
+    }
+
+    public int getSampleRate() {
+        return sampleRate;
+    }
+
+    public boolean isSingle() {
+        return single;
+    }
+
+    public int getSong() {
+        return song;
+    }
+
+    public int getSongid() {
+        return songid;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public boolean isUpdating() {
+        return updating;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public int getCrossFade() {
+        return xFade;
     }
 
     @Override
     public String toString() {
         return "Status{" +
-                "volume='" + volume + '\'' +
-                ", repeat='" + repeat + '\'' +
-                ", random='" + random + '\'' +
-                ", single='" + single + '\'' +
-                ", consume='" + consume + '\'' +
-                ", playlist='" + playlist + '\'' +
-                ", playlistlength='" + playlistlength + '\'' +
-                ", mixrampdb='" + mixrampdb + '\'' +
-                ", state='" + state + '\'' +
-                ", song='" + song + '\'' +
-                ", songid='" + songid + '\'' +
-                ", time='" + time + '\'' +
-                ", elapsed='" + elapsed + '\'' +
-                ", bitrate='" + bitrate + '\'' +
-                ", audio='" + audio + '\'' +
-                ", nextsong='" + nextsong + '\'' +
-                ", nextsongid='" + nextsongid + '\'' +
+                "bitrate=" + bitrate +
+                ", bitsPerSample=" + bitsPerSample +
+                ", channels=" + channels +
+                ", consume=" + consume +
+                ", elapsedTime=" + elapsedTime +
+                ", elapsedTimeHighRes=" + elapsedTimeHighRes +
+                ", error='" + error + '\'' +
+                ", mixrampdb=" + mixrampdb +
+                ", mixRampDelay=" + mixRampDelay +
+                ", nextsong=" + nextsong +
+                ", nextsongid=" + nextsongid +
+                ", playlist=" + playlist +
+                ", playlistlength=" + playlistlength +
+                ", random=" + random +
+                ", repeat=" + repeat +
+                ", sampleRate=" + sampleRate +
+                ", single=" + single +
+                ", song=" + song +
+                ", songid=" + songid +
+                ", state=" + state +
+                ", totalTime=" + totalTime +
+                ", updating=" + updating +
+                ", volume=" + volume +
+                ", xFade=" + xFade +
                 '}';
     }
 }
