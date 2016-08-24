@@ -1,9 +1,8 @@
-import com.bono.api.ChangeListener;
-import com.bono.api.ClientExecutor;
-import com.bono.api.DefaultCommand;
-import com.bono.api.Status;
+import com.bono.api.*;
+import com.bono.api.protocol.MPDPlaylist;
 import com.bono.api.protocol.MPDStatus;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class TestStatus {
     //Status status = new Status();
-    ClientExecutor clientExecutor = new ClientExecutor("192.168.2.4", 6600, 4000);
+    //ClientExecutor clientExecutor = new ClientExecutor("192.168.2.4", 6600, 4000);
     //FirstChangelistener f = new FirstChangelistener();
     //SecondChangelistener s = new SecondChangelistener();
 
@@ -27,14 +26,30 @@ public class TestStatus {
 
     private void populateStatus() {
         List<String> response = new ArrayList<>();
-        try {
-            response = clientExecutor.execute(new DefaultCommand(MPDStatus.STATUS));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         Status status = new Status();
+
+        try {
+            response = new Endpoint("192.168.2.4", 6600).command(new DefaultCommand(MPDStatus.STATUS), 4000);
+        } catch (ACKException ack) {
+            ack.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
         status.populate(response);
-        System.out.println(status.toString());
+
+        response = new ArrayList<>();
+
+        try {
+            response = new Endpoint("192.168.2.4", 6600).command(new DefaultCommand(MPDPlaylist.PLAYLISTINFO), 4000);
+        } catch (ACKException ack) {
+            ack.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        Playlist playlist = new Playlist();
+        playlist.populate(response);
+        System.out.println(playlist.toString());
     }
 
     private class FirstChangelistener implements ChangeListener {

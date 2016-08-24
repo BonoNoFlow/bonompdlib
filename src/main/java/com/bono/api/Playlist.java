@@ -1,6 +1,9 @@
 package com.bono.api;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class Playlist {
         return songs.get(index);
     }
 
-    public void populate(List<String> entry) {
+    public void populate(Collection<String> entry) {
         songs.clear();
 
         Song song = null;
@@ -153,4 +156,12 @@ public class Playlist {
         return songs.size();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder playlist = new StringBuilder();
+        for (Song song : songs) {
+            playlist.append(song.toString() + "\n");
+        }
+        return playlist.toString();
+    }
 }

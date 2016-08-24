@@ -7,6 +7,7 @@ import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class Endpoint {
         return send(bytes, timeout);
     }
 
-    public List<String> commands(List<Command> commands, int timeout) throws ACKException, IOException {
+    public List<String> commands(Collection<Command> commands, int timeout) throws ACKException, IOException {
 
         // collect all the command bytes to send at once.
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

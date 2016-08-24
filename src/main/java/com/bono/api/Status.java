@@ -188,7 +188,7 @@ public class Status {
     }
 
 
-    protected void reset() {
+    private void reset() {
         bitrate = 0L;
         bitsPerSample = 0;
         channels = 0;
