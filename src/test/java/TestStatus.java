@@ -46,7 +46,9 @@ public class TestStatus {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
+        for (String s : response) {
+            System.out.println(s);
+        }
         Playlist playlist = new Playlist();
         playlist.populate(response);
         System.out.println(playlist.toString());

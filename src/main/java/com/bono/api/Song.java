@@ -10,121 +10,129 @@ import java.util.List;
  */
 public class Song {
 
-    public static final String FILE = "file";
-    public static final String LAST_MODIFIED = "Last-Modified";
-    public static final String TITLE = "Title";
-    public static final String ALBUM = "Album";
-    public static final String ARTIST = "Artist";
-    public static final String DATE = "Date";
-    public static final String GENRE = "Genre";
-    public static final String DISC = "Disc";
-    public static final String TRACK = "Track";
-    public static final String ALBUM_ARTIST = "AlbumArtist";
-    public static final String TIME = "Time";
-    public static final String POS = "Pos";
-    public static final String ID = "Id";
-    public static final String NAME = "Name";
-    public static final String COMPOSER = "Composer";
-
-    private String file;
-    private String lastModified;
-    private String title;
     private String album;
-    private String artist;
-    private String date;
-    private String genre;
-    private String disc;
-    private int track;
     private String albumArtist;
-    private long time;
-    private int pos;
-    private int id;
-    private String Name;
+    private String artist;
     private String composer;
+    private String date;    // maybe integer or long
+    private String disc;    // maybe integer
+    private String filePath;
+    private String genre;
+    private int id;
+    private String lastModified;  // maybe int or long as date.
+    private String name;
+    private int pos;
+    private long time;
+    private String title;
+    private int track;
 
-    protected List<ChangeListener> listeners = new ArrayList<>();
+    @Deprecated
+    protected List<ChangeListener> listeners = new ArrayList<>(); // remove listeners
 
-    public Song() {}
-
-    public Song(List<String> entry) {
-        populate(entry);
+    public Song(String album, String albumArtist, String artist, String composer,
+                String date, String disc, String filePath, String genre, int id,
+                String lastModified, String name, int pos, long time,
+                String title, int track) {
+        this.album = album;
+        this.albumArtist = albumArtist;
+        this.artist = artist;
+        this.composer = composer;
+        this.date = date;
+        this.disc = disc;
+        this.filePath = filePath;
+        this.genre = genre;
+        this.id = id;
+        this.lastModified = lastModified;
+        this.name = name;
+        this.pos = pos;
+        this.time = time;
+        this.title = title;
+        this.track = track;
     }
 
 
-    // has to be removed???
-    public static Song populate(final Collection<String> entry) {
 
-        String pFile;
-        String pLastModified;
-        String pTitle;
-        String pAlbum;
-        String pArtist;
-        String pDate;
-        String pGenre;
-        String pDisc;
-        String pComposer;
-        String pTrack;
-        String pAlbumArtist;
-        int pTime;
-        int pPos;
-        int pId;
+
+
+    public static Song createSong(final Collection<String> entry) {
+
+        String pAlbum = null;
+        String pAlbumArtist = null;
+        String pArtist = null;
+        String pComposer = null;
+        String pDate = null;
+        String pDisc = null;
+        String pFilePath = null;
+        String pGenre = null;
+        int pId = -1;
+        String pLastModified = null;
+        String pName = null;
+        int pPos = -1;
+        long pTime = -1L;
+        String pTitle = null;
+        int pTrack = -1;
 
         Iterator<String> i = entry.iterator();
         while (i.hasNext()) {
             String[] line = i.next().split(": ");
             switch (line[0]) {
-                case Song.FILE:
-                    pFile = line[1];
-                    break;
-                case Song.LAST_MODIFIED:
-                    pLastModified = line[1];
-                    break;
-                case Song.TITLE:
-                    pTitle = line[1];
-                    break;
-                case Song.ALBUM:
+
+                case "Album":
                     pAlbum = line[1];
                     break;
-                case Song.ARTIST:
+                case "AlbumArtist":
+                    pAlbumArtist = line[1];
+                case "Artist":
                     pArtist = line[1];;
                     break;
-                case Song.DATE:
-                    pDate = line[1];
-                    break;
-                case Song.GENRE:
-                    pGenre = line[1];
-                    break;
-                case Song.DISC:
-                    pDisc = line[1];
-                    break;
-                case Song.COMPOSER:
+                case "Composer":
                     pComposer = line[1];
                     break;
-                case Song.TRACK:
-                    pTrack = line[1];
+                case "Date":
+                    pDate = line[1];
                     break;
-                case Song.ALBUM_ARTIST:
-                    pAlbumArtist = line[1];
+                case "Disc":
+                    pDisc = line[1];
                     break;
-                case Song.TIME:
-                    pTime = Integer.parseInt(line[1]);
+                case "file":
+                    pFilePath = line[1];
                     break;
-                case Song.POS:
-                    pPos = Integer.parseInt(line[1]);
+                case "Genre":
+                    pGenre = line[1];
                     break;
-                case Song.ID:
+                case "Id":
                     pId = Integer.parseInt(line[1]);
                     break;
+                case "Last-Modified":
+                    pLastModified = line[1];
+                    break;
+                case "Name":
+                    pName = line[1];
+                    break;
+                case "Pos":
+                    pPos = Integer.parseInt(line[1]);
+                    break;
+                case "Time":
+                    pTime = Integer.parseInt(line[1]);
+                    break;
+                case "Title":
+                    pTitle = line[1];
+                    break;
+                case "Track":
+                    pTrack = Integer.parseInt(line[1]);
+                    break;
                 default:
-                    //System.out.println("Not a property: " + line[0]);
+                    System.out.println("Not a property: " + line[0]);
                     break;
             }
         }
-       // fireListeners();
+        return new Song(pAlbum, pAlbumArtist, pArtist, pComposer, pDate, pDisc, pFilePath,
+                pGenre, pId, pLastModified, pName, pPos, pTime, pTitle, pTrack);
     }
 
 
 
+    @Deprecated
     protected void fireListeners() {
         if (listeners.size() > 0) {
             for (ChangeListener listener : listeners) {
@@ -133,148 +141,104 @@ public class Song {
         }
     }
 
+    @Deprecated
     public void addListener(ChangeListener listener) {
         listeners.add(listener);
     }
 
-    public void setFile(String file) {
-        this.file = file;
-    }
-
-    public void setLastModified(String lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setDisc(String disc) {
-        this.disc = disc;
-    }
-
-    public void setTrack(String track) {
-        this.track = Integer.parseInt(track);
-    }
-
-    public void setAlbumArtist(String albumArtist) {
-        this.albumArtist = albumArtist;
-    }
-
-    public void setTime(String time) {
-        this.time = Long.parseLong(time);
-    }
-
-    public void setPos(String pos) {
-        this.pos = Integer.parseInt(pos);
-    }
-
-    public void setId(String id) {
-        this.id = Integer.parseInt(id);
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setComposer(String composer) {
-        this.composer = composer;
-    }
-
-    public String getFile() {
-        return file;
-    }
-
-    public String getLastModified() {
-        return lastModified;
-    }
-
-    public String getTitle() {
-        return title;
+    protected boolean isEmptyVar(final String s) {
+        return (s == null || s.isEmpty());
     }
 
     public String getAlbum() {
         return album;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public String getDisc() {
-        return disc;
-    }
-
-    public String getTrack() {
-        return track;
-    }
-
     public String getAlbumArtist() {
         return albumArtist;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public int getPos() {
-        return pos;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return Name;
+    public String getArtist() {
+        return artist;
     }
 
     public String getComposer() {
         return composer;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public String getDisc() {
+        return disc;
+    }
+
+    public String getFileName() {
+        int pos = filePath.lastIndexOf('/');
+        if (pos == -1) {
+            return filePath;
+        }
+        return filePath.substring(pos + 1);
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public String getTitle() {
+        if (isEmptyVar(title)) {
+            return filePath;
+        }
+        return title;
+    }
+
+    public int getTrack() {
+        return track;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
-                "file='" + file + '\'' +
-                ", lastModified='" + lastModified + '\'' +
-                ", title='" + title + '\'' +
-                ", album='" + album + '\'' +
-                ", artist='" + artist + '\'' +
-                ", date='" + date + '\'' +
-                ", genre='" + genre + '\'' +
-                ", disc='" + disc + '\'' +
-                ", track='" + track + '\'' +
+                "album='" + album + '\'' +
                 ", albumArtist='" + albumArtist + '\'' +
-                ", time=" + time +
-                ", pos=" + pos +
-                ", id=" + id +
-                ", Name='" + Name + '\'' +
+                ", artist='" + artist + '\'' +
                 ", composer='" + composer + '\'' +
+                ", date='" + date + '\'' +
+                ", disc='" + disc + '\'' +
+                ", filepath='" + filePath + '\'' +
+                ", genre='" + genre + '\'' +
+                ", id=" + id +
+                ", lastModified='" + lastModified + '\'' +
+                ", name='" + name + '\'' +
+                ", pos=" + pos +
+                ", time=" + time +
+                ", title='" + title + '\'' +
+                ", track=" + track +
                 '}';
     }
 }
