@@ -1,6 +1,7 @@
 package com.bono.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Song {
     private String date;
     private String genre;
     private String disc;
-    private String track;
+    private int track;
     private String albumArtist;
     private long time;
     private int pos;
@@ -49,60 +50,77 @@ public class Song {
         populate(entry);
     }
 
-    public void populate(List<String> entry) {
+
+    // has to be removed???
+    public static Song populate(final Collection<String> entry) {
+
+        String pFile;
+        String pLastModified;
+        String pTitle;
+        String pAlbum;
+        String pArtist;
+        String pDate;
+        String pGenre;
+        String pDisc;
+        String pComposer;
+        String pTrack;
+        String pAlbumArtist;
+        int pTime;
+        int pPos;
+        int pId;
 
         Iterator<String> i = entry.iterator();
         while (i.hasNext()) {
             String[] line = i.next().split(": ");
             switch (line[0]) {
                 case Song.FILE:
-                    file = line[1];
+                    pFile = line[1];
                     break;
                 case Song.LAST_MODIFIED:
-                    lastModified = line[1];
+                    pLastModified = line[1];
                     break;
                 case Song.TITLE:
-                    title = line[1];
+                    pTitle = line[1];
                     break;
                 case Song.ALBUM:
-                    album = line[1];
+                    pAlbum = line[1];
                     break;
                 case Song.ARTIST:
-                    artist = line[1];;
+                    pArtist = line[1];;
                     break;
                 case Song.DATE:
-                    date = line[1];
+                    pDate = line[1];
                     break;
                 case Song.GENRE:
-                    genre = line[1];
+                    pGenre = line[1];
                     break;
                 case Song.DISC:
-                    disc = line[1];
+                    pDisc = line[1];
                     break;
                 case Song.COMPOSER:
-                    composer = line[1];
+                    pComposer = line[1];
                     break;
                 case Song.TRACK:
-                    track = line[1];
+                    pTrack = line[1];
                     break;
                 case Song.ALBUM_ARTIST:
-                    albumArtist = line[1];
+                    pAlbumArtist = line[1];
                     break;
                 case Song.TIME:
-                    time = Integer.parseInt(line[1]);
+                    pTime = Integer.parseInt(line[1]);
                     break;
                 case Song.POS:
-                    pos = Integer.parseInt(line[1]);
+                    pPos = Integer.parseInt(line[1]);
                     break;
                 case Song.ID:
-                    id = Integer.parseInt(line[1]);
+                    pId = Integer.parseInt(line[1]);
                     break;
                 default:
-                    System.out.println("Not a property: " + line[0]);
+                    //System.out.println("Not a property: " + line[0]);
                     break;
             }
         }
-        fireListeners();
+       // fireListeners();
     }
 
 
@@ -152,7 +170,7 @@ public class Song {
     }
 
     public void setTrack(String track) {
-        this.track = track;
+        this.track = Integer.parseInt(track);
     }
 
     public void setAlbumArtist(String albumArtist) {
