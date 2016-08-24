@@ -1,6 +1,7 @@
 package com.bono.api;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -70,23 +71,23 @@ public class ClientExecutor {
     }
 
     /*
-         * Execute a single command.
-         */
-    public List<String> execute(Command command) throws ACKException,
+     * Execute a single command.
+     */
+    public Collection<String> execute(Command command) throws ACKException,
             IOException, ExecutionException, InterruptedException {
 
         CommandExecutor commandExecutor = new CommandExecutor(command, new Endpoint(host, port));
-        Future<List<String>> future = executor.submit(commandExecutor);
+        Future<Collection<String>> future = executor.submit(commandExecutor);
         return  future.get();
     }
 
     /*
      * Execute a List<Command> command list.
      */
-    public List<String> executeList(List<Command> commands) throws ACKException,
+    public Collection<String> executeList(List<Command> commands) throws ACKException,
             IOException, ExecutionException, InterruptedException {
         CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port));
-        Future<List<String>> future = executor.submit(commandExecutor);
+        Future<Collection<String>> future = executor.submit(commandExecutor);
         return  future.get();
     }
 
@@ -95,10 +96,10 @@ public class ClientExecutor {
     }
 
 
-    private class CommandExecutor implements Callable<List<String>> {
+    private class CommandExecutor implements Callable<Collection<String>> {
 
         private Command command = null;
-        private List<Command> commands = null;
+        private Collection<Command> commands = null;
         private Endpoint endpoint = null;
 
         public CommandExecutor(Command command, Endpoint endpoint) {
@@ -106,12 +107,12 @@ public class ClientExecutor {
             this.endpoint = endpoint;
         }
 
-        public CommandExecutor(List<Command> commands, Endpoint endpoint) {
+        public CommandExecutor(Collection<Command> commands, Endpoint endpoint) {
             this.commands = commands;
             this.endpoint = endpoint;
         }
         @Override
-        public List<String> call() throws Exception {
+        public Collection<String> call() throws Exception {
             if (endpoint == null) {
                 throw new Exception("Endpoint cannot be null!");
             }

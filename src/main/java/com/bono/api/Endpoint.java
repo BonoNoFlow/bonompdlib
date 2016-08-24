@@ -3,13 +3,11 @@ package com.bono.api;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+
 
 /**
  * Created by hendriknieuwenhuis on 28/09/15.
@@ -48,8 +46,8 @@ public class Endpoint {
         this(address);
     }
 
-    private List<String> send(byte[] bytes, int timeout) throws ACKException, IOException {
-        List<String> reply = new ArrayList<>();
+    private Collection<String> send(byte[] bytes, int timeout) throws ACKException, IOException {
+        Collection<String> reply = new ArrayList<>();
         String line;
         OutputStream out;
         BufferedReader reader;
@@ -83,7 +81,7 @@ public class Endpoint {
         return reply;
     }
 
-    public List<String> command(Command command, int timeout) throws ACKException, IOException {
+    public Collection<String> command(Command command, int timeout) throws ACKException, IOException {
         byte[] bytes = command.getCommandBytes();
 
         connect(timeout);
@@ -91,7 +89,7 @@ public class Endpoint {
         return send(bytes, timeout);
     }
 
-    public List<String> commands(Collection<Command> commands, int timeout) throws ACKException, IOException {
+    public Collection<String> commands(Collection<Command> commands, int timeout) throws ACKException, IOException {
 
         // collect all the command bytes to send at once.
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
