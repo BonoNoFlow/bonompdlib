@@ -50,10 +50,6 @@ public class Song {
         this.track = track;
     }
 
-
-
-
-
     public static Song createSong(final Collection<String> entry) {
 
         String pAlbum = null;
@@ -130,7 +126,7 @@ public class Song {
                     if (trackPos == -1) {
                         pTrack = Integer.parseInt(line[1]);
                     } else {
-                        pTrack = Integer.parseInt(line[1].substring(trackPos + 1));
+                        pTrack = Integer.parseInt(line[1].substring(0, trackPos));
                     }
                     break;
                 default:
