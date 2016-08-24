@@ -97,6 +97,10 @@ public class Playlist {
         songListeners.add(listener);
     }
 
+    public void setSong(int index, Song song) {
+        songs.set(index, song);
+    }
+
     public Song[] playlist() {
         Song[] songA = songs.toArray(new Song[songs.size()]);
         return songA;

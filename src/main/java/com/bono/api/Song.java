@@ -15,11 +15,11 @@ public class Song {
     protected String artist;
     protected String composer;
     protected String date;    // maybe integer or long
-    protected String disc;    // maybe integer
+    protected int disc;
     protected String filePath;
     protected String genre;
     protected int id;
-    protected String lastModified;  // maybe int or long as date.
+    protected String lastModified;  // maybe removed, not useful?.
     protected String name;
     protected int pos;
     protected long time;
@@ -30,7 +30,7 @@ public class Song {
     protected List<ChangeListener> listeners = new ArrayList<>(); // remove listeners
 
     public Song(String album, String albumArtist, String artist, String composer,
-                String date, String disc, String filePath, String genre, int id,
+                String date, int disc, String filePath, String genre, int id,
                 String lastModified, String name, int pos, long time,
                 String title, int track) {
         this.album = album;
@@ -61,7 +61,7 @@ public class Song {
         String pArtist = null;
         String pComposer = null;
         String pDate = null;
-        String pDisc = null;
+        int pDisc = -1;
         String pFilePath = null;
         String pGenre = null;
         int pId = -1;
@@ -92,7 +92,12 @@ public class Song {
                     pDate = line[1];
                     break;
                 case "Disc":
-                    pDisc = line[1];
+                    int discPos = line[1].lastIndexOf('/');
+                    if (discPos == -1) {
+                        pDisc = Integer.parseInt(line[1]);
+                    } else {
+                        pDisc = Integer.parseInt(line[1].substring(discPos + 1));
+                    }
                     break;
                 case "file":
                     pFilePath = line[1];
@@ -116,10 +121,17 @@ public class Song {
                     pTime = Integer.parseInt(line[1]);
                     break;
                 case "Title":
+
                     pTitle = line[1];
+
                     break;
                 case "Track":
-                    pTrack = Integer.parseInt(line[1]);
+                    int trackPos = line[1].lastIndexOf('/');
+                    if (trackPos == -1) {
+                        pTrack = Integer.parseInt(line[1]);
+                    } else {
+                        pTrack = Integer.parseInt(line[1].substring(trackPos + 1));
+                    }
                     break;
                 default:
                     System.out.println("Not a property: " + line[0]);
@@ -146,10 +158,6 @@ public class Song {
         listeners.add(listener);
     }
 
-    protected boolean isEmptyVar(final String s) {
-        return (s == null || s.isEmpty());
-    }
-
     public String getAlbum() {
         return album;
     }
@@ -170,7 +178,7 @@ public class Song {
         return date;
     }
 
-    public String getDisc() {
+    public int getDisc() {
         return disc;
     }
 
@@ -199,6 +207,9 @@ public class Song {
     }
 
     public String getName() {
+        if (name == null || name.isEmpty()) {
+            return getFileName();
+        }
         return name;
     }
 
@@ -211,7 +222,7 @@ public class Song {
     }
 
     public String getTitle() {
-        if (isEmptyVar(title)) {
+        if (title == null || title.isEmpty()) {
             return filePath;
         }
         return title;

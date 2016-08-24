@@ -3,6 +3,7 @@ package com.bono.api;
 import com.bono.api.protocol.MPDStatus;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Idle {
     }
 
     public void runIdle() throws Exception {
-        List<String> feedback;
+        Collection<String> feedback;
 
         while (true) {
             feedback = clientExecutor.execute(new DefaultCommand(MPDStatus.IDLE));

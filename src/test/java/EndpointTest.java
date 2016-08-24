@@ -3,6 +3,7 @@ import com.bono.api.protocol.MPDPlayback;
 import com.bono.api.protocol.MPDStatus;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,12 +26,12 @@ public class EndpointTest {
             String version = endpoint.getVersion(4000);
             System.out.println(version);
 
-            List<String> response = endpoint.commands(commands, 4000);
+            Collection<String> response = endpoint.commands(commands, 4000);
             for (String s : response) {
                 System.out.println(s);
             }
 
-            List<String> status = endpoint.command(defaultCommand, 4000);
+            Collection<String> status = endpoint.command(defaultCommand, 4000);
             for (String s : status) {
                 System.out.println(s);
             }

@@ -84,7 +84,7 @@ public class ClientExecutor {
     /*
      * Execute a List<Command> command list.
      */
-    public Collection<String> executeList(List<Command> commands) throws ACKException,
+    public Collection<String> executeList(Collection<Command> commands) throws ACKException,
             IOException, ExecutionException, InterruptedException {
         CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port));
         Future<Collection<String>> future = executor.submit(commandExecutor);

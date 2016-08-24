@@ -3,6 +3,7 @@ import com.bono.api.DefaultCommand;
 import com.bono.api.protocol.MPDDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class TestDatabase {
     public TestDatabase() {
         ClientExecutor clientExecutor = new ClientExecutor("192.168.2.4", 6600, 4000);
 
-        List<String> results = new ArrayList<>();
+        Collection<String> results = new ArrayList<>();
 
         DefaultCommand defaultCommand = new DefaultCommand(MPDDatabase.FIND, "album", "\"Avalanche\"");
 

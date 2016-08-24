@@ -4,6 +4,7 @@ import com.bono.api.protocol.MPDStatus;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EventObject;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class TestStatus {
     }
 
     private void populateStatus() {
-        List<String> response = new ArrayList<>();
+        Collection<String> response = new ArrayList<>();
         Status status = new Status();
 
         try {
