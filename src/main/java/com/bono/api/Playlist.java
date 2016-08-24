@@ -33,11 +33,13 @@ public class Playlist {
         List<String> songCache = new ArrayList<>();
         songCache.clear();
         int size = entry.size();
-
+        Song song = null;
         for (String s : entry) {
             if (s.startsWith("file")) {
                 if (!songCache.isEmpty()) {
-                    songs.add(Song.createSong(songCache));
+                    song = Song.createSong(songCache);
+                    songs.add(song);
+                    fireSongListeners(song);
                     songCache.clear();
                 }
             }
@@ -45,7 +47,9 @@ public class Playlist {
         }
 
         if (!songCache.isEmpty()) {
-            songs.add(Song.createSong(songCache));
+            song = Song.createSong(songCache);
+            songs.add(song);
+            fireSongListeners(song);
         }
 
         fireListeners();

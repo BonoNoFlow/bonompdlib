@@ -10,21 +10,21 @@ import java.util.List;
  */
 public class Song {
 
-    private String album;
-    private String albumArtist;
-    private String artist;
-    private String composer;
-    private String date;    // maybe integer or long
-    private String disc;    // maybe integer
-    private String filePath;
-    private String genre;
-    private int id;
-    private String lastModified;  // maybe int or long as date.
-    private String name;
-    private int pos;
-    private long time;
-    private String title;
-    private int track;
+    protected String album;
+    protected String albumArtist;
+    protected String artist;
+    protected String composer;
+    protected String date;    // maybe integer or long
+    protected String disc;    // maybe integer
+    protected String filePath;
+    protected String genre;
+    protected int id;
+    protected String lastModified;  // maybe int or long as date.
+    protected String name;
+    protected int pos;
+    protected long time;
+    protected String title;
+    protected int track;
 
     @Deprecated
     protected List<ChangeListener> listeners = new ArrayList<>(); // remove listeners
