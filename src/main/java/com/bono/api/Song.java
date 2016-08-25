@@ -237,7 +237,7 @@ public class Song {
 
         String result = null;
         if (hour == 0) {
-            result = String.format("%02d:%02d:", minutes, seconds);
+            result = String.format("%02d:%02d", minutes, seconds);
         } else {
             result = String.format("%02d:%02d:%02d", hour, minutes, seconds);
         }
