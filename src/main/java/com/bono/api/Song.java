@@ -217,6 +217,33 @@ public class Song {
         return time;
     }
 
+    /**
+     * Get the time as hh:mm:ss
+     * @param totalSeconds seconds total as long
+     * @return String, time formatted is hh:mm:ss
+     */
+    public String getFormattedTime(long totalSeconds) {
+        long secondsInHour = 3600L;
+        long secondsInMinute = 60L;
+
+        if (totalSeconds == -1L) {
+            totalSeconds = 0L;
+        }
+
+        long hour = totalSeconds / secondsInHour;
+        long remainingMin = totalSeconds%secondsInHour;
+        long minutes =  remainingMin / secondsInMinute;
+        long seconds = remainingMin%secondsInMinute;
+
+        String result = null;
+        if (hour == 0) {
+            result = String.format("%02d:%02d:", minutes, seconds);
+        } else {
+            result = String.format("%02d:%02d:%02d", hour, minutes, seconds);
+        }
+        return result;
+    }
+
     public String getTitle() {
         if (title == null || title.isEmpty()) {
             return filePath;
