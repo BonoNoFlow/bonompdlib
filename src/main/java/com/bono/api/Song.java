@@ -150,18 +150,14 @@ public class Song implements Comparable<Song> {
     public int compareTo(Song o) {
         int comp = 0;
 
-        if (o != null) {
+        comp = getId() > o.getId() ? +1 : getId() < o.getId() ? -1 : 0;
 
-            comp = getId() > o.getId() ? +1 : getId() < o.getId() ? -1 : 0;
+        if (comp == 0) {
+            comp = getName().compareTo(o.getName());
+        }
 
-
-            if (comp == 0) {
-                comp = getName().compareTo(o.getName());
-            }
-
-            if (comp == 0) {
-                comp = getFilePath().compareTo(o.getFilePath());
-            }
+        if (comp == 0) {
+            comp = getFilePath().compareTo(o.getFilePath());
         }
 
         return comp;
