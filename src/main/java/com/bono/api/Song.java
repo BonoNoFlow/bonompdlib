@@ -139,9 +139,8 @@ public class Song implements Comparable<Song>{
     }
 
     /**
-     * A song is compared to by its artist name,
-     * album name, title name and track number,
-     * in given order.
+     * A song is compared to by its songid,
+     * name and as last resort full path.
      *
      * @param o Song object to compare to.
      * @return
@@ -150,35 +149,20 @@ public class Song implements Comparable<Song>{
     public int compareTo(Song o) {
         int comp = 0;
 
-        comp = artist.compareTo(o.getArtist());
-        if (comp == -1) {
-            return -1;
-        } else  if (comp == 1) {
-            return 1;
+        if (o != null) {
+
+            comp = getId() > o.getId() ? +1 : getId() < o.getId() ? -1 : 0;
+
+            if (comp == 0) {
+                comp = getName().compareTo(o.getName());
+            }
+
+            if (comp == 0) {
+                comp = getFilePath().compareTo(o.getFilePath());
+            }
         }
 
-        comp = album.compareTo(o.getAlbum());
-        if (comp == -1) {
-            return -1;
-        } else if (comp == 1) {
-                return 1;
-        }
-
-        comp = title.compareTo(o.getTitle());
-        if (comp == -1) {
-            return -1;
-        } else if (comp == 1) {
-            return 1;
-        }
-
-        comp = track > o.getTrack() ? +1 : track < o.getTrack() ? -1 : 0;
-        if (comp == -1) {
-            return -1;
-        } else if (comp == 1) {
-            return 1;
-        }
-
-        return 0;
+        return comp;
     }
 
     @Deprecated
@@ -263,7 +247,7 @@ public class Song implements Comparable<Song>{
      * @param totalSeconds seconds total as long
      * @return String, time formatted is hh:mm:ss
      */
-    public String getFormattedTime(long totalSeconds) {
+    public static String getFormattedTime(long totalSeconds) {
         long secondsInHour = 3600L;
         long secondsInMinute = 60L;
 
