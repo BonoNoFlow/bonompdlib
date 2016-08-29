@@ -1,14 +1,18 @@
 package com.bono.api;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by hendriknieuwenhuis on 29/07/15.
  */
-public class Song implements Comparable<Song>{
+public class Song implements Comparable<Song> {
+
+    public static Comparator<Song> songComparator = new Comparator<Song>() {
+        @Override
+        public int compare(Song o1, Song o2) {
+            return o1.compareTo(o2);
+        }
+    };
 
     protected String album;
     protected String albumArtist;
@@ -25,9 +29,6 @@ public class Song implements Comparable<Song>{
     protected long time;
     protected String title;
     protected int track;
-
-    @Deprecated
-    protected List<ChangeListener> listeners = new ArrayList<>(); // remove listeners
 
     public Song(String album, String albumArtist, String artist, String composer,
                 String date, int disc, String filePath, String genre, int id,
@@ -153,6 +154,7 @@ public class Song implements Comparable<Song>{
 
             comp = getId() > o.getId() ? +1 : getId() < o.getId() ? -1 : 0;
 
+
             if (comp == 0) {
                 comp = getName().compareTo(o.getName());
             }
@@ -165,19 +167,6 @@ public class Song implements Comparable<Song>{
         return comp;
     }
 
-    @Deprecated
-    protected void fireListeners() {
-        if (listeners.size() > 0) {
-            for (ChangeListener listener : listeners) {
-                listener.stateChanged(new ChangeEvent(this));
-            }
-        }
-    }
-
-    @Deprecated
-    public void addListener(ChangeListener listener) {
-        listeners.add(listener);
-    }
 
     public String getAlbum() {
         return album;
