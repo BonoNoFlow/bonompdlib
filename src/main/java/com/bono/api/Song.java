@@ -297,6 +297,51 @@ public class Song implements Comparable<Song>{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Song song = (Song) o;
+
+        if (disc != song.disc) return false;
+        if (id != song.id) return false;
+        if (pos != song.pos) return false;
+        if (time != song.time) return false;
+        if (track != song.track) return false;
+        if (album != null ? !album.equals(song.album) : song.album != null) return false;
+        if (albumArtist != null ? !albumArtist.equals(song.albumArtist) : song.albumArtist != null) return false;
+        if (artist != null ? !artist.equals(song.artist) : song.artist != null) return false;
+        if (composer != null ? !composer.equals(song.composer) : song.composer != null) return false;
+        if (date != null ? !date.equals(song.date) : song.date != null) return false;
+        if (filePath != null ? !filePath.equals(song.filePath) : song.filePath != null) return false;
+        if (genre != null ? !genre.equals(song.genre) : song.genre != null) return false;
+        if (lastModified != null ? !lastModified.equals(song.lastModified) : song.lastModified != null) return false;
+        if (name != null ? !name.equals(song.name) : song.name != null) return false;
+        return title != null ? title.equals(song.title) : song.title == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = album != null ? album.hashCode() : 0;
+        result = 31 * result + (albumArtist != null ? albumArtist.hashCode() : 0);
+        result = 31 * result + (artist != null ? artist.hashCode() : 0);
+        result = 31 * result + (composer != null ? composer.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + disc;
+        result = 31 * result + (filePath != null ? filePath.hashCode() : 0);
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
+        result = 31 * result + id;
+        result = 31 * result + (lastModified != null ? lastModified.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + pos;
+        result = 31 * result + (int) (time ^ (time >>> 32));
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + track;
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Song{" +
                 "album='" + album + '\'' +
