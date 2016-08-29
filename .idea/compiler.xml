@@ -29,7 +29,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="bonompdlib" target="1.8" />
+      <module name="bonompdlib" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

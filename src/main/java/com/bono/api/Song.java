@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by hendriknieuwenhuis on 29/07/15.
  */
-public class Song {
+public class Song implements Comparable<Song>{
 
     protected String album;
     protected String albumArtist;
@@ -138,7 +138,48 @@ public class Song {
                 pGenre, pId, pLastModified, pName, pPos, pTime, pTitle, pTrack);
     }
 
+    /**
+     * A song is compared to by its artist name,
+     * album name, title name and track number,
+     * in given order.
+     *
+     * @param o Song object to compare to.
+     * @return
+     */
+    @Override
+    public int compareTo(Song o) {
+        int comp = 0;
 
+        comp = artist.compareTo(o.getArtist());
+        if (comp == -1) {
+            return -1;
+        } else  if (comp == 1) {
+            return 1;
+        }
+
+        comp = album.compareTo(o.getAlbum());
+        if (comp == -1) {
+            return -1;
+        } else if (comp == 1) {
+                return 1;
+        }
+
+        comp = title.compareTo(o.getTitle());
+        if (comp == -1) {
+            return -1;
+        } else if (comp == 1) {
+            return 1;
+        }
+
+        comp = track > o.getTrack() ? +1 : track < o.getTrack() ? -1 : 0;
+        if (comp == -1) {
+            return -1;
+        } else if (comp == 1) {
+            return 1;
+        }
+
+        return 0;
+    }
 
     @Deprecated
     protected void fireListeners() {
