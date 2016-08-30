@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class ArtistTest {
 
-    static final String ARTIST = "artist";
+    static final String ARTIST = "Artist: ";
 
     Endpoint endpoint;
 
@@ -34,7 +34,7 @@ public class ArtistTest {
         endpoint = new Endpoint("192.168.2.4", 6600);
         Collection<String> reply = new ArrayList<>();
         try {
-            reply = endpoint.command(new DefaultCommand(MPDDatabase.LIST, "album", "242"));
+            reply = endpoint.command(new DefaultCommand(MPDDatabase.LIST, "album", ""));
         } catch (ACKException ack) {
             ack.printStackTrace();
         } catch (IOException ioe) {
@@ -56,12 +56,12 @@ public class ArtistTest {
     private TreeSet<Artist> artists(Collection<String> collection) {
 
         TreeSet<Artist> tree = new TreeSet<>();
-        int pos = 0;
+        int pos = ARTIST.length();
         for (String s : collection) {
-            pos = s.lastIndexOf(' ');
-            if (pos > -1) {
+            if (s.startsWith(ARTIST)) {
 
-                tree.add(new Artist(s.substring(pos + 1)));
+
+                tree.add(new Artist(s.substring(pos)));
             }
         }
         return tree;
