@@ -30,7 +30,7 @@ public class TestStatus {
         Status status = new Status();
 
         try {
-            response = new Endpoint("192.168.2.4", 6600).command(new DefaultCommand(MPDStatus.STATUS), 4000);
+            response = new Endpoint("192.168.2.4", 6600).command(new DefaultCommand(MPDStatus.STATUS));
         } catch (ACKException ack) {
             ack.printStackTrace();
         } catch (IOException ioe) {
@@ -41,7 +41,7 @@ public class TestStatus {
         response = new ArrayList<>();
 
         try {
-            response = new Endpoint("192.168.2.4", 6600).command(new DefaultCommand(MPDPlaylist.PLAYLISTINFO), 4000);
+            response = new Endpoint("192.168.2.4", 6600).command(new DefaultCommand(MPDPlaylist.PLAYLISTINFO));
         } catch (ACKException ack) {
             ack.printStackTrace();
         } catch (IOException ioe) {

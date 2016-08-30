@@ -23,15 +23,15 @@ public class EndpointTest {
         commands.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_END));
         try {
             //endpoint.command(defaultCommand);
-            String version = endpoint.getVersion(4000);
+            String version = endpoint.getVersion();
             System.out.println(version);
 
-            Collection<String> response = endpoint.commands(commands, 4000);
+            Collection<String> response = endpoint.commands(commands);
             for (String s : response) {
                 System.out.println(s);
             }
 
-            Collection<String> status = endpoint.command(defaultCommand, 4000);
+            Collection<String> status = endpoint.command(defaultCommand);
             for (String s : status) {
                 System.out.println(s);
             }

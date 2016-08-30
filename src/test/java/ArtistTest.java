@@ -14,15 +14,15 @@ public class ArtistTest {
 
     static final String ARTIST = "artist";
 
-    Endpoint endpoint = new Endpoint("192.168.2.4", 6600);
+    Endpoint endpoint;
 
 
     TreeSet<Artist> artists;
 
     public ArtistTest() {
-
+        endpoint = new Endpoint("192.168.2.4", 6600);
         try {
-            artists = artists(endpoint.command(new DefaultCommand(MPDDatabase.LIST, "artist"), 4000));
+            artists = artists(endpoint.command(new DefaultCommand(MPDDatabase.LIST, "artist")));
         } catch (ACKException ack) {
             ack.printStackTrace();
         } catch (IOException ioe) {
@@ -30,6 +30,20 @@ public class ArtistTest {
         }
 
         print(artists);
+
+        endpoint = new Endpoint("192.168.2.4", 6600);
+        Collection<String> reply = new ArrayList<>();
+        try {
+            reply = endpoint.command(new DefaultCommand(MPDDatabase.LIST, "album", "242"));
+        } catch (ACKException ack) {
+            ack.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        for (String s : reply) {
+            System.out.println(s);
+        }
 
     }
 

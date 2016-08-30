@@ -17,7 +17,7 @@ public class ClientExecutor {
     private String host;
     private int port;
 
-    private int timeout;
+    private int timeout = 10000;
 
     public ClientExecutor() {
         executor = Executors.newFixedThreadPool(10);
@@ -41,8 +41,8 @@ public class ClientExecutor {
     public String testConnection() throws IOException {
 
         // test the connection settings.
-        Endpoint endpoint = new Endpoint(host, port);
-        String version = endpoint.getVersion(1000);
+        Endpoint endpoint = new Endpoint(host, port, timeout);
+        String version = endpoint.getVersion();
         return version;
     }
 
@@ -76,7 +76,7 @@ public class ClientExecutor {
     public Collection<String> execute(Command command) throws ACKException,
             IOException, ExecutionException, InterruptedException {
 
-        CommandExecutor commandExecutor = new CommandExecutor(command, new Endpoint(host, port));
+        CommandExecutor commandExecutor = new CommandExecutor(command, new Endpoint(host, port, timeout));
         Future<Collection<String>> future = executor.submit(commandExecutor);
         return  future.get();
     }
@@ -86,7 +86,7 @@ public class ClientExecutor {
      */
     public Collection<String> executeList(Collection<Command> commands) throws ACKException,
             IOException, ExecutionException, InterruptedException {
-        CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port));
+        CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port, timeout));
         Future<Collection<String>> future = executor.submit(commandExecutor);
         return  future.get();
     }
@@ -117,9 +117,9 @@ public class ClientExecutor {
                 throw new Exception("Endpoint cannot be null!");
             }
             if (command != null) {
-                return endpoint.command(command, timeout);
+                return endpoint.command(command);
             } else if (commands != null) {
-                return endpoint.commands(commands, timeout);
+                return endpoint.commands(commands);
             }
             return null;
         }

@@ -21,9 +21,9 @@ import java.util.Collection;
 
 public class Endpoint {
 
-    private ByteBuffer buffer = ByteBuffer.allocate(1024);
+
     private InetSocketAddress address;
-    private int timeout = 0;
+    private int timeout = 10000;
 
     private String version = null;
 
@@ -46,7 +46,7 @@ public class Endpoint {
         this(address);
     }
 
-    private Collection<String> send(byte[] bytes, int timeout) throws ACKException, IOException {
+    private Collection<String> send(byte[] bytes) throws ACKException, IOException {
         Collection<String> reply = new ArrayList<>();
         String line;
         OutputStream out;
@@ -81,15 +81,15 @@ public class Endpoint {
         return reply;
     }
 
-    public Collection<String> command(Command command, int timeout) throws ACKException, IOException {
+    public Collection<String> command(Command command) throws ACKException, IOException {
         byte[] bytes = command.getCommandBytes();
 
-        connect(timeout);
+        connect();
 
-        return send(bytes, timeout);
+        return send(bytes);
     }
 
-    public Collection<String> commands(Collection<Command> commands, int timeout) throws ACKException, IOException {
+    public Collection<String> commands(Collection<Command> commands) throws ACKException, IOException {
 
         // collect all the command bytes to send at once.
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -97,17 +97,14 @@ public class Endpoint {
             bytes.write(c.getCommandBytes());
         }
 
-        connect(timeout);
+        connect();
 
-        return send(bytes.toByteArray(), 4000);
+        return send(bytes.toByteArray());
     }
 
-    private void connect() throws IOException {
-        connect(0);
-    }
 
     // connect to server
-    private void connect(int timeout) throws IOException {
+    private void connect() throws IOException {
         BufferedReader reader;
         if (address.getHostName() != null && address.getPort() != 0) {
             socket = new Socket();
@@ -129,12 +126,9 @@ public class Endpoint {
     }
 
     public String getVersion() throws IOException {
-        connect(0);
+        connect();
         return version;
     }
 
-    public String getVersion(int timeout) throws IOException {
-        connect(timeout);
-        return version;
-    }
+
 }
