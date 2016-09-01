@@ -3,7 +3,7 @@ package com.bono.api;
 import java.util.Comparator;
 
 /**
- * Created by bono on 8/29/16.
+ * Created by Hendrik Nieuwenhuis 8/29/16.
  */
 public class Artist implements Comparable<Artist> {
 
