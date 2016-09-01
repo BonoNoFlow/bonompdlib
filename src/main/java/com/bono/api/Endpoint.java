@@ -38,6 +38,10 @@ public class Endpoint {
         this.timeout = timeout;
     }
 
+    public Endpoint(Server server) {
+        this(server.getHost(), server.getPort());
+    }
+
     public Endpoint(InetSocketAddress address) {
         this.address = address;
     }

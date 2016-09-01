@@ -17,7 +17,9 @@ public class Playlist {
     protected List<ChangeListener> songListeners = new ArrayList<>();
 
     // the songs in this playlist.
-    protected List<Song> songs = new ArrayList<>();
+    //protected List<Song> songs = new ArrayList<>();
+
+    protected SongList songList;
 
 
     public Playlist() {
@@ -25,32 +27,11 @@ public class Playlist {
     }
 
     public Song getSong(int index) {
-        return songs.get(index);
+        return songList.getSongByIndex(index);
     }
 
     public void populate(Collection<String> entry) {
-        songs.clear();
-        List<String> songCache = new ArrayList<>();
-        songCache.clear();
-        int size = entry.size();
-        Song song = null;
-        for (String s : entry) {
-            if (s.startsWith("file")) {
-                if (!songCache.isEmpty()) {
-                    song = Song.createSong(songCache);
-                    songs.add(song);
-                    fireSongListeners(song);
-                    songCache.clear();
-                }
-            }
-            songCache.add(s);
-        }
-
-        if (!songCache.isEmpty()) {
-            song = Song.createSong(songCache);
-            songs.add(song);
-            fireSongListeners(song);
-        }
+        songList.populate(entry);
 
         fireListeners();
     }
@@ -58,11 +39,11 @@ public class Playlist {
 
 
     public void clear() {
-        songs.clear();
+        songList.clear();
     }
 
     public Iterator iterator() {
-        return songs.iterator();
+        return songList.iterator();
     }
 
     protected void fireListeners() {
@@ -97,18 +78,18 @@ public class Playlist {
         songListeners.add(listener);
     }
 
-    public void setSong(int index, Song song) {
-        songs.set(index, song);
+    public void setSong(Song song) {
+        songList.add(song);
     }
 
     public Song[] playlist() {
-        Song[] songA = songs.toArray(new Song[songs.size()]);
+        Song[] songA = null;//songs.toArray(new Song[songs.size()]);
         return songA;
     }
 
 
     public void printPlaylist() {
-        Iterator i = songs.iterator();
+        Iterator i = songList.iterator();
 
         while (i.hasNext()) {
             System.out.println(((Song) i.next()).toString());
@@ -116,14 +97,16 @@ public class Playlist {
     }
 
     public int getSize() {
-        return songs.size();
+        return songList.getSize();
     }
 
     @Override
     public String toString() {
         StringBuilder playlist = new StringBuilder();
-        for (Song song : songs) {
-            playlist.append(song.toString() + "\n");
+        Iterator<Song> i = songList.iterator();
+        while (i.hasNext()) {
+
+            playlist.append(i.next().toString() + "\n");
         }
         return playlist.toString();
     }
