@@ -1,21 +1,30 @@
 package com.bono.api;
 
 /**
- * Created by bono on 9/1/16.
+ * Created by Hendrik Nieuwenhuis on 9/1/16.
  */
 public class MPDClient implements Server {
 
     private String host = "localhost"; //
     private int port = 6600; // standard port configuration.
 
+    private ClientExecutor clientExecutor;
+
     private Player player;
     private Playlist playlist;
     private Status status;
 
     public MPDClient() {
-        this.player = new Player();
+        this.clientExecutor = new ClientExecutor(this);
+        this.player = new Player(clientExecutor);
         this.playlist = new Playlist();
         this.status = new Status();
+    }
+
+    public MPDClient(String host, int port) {
+        this();
+        this.host = host;
+        this.port = port;
     }
 
     @Override

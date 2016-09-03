@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 /**
  * Created by hendriknieuwenhuis on 25/07/16.
  *
- * Dit kan simpeler!!!!! executcommand moet weg.
+ *
  */
 public class ClientExecutor {
 
@@ -16,6 +16,8 @@ public class ClientExecutor {
 
     private String host;
     private int port;
+
+    private Server server = null;
 
     private int timeout = 10000;
 
@@ -36,6 +38,11 @@ public class ClientExecutor {
         this.host = host;
         this.port = port;
         this.timeout = timeout;
+    }
+
+    public ClientExecutor(Server server) {
+        this();
+        this.server = server;
     }
 
     public String testConnection() throws IOException {
@@ -73,22 +80,45 @@ public class ClientExecutor {
     /*
      * Execute a single command.
      */
-    public Collection<String> execute(Command command) throws ACKException,
-            IOException, ExecutionException, InterruptedException {
+    public Collection<String> execute(Command command) throws IOException {
 
-        CommandExecutor commandExecutor = new CommandExecutor(command, new Endpoint(host, port, timeout));
+        CommandExecutor commandExecutor = new CommandExecutor(command, getEndpoint());
         Future<Collection<String>> future = executor.submit(commandExecutor);
-        return  future.get();
+        try {
+            return  future.get();
+
+        } catch (ExecutionException | InterruptedException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public Collection<String> execute(String command, String... args) throws IOException {
+
+        Command comm = new DefaultCommand(command, args);
+        return execute(comm);
     }
 
     /*
      * Execute a List<Command> command list.
      */
-    public Collection<String> executeList(Collection<Command> commands) throws ACKException,
-            IOException, ExecutionException, InterruptedException {
-        CommandExecutor commandExecutor = new CommandExecutor(commands, new Endpoint(host, port, timeout));
+    public Collection<String> executeList(Collection<Command> commands) throws IOException {
+        CommandExecutor commandExecutor = new CommandExecutor(commands, getEndpoint());
         Future<Collection<String>> future = executor.submit(commandExecutor);
-        return  future.get();
+
+        try {
+            return  future.get();
+
+        } catch (ExecutionException | InterruptedException e) {
+            throw new IOException(e);
+        }
+    }
+    private Endpoint getEndpoint() {
+
+        if (server != null) {
+            return new Endpoint(server);
+        } else {
+            return new Endpoint(host, port);
+        }
     }
 
     public void shutdownExecutor() {
@@ -113,9 +143,11 @@ public class ClientExecutor {
         }
         @Override
         public Collection<String> call() throws Exception {
+            // ---- kan wel weg? ---- (nullpointerexception throwing)
             if (endpoint == null) {
-                throw new Exception("Endpoint cannot be null!");
+                throw new NullPointerException("Endpoint cannot be null!");
             }
+
             if (command != null) {
                 return endpoint.command(command);
             } else if (commands != null) {
