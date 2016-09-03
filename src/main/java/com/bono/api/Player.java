@@ -199,12 +199,28 @@ public class Player {
         clientExecutor.execute(STOP);
     }
 
+    /**
+     * Changes a boolean value to a String value "0" or "1".
 
-    private String booleanString(boolean value) {
+     * @param value boolean
+     * @return String "0" for false or "1" for true
+     */
+    public static String booleanString(boolean value) {
         if (value) {
             return "1";
         }
         return "0";
     }
 
+    public ClientExecutor getClientExecutor() {
+        return clientExecutor;
+    }
+
+    public Song getPlayingSong() {
+        return playingSong;
+    }
+
+    public void setPlayingSong(Song playingSong) {
+        this.playingSong = playingSong;
+    }
 }
