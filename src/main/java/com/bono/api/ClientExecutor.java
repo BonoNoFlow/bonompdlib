@@ -48,7 +48,7 @@ public class ClientExecutor {
     public String testConnection() throws IOException {
 
         // test the connection settings.
-        Endpoint endpoint = new Endpoint(host, port, timeout);
+        Endpoint endpoint = this.getEndpoint();
         String version = endpoint.getVersion();
         return version;
     }
