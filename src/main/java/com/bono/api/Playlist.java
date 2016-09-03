@@ -23,7 +23,7 @@ public class Playlist {
 
 
     public Playlist() {
-
+        songList = new SongList();
     }
 
     public Song getSong(int index) {
