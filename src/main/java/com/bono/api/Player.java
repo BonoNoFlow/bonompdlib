@@ -91,11 +91,11 @@ public class Player {
      * Set the server to pause or play when already paused.
      * Argument int has to be given either 0 or 1.
      *
-     * @param pause int 0 for play, int 1 for pause.
+     * @param value boolean true for pause false for play (stop pausing).
      * @throws IOException
      */
-    public void pause(int pause) throws IOException {
-        clientExecutor.execute(PAUSE, Integer.toString(pause));
+    public void pause(boolean value) throws IOException {
+        clientExecutor.execute(PAUSE, booleanString(value));
     }
 
     /**

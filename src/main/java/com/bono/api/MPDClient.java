@@ -27,6 +27,22 @@ public class MPDClient implements Server {
         this.port = port;
     }
 
+    public ClientExecutor getClientExecutor() {
+        return clientExecutor;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
     @Override
     public void setHost(String host) {
         this.host = host;
