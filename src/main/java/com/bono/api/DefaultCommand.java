@@ -63,7 +63,7 @@ public class DefaultCommand implements Command {
 
     @Override
     public String getCommandString() {
-        return command;
+        return new String(this.getCommandBytes());
     }
 
     @Deprecated
@@ -104,4 +104,23 @@ public class DefaultCommand implements Command {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DefaultCommand that = (DefaultCommand) o;
+
+        if (!command.equals(that.command)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(args, that.args);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = command.hashCode();
+        result = 31 * result + Arrays.hashCode(args);
+        return result;
+    }
 }

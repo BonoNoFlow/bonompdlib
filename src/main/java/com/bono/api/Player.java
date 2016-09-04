@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Created by Hendrik Nieuwenhuis.
  */
-public class Player {
+public class Player extends AbstractController {
 
     public static final String CONSUME        = "consume";
 
@@ -56,7 +56,7 @@ public class Player {
     private Song playingSong;
 
     public Player(ClientExecutor clientExecutor) {
-        this.clientExecutor = clientExecutor;
+        super(clientExecutor);
     }
 
     /**
@@ -67,7 +67,7 @@ public class Player {
      */
     public void consume(boolean value) throws IOException {
 
-        clientExecutor.execute(CONSUME, booleanString(value));
+        clientExecutor.execute(CONSUME, booleanToString(value));
     }
 
     /**
@@ -95,7 +95,7 @@ public class Player {
      * @throws IOException
      */
     public void pause(boolean value) throws IOException {
-        clientExecutor.execute(PAUSE, booleanString(value));
+        clientExecutor.execute(PAUSE, booleanToString(value));
     }
 
     /**
@@ -142,7 +142,7 @@ public class Player {
      * @throws IOException
      */
     public void random(boolean value) throws IOException {
-        clientExecutor.execute(RANDOM, booleanString(value));
+        clientExecutor.execute(RANDOM, booleanToString(value));
     }
 
     /**
@@ -151,7 +151,7 @@ public class Player {
      * @throws IOException
      */
     public void repeat(boolean value) throws IOException {
-        clientExecutor.execute(REPEAT, booleanString(value));
+        clientExecutor.execute(REPEAT, booleanToString(value));
     }
 
     // seek
@@ -188,7 +188,7 @@ public class Player {
      * @throws IOException
      */
     public void single(boolean value) throws IOException {
-        clientExecutor.execute(SINGLE, booleanString(value));
+        clientExecutor.execute(SINGLE, booleanToString(value));
     }
 
     /**
@@ -205,7 +205,7 @@ public class Player {
      * @param value boolean
      * @return String "0" for false or "1" for true
      */
-    public static String booleanString(boolean value) {
+    public static String booleanToString(boolean value) {
         if (value) {
             return "1";
         }

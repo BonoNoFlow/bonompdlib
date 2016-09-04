@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by hendriknieuwenhuis on 19/04/16.
  */
-public class Playlist {
+public class Playlist extends AbstractController {
 
     public static final String ADD                     = "add";
 
@@ -32,15 +32,15 @@ public class Playlist {
 
     protected SongList songList;
 
-    protected ClientExecutor clientExecutor;
 
-
+    @Deprecated
     public Playlist() {
+        super(new ClientExecutor());
         songList = new SongList();
     }
 
     public Playlist(ClientExecutor clientExecutor) {
-        this.clientExecutor = clientExecutor;
+        super(clientExecutor);
     }
 
     public Song getSong(int index) {
