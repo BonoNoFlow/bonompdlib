@@ -1,5 +1,7 @@
 package com.bono.api;
 
+import java.io.IOException;
+
 /**
  * Created by Hendrik Nieuwenhuis on 9/1/16.
  */
@@ -29,6 +31,10 @@ public class MPDClient implements Server {
 
     public ClientExecutor getClientExecutor() {
         return clientExecutor;
+    }
+
+    public String getVersion() throws IOException {
+        return clientExecutor.testConnection();
     }
 
     public Player getPlayer() {

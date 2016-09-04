@@ -14,6 +14,11 @@ public class SongList implements Iterable<Song> {
         songList = Collections.synchronizedList(new ArrayList<Song>());
     }
 
+    public SongList(Collection<String> playlistinfo) {
+        this();
+        populate(playlistinfo);
+    }
+
     /**
      * Populate the SongList with songs from an
      * entry collection of strings optained by
@@ -55,6 +60,10 @@ public class SongList implements Iterable<Song> {
         synchronized (songList) {
             songList.set(pos, song);
         }
+    }
+
+    public List<Song> getAsList() {
+        return songList;
     }
 
     /**

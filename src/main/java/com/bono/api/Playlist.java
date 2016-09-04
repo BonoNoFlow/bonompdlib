@@ -1,5 +1,6 @@
 package com.bono.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,6 +10,16 @@ import java.util.List;
  * Created by hendriknieuwenhuis on 19/04/16.
  */
 public class Playlist {
+
+    public static final String ADD                     = "add";
+
+    public static final String ADDID                   = "addid";
+
+    public static final String CLEAR                   = "clear";
+
+    public static final String PLAYLISTFIND            = "playlistfind";
+
+    public static final String PLAYLISTINFO            = "playlistinfo";
 
     // listens when playlist is written.
     protected List<ChangeListener> listeners = new ArrayList<>();
@@ -21,9 +32,15 @@ public class Playlist {
 
     protected SongList songList;
 
+    protected ClientExecutor clientExecutor;
+
 
     public Playlist() {
         songList = new SongList();
+    }
+
+    public Playlist(ClientExecutor clientExecutor) {
+        this.clientExecutor = clientExecutor;
     }
 
     public Song getSong(int index) {
@@ -36,11 +53,65 @@ public class Playlist {
         fireListeners();
     }
 
+    /**
+     * Add a song by the given uri to the current playlist.
+     * @param uri String uri song.
+     * @throws IOException
+     */
+    public void add(String uri) throws IOException {
+        clientExecutor.execute(ADD, uri);
+    }
+
+    /**
+     *
+     * @param uri String song uri, cannot be null.
+     * @param position int position to add the song to. -1 for no specified position.
+     * @return
+     * @throws IOException
+     */
+    public String addId(String uri, int position) throws IOException {
+        return null;
+    }
+
+    /**
+     * Clear the current playlist.
+     * @throws IOException
+     */
+    public void clear() throws IOException {
+        clientExecutor.execute(CLEAR);
+    }
+
+    // TODO
+    public SongList playlistFind() throws IOException {
+        return new SongList(clientExecutor.execute(PLAYLISTFIND));
+    }
+
+    /**
+     * Query the server's current playlist.
+     * @return SongList containing the songs in the playlist.
+     * @throws IOException
+     */
+    public SongList playlistInfo() throws IOException {
+        return new SongList(clientExecutor.execute(PLAYLISTINFO));
+    }
+
+    /**
+     * Query the servers current playlist and populate the
+     * song list with it.
+     */
+    public void queryPlaylist() throws IOException {
+        if (clientExecutor == null) {
+            throw new NullPointerException("ClientExecutor is null");
+        }
+        this.songList = playlistInfo();
+    }
 
 
+
+    /*
     public void clear() {
         songList.clear();
-    }
+    }*/
 
     public Iterator iterator() {
         return songList.iterator();
@@ -82,6 +153,7 @@ public class Playlist {
         songList.add(song);
     }
 
+    @Deprecated
     public Song[] playlist() {
         Song[] songA = null;//songs.toArray(new Song[songs.size()]);
         return songA;
