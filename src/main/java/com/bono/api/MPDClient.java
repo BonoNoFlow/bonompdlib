@@ -16,11 +16,14 @@ public class MPDClient implements Server {
     private Playlist playlist;
     private Status status;
 
+    private ServerMonitor serverMonitor;
+
     public MPDClient() {
         this.clientExecutor = new ClientExecutor(this);
         this.player = new Player(clientExecutor);
-        this.playlist = new Playlist();
+        this.playlist = new Playlist(clientExecutor);
         this.status = new Status();
+        serverMonitor = new ServerMonitor(this);
     }
 
     public MPDClient(String host, int port) {
@@ -29,12 +32,24 @@ public class MPDClient implements Server {
         this.port = port;
     }
 
+    public void initMonitor() throws IOException {
+        serverMonitor.initMonitor();
+    }
+
+    public void runMonitor() {
+        serverMonitor.start();
+    }
+
     public ClientExecutor getClientExecutor() {
         return clientExecutor;
     }
 
     public String getVersion() throws IOException {
         return clientExecutor.testConnection();
+    }
+
+    public ServerMonitor getServerMonitor() {
+        return serverMonitor;
     }
 
     public Player getPlayer() {

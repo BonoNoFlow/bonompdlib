@@ -11,19 +11,26 @@ abstract class AbstractController {
 
     protected ClientExecutor clientExecutor;
 
+    private CommandList commandList;
+
     public AbstractController(ClientExecutor clientExecutor) {
         this.clientExecutor = clientExecutor;
     }
 
     public CommandList sendCommandList() {
-        return new CommandList();
+        if (commandList == null) {
+            commandList = new CommandList();
+        }
+        commandList.init();
+        return commandList;
     }
 
     public class CommandList {
 
         List<Command> list = new ArrayList<>();
 
-        public CommandList() {
+        protected void init() {
+            list.clear();
             list.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_BEGIN));
             list.add(new DefaultCommand(DefaultCommand.COMMAND_LIST_END));
         }

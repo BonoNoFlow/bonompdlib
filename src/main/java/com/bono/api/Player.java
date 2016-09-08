@@ -51,7 +51,7 @@ public class Player extends AbstractController {
     public static final String STOP           = "stop";
 
 
-    private ClientExecutor clientExecutor;
+    //private ClientExecutor clientExecutor;
 
     private Song playingSong;
 
