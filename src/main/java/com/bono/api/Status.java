@@ -44,6 +44,7 @@ public class Status {
     private int song;
     private int songid;
     private int state;
+
     private long totalTime;
     private boolean updating;
     private int volume;
@@ -314,31 +315,33 @@ public class Status {
 
     @Override
     public String toString() {
-        return "Status{" +
+        String state; // else if short notation.
+        String reply = "Status: \n" +
                 "bitrate=" + bitrate +
-                ", bitsPerSample=" + bitsPerSample +
-                ", channels=" + channels +
-                ", consume=" + consume +
-                ", elapsedTime=" + elapsedTime +
-                ", elapsedTimeHighRes=" + elapsedTimeHighRes +
-                ", error='" + error + '\'' +
-                ", mixrampdb=" + mixrampdb +
-                ", mixRampDelay=" + mixRampDelay +
-                ", nextsong=" + nextsong +
-                ", nextsongid=" + nextsongid +
-                ", playlist=" + playlist +
-                ", playlistlength=" + playlistlength +
-                ", random=" + random +
-                ", repeat=" + repeat +
-                ", sampleRate=" + sampleRate +
-                ", single=" + single +
-                ", song=" + song +
-                ", songid=" + songid +
-                ", state=" + state +
-                ", totalTime=" + totalTime +
-                ", updating=" + updating +
-                ", volume=" + volume +
-                ", xFade=" + xFade +
-                '}';
+                "\nbitsPerSample=" + bitsPerSample +
+                "\nchannels=" + channels +
+                "\nconsume=" + consume +
+                "\nelapsedTime=" + elapsedTime +
+                "\nelapsedTimeHighRes=" + elapsedTimeHighRes +
+                "\nerror='" + error + '\'' +
+                "\nmixrampdb=" + mixrampdb +
+                "\nmixRampDelay=" + mixRampDelay +
+                "\nnextsong=" + nextsong +
+                "\nnextsongid=" + nextsongid +
+                "\nplaylist=" + playlist +
+                "\nplaylistlength=" + playlistlength +
+                "\nrandom=" + random +
+                "\nrepeat=" + repeat +
+                "\nsampleRate=" + sampleRate +
+                "\nsingle=" + single +
+                "\nsong=" + song +
+                "\nsongid=" + songid +
+                "\nstate=" + state +
+                "\ntotalTime=" + totalTime +
+                "\nupdating=" + updating +
+                "\nvolume=" + volume +
+                "\nxFade=" + xFade + "\n"
+                ;
+        return reply;
     }
 }
