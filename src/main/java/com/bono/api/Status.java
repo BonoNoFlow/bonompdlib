@@ -315,7 +315,7 @@ public class Status {
 
     @Override
     public String toString() {
-        String state; // else if short notation.
+        String stateS = (state == PLAY_STATE) ? "play" : (state == PAUSE_STATE) ? "pause" : (state == STOP_STATE) ? "stop" : "unknown";
         String reply = "Status: \n" +
                 "bitrate=" + bitrate +
                 "\nbitsPerSample=" + bitsPerSample +
@@ -336,7 +336,7 @@ public class Status {
                 "\nsingle=" + single +
                 "\nsong=" + song +
                 "\nsongid=" + songid +
-                "\nstate=" + state +
+                "\nstate=" + stateS +
                 "\ntotalTime=" + totalTime +
                 "\nupdating=" + updating +
                 "\nvolume=" + volume +

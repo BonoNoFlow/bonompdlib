@@ -17,9 +17,15 @@ public class Playlist extends AbstractController {
 
     public static final String CLEAR                   = "clear";
 
+    public static final String LOAD                    = "load";
+
     public static final String PLAYLISTFIND            = "playlistfind";
 
     public static final String PLAYLISTINFO            = "playlistinfo";
+
+    public static final String PLAYLISTSEARCH          = "playlistsearch";
+
+    public static final String SHUFFLE                 = "shuffle";
 
     // listens when playlist is written.
     protected List<ChangeListener> listeners = new ArrayList<>();
@@ -81,9 +87,13 @@ public class Playlist extends AbstractController {
         clientExecutor.execute(CLEAR);
     }
 
-    // TODO
-    public SongList playlistFind() throws IOException {
-        return new SongList(clientExecutor.execute(PLAYLISTFIND));
+    /**
+     * Load an uri to the playlist.
+     * @param uri
+     * @throws IOException
+     */
+    public void load(String uri) throws IOException {
+        clientExecutor.execute(LOAD, uri);
     }
 
     /**
@@ -93,6 +103,34 @@ public class Playlist extends AbstractController {
      */
     public SongList playlistInfo() throws IOException {
         return new SongList(clientExecutor.execute(PLAYLISTINFO));
+    }
+
+    /**
+     * Search case-insensitive for matches in the current playlist.
+     * @param tag, a Tag to search for example 'album', 'any' or 'title'
+     * @param needle the search input to search for
+     * @return SongList results matching the search input.
+     * @throws IOException
+     */
+    public SongList playlistSearch(String tag, String needle) throws IOException {
+        return new SongList(clientExecutor.execute(PLAYLISTSEARCH, tag, needle));
+    }
+
+    /**
+     * Shuffle the playlist.
+     * @throws IOException
+     */
+    public void shuffle() throws IOException {
+        clientExecutor.execute(SHUFFLE);
+    }
+
+    /**
+     * Shuffle the playlist whitin the given range.
+     * @param range of songs to shuffle. 'START:END'
+     * @throws IOException
+     */
+    public void shuffle(String range) throws IOException {
+        clientExecutor.execute(SHUFFLE, range);
     }
 
     /**
@@ -106,12 +144,6 @@ public class Playlist extends AbstractController {
         this.songList = playlistInfo();
     }
 
-
-
-    /*
-    public void clear() {
-        songList.clear();
-    }*/
 
     public Iterator iterator() {
         return songList.iterator();
@@ -153,10 +185,8 @@ public class Playlist extends AbstractController {
         songList.add(song);
     }
 
-    @Deprecated
-    public Song[] playlist() {
-        Song[] songA = null;//songs.toArray(new Song[songs.size()]);
-        return songA;
+    public SongList getSongList() {
+        return songList;
     }
 
 

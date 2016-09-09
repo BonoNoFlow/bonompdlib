@@ -67,6 +67,14 @@ public class SongList implements Iterable<Song> {
     }
 
     /**
+     * Get the song list as an array of songs.
+     * @return song list as array of S ong.
+     */
+    public Song[] getAsArray() {
+        return songList.toArray(new Song[songList.size()]);
+    }
+
+    /**
      * Get a song by its position / index in the playlist.
      * @param index position of song in playlist.
      * @return Song at the given position.

@@ -1,13 +1,15 @@
 package com.bono.api;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by Hendrik Nieuwenhuis on 9/1/16.
  */
 public class MPDClient implements Server {
 
-    private String host = "localhost"; //
+    private String host = ""; //
     private int port = 6600; // standard port configuration.
 
     private ClientExecutor clientExecutor;
@@ -19,6 +21,11 @@ public class MPDClient implements Server {
     private ServerMonitor serverMonitor;
 
     public MPDClient() {
+        try {
+            host = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         this.clientExecutor = new ClientExecutor(this);
         this.player = new Player(clientExecutor);
         this.playlist = new Playlist(clientExecutor);

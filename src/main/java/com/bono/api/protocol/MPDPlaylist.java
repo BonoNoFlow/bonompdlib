@@ -27,7 +27,7 @@ public class MPDPlaylist {
 
     public static final String PLAYLISTINFO            = "playlistinfo";
 
-    public final String PLAYLISTSEARCH                 = "playlistsearch";
+    public static final String PLAYLISTSEARCH          = "playlistsearch";
 
     public static final String PLCHANGES               = "plchanges";
 
