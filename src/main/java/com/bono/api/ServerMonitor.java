@@ -56,7 +56,6 @@ public class ServerMonitor extends Thread {
                     updateStatus();
                 } catch (IOException e) {
                     e.printStackTrace();
-
                 }
 
                 // second fire the listeners
@@ -74,8 +73,8 @@ public class ServerMonitor extends Thread {
     }
 
     private void updateStatus() throws IOException {
-        mpdClient.getStatus().populate(new Endpoint(mpdClient.getHost(), mpdClient.getPort())
-                .command(new DefaultCommand(MPDStatus.STATUS)));
+       mpdClient.getStatus().populate(new Endpoint(mpdClient.getHost(), mpdClient.getPort())
+            .command(new DefaultCommand(MPDStatus.STATUS)));
     }
 
     public void close() {
