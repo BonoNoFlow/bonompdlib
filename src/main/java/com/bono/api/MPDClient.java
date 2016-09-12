@@ -21,11 +21,6 @@ public class MPDClient implements Server {
     private ServerMonitor serverMonitor;
 
     public MPDClient() {
-        try {
-            host = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
         this.clientExecutor = new ClientExecutor(this);
         this.player = new Player(clientExecutor);
         this.playlist = new Playlist(clientExecutor);
