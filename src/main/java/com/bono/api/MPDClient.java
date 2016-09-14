@@ -25,7 +25,7 @@ public class MPDClient implements Server {
         this.player = new Player(clientExecutor);
         this.playlist = new Playlist(clientExecutor);
         this.status = new Status();
-        serverMonitor = new ServerMonitor(this);
+        //serverMonitor = new ServerMonitor(this);
     }
 
     public MPDClient(String host, int port) {
@@ -34,11 +34,26 @@ public class MPDClient implements Server {
         this.port = port;
     }
 
-    public void initMonitor() throws IOException {
+    public void initServerMonitor() {
+        this.serverMonitor = new ServerMonitor(this);
+    }
+
+    public void updateStatus() throws IOException {
+        if (serverMonitor == null) {
+            throw new NullPointerException("Init server monitor first! Call method initServerMonitor()");
+        }
         serverMonitor.initMonitor();
     }
 
+    @Deprecated
+    public void initMonitor() throws IOException {
+        //serverMonitor.initMonitor();
+    }
+
     public void runMonitor() {
+        if (serverMonitor == null) {
+            throw new NullPointerException("Init server monitor first! Call method initServerMonitor()");
+        }
         serverMonitor.start();
     }
 
