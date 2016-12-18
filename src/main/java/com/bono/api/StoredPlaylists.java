@@ -43,6 +43,13 @@ public class StoredPlaylists extends AbstractController {
     }
 
     /*
+    Lists the songs with metadata in the playlist.
+     */
+    public SongList listplaylistinfo(String name) throws IOException {
+        return new SongList(clientExecutor.execute(LISTPLAYLISTINFO, name));
+    }
+
+    /*
     Print a list of the playlist directory.
      */
     public Collection<String> listplaylists() throws IOException {
