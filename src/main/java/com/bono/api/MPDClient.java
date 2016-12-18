@@ -20,11 +20,14 @@ public class MPDClient implements Server {
 
     private ServerMonitor serverMonitor;
 
+    private StoredPlaylists storedPlaylists;
+
     public MPDClient() {
         this.clientExecutor = new ClientExecutor(this);
         this.player = new Player(clientExecutor);
         this.playlist = new Playlist(clientExecutor);
         this.status = new Status();
+        this.storedPlaylists = new StoredPlaylists(clientExecutor);
         //serverMonitor = new ServerMonitor(this);
     }
 
@@ -81,6 +84,9 @@ public class MPDClient implements Server {
         return status;
     }
 
+    public StoredPlaylists getStoredPlaylists() {
+        return storedPlaylists;
+    }
     @Override
     public void setHost(String host) {
         this.host = host;

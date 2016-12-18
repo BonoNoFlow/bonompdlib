@@ -100,6 +100,8 @@ public class SongList implements Iterable<Song> {
 
     @Override
     public Iterator<Song> iterator() {
-        return null;
+        return songList.iterator();
     }
+
+
 }
