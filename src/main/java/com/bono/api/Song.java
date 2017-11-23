@@ -123,13 +123,32 @@ public class Song implements Comparable<Song> {
 
                     break;
                 case "Track":
+                    String pos = "";
+
+                    // check if track is written as x/x.
                     int trackPos = line[1].lastIndexOf('/');
                     if (trackPos == -1) {
-                        pTrack = Integer.parseInt(line[1]);
+                        pos = line[1];
                     } else {
-                        pTrack = Integer.parseInt(line[1].substring(0, trackPos));
+                        pos = line[1].substring(0, trackPos);
+                    }
+
+                    // catch if track number begins with character
+                    // as in 'A1' or 'B3' for example.
+                    try {
+                        pTrack = Integer.parseInt(pos);
+                    } catch (NumberFormatException nfe) {
+                        System.out.println(nfe.getMessage());
+                        // TODO a better solution? String instead of int? or stripping the chars?
                     }
                     break;
+                    //int trackPos = line[1].lastIndexOf('/');
+                    //if (trackPos == -1) {
+                    //    pTrack = Integer.parseInt(line[1]);
+                    //} else {
+                    //    pTrack = Integer.parseInt(line[1].substring(0, trackPos));
+                    //
+                    //break;
                 default:
                     System.out.println("Not a property: " + line[0]);
                     break;
